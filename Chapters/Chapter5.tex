@@ -1,0 +1,64 @@
+\chapter{Validation}
+\label{validation}
+\lhead{Chapitre 4 - Validation}
+\section{Introduction}
+\label{introduction_val}
+Ce document présente un scénario typique d'utilisation pour la \textbf{commission INFO} ainsi qu'un scénario d'utilisation pour un \textit{Étudiant}. L'application au moment où ce scénario a été conçu n'est pas encore finie. Il risque d'y avoir des changements au niveau de son design et l'ajout de certaines \textit{features} non encore implémentées. Cependant, la base de l'application est suffisamment présente que pour permettre à ce test d’être pertinent.
+
+Le scénario \textit{Commission INFO} consiste à créer un catalogue de cours, mettre à jours ses informations et créer un programme de cours à la carte. 
+
+Le scénario \textit{Étudiant} consiste à se créer un compte, se connecter avec sur l'application, créer un programme de cours et à le configurer 
+
+Notez que 
+
+1 - Le catalogue présenté aux étudiants pour construire leur programme de cours est le dernier en date à voir été créé en base de donnée (la feature pour sélectionner le programme de cours principal n'ayant pas encore été implémentée)
+
+2 - Si la commission ne rajoute pas l'information relative au semestre durant lequel sont dispensés les cours, l'étudiant ne verra aucun cours lorsqu'il voudra créer une année (La propriété \textit{Semester} étant initialisée à \textit{NONE})
+\label{note2}
+
+3 - L'étudiant ne peut pas accéder aux informations relatives au programme qu'il veut suivre depuis son interface (Ces vues n'ont pas encore été implémentées)
+
+Il est demandé de ne pas regarder dans le manuel pour réaliser l'expérience, afin que le feedback soit le plus complet possible.
+
+Bon amusement :-)
+
+\section{Ressources}
+Tout d’abord, voici l'url de l'application : : \url{http://curriculum-mgmt.herokuapp.com/} 
+
+Ensuite, voici les informations relatives au compte avec lequel il faut se connecter pour accéder à l'application
+\begin{itemize}
+  \item USERNAME: commission@gmail.com
+  \item PASSWORD: coucou42
+\end{itemize}
+
+(Il n'est pas possible de se créer un compte admin via l'application pour des raisons de sécurité évidentes)
+
+\section{Scénario Commission INFO}
+
+\begin{enumerate}
+  \item Connectez vous à l'application
+  \item Accédez à l'onglet \textbf{Catalogues}
+  \item Créer un graphe avec yEd, exporter le graph en .graphml ou utiliser un fichier de graphe déjà existant
+  \item Créer un catalogue en utilisant le fichier de graphe précédemment créer
+  \item Mettre à jour les informations du catalogue (En commençant par télécharger le fichier excel depuis l'application, comme expliqué sur la vue)
+  \item Se rendre dans l'onglet \textbf{Programmes} pour accéder aux programmes de cours
+  \item Créer un nouveau programme de cours avec les modules \& cours désirés (Attention, tout les cours des modules sélectionnés seront ajoutés automatiquement, vous ne pouvez que choisir les cours qui ne sont dans aucun modules)
+  \item Supprimer le programme de cours précédemment créer
+  \item Naviguer dans les différents menus
+
+\end{enumerate}
+
+\section{Scénario Étudiant}
+
+
+\begin{itemize}
+
+  \item Créer un comte sur l'application. Vous pouvez mettre n'importe quelle adresse email, aucun mails ne sera envoyé. 
+  \item Se rendre dans le menu à droite, cliquez sur mon compte et changer votre mot de passe. Vous pouvez aussi supprimer votre compte si vous le désirer
+  \item Se rendre dans le menu \textit{Mes programmes de cours} et se créer un nouveau programme
+  \item Configurer son programme de cours, en choisissant des modules par exemple, et en ajoutant une année avec les cours désirés. Aucun cours ne sera afficher si la note 2 \ref{note2} de la section \ref{introduction_val} n'a pas été suivie. 
+  \item Vérifier les contraintes de son programme
+  \item Envoyer son programme à la validation
+  \item Naviguer dans les différents menus
+
+\end{itemize}

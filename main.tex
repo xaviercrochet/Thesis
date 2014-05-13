@@ -1,0 +1,170 @@
+\documentclass[11pt,a4paper,twoside]{book}
+% Specifies the directory where pictures are stored
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{makeidx}
+\usepackage{fancyhdr}
+\usepackage{setspace}
+\usepackage{longtable}
+\usepackage{vmargin}
+
+\hypersetup{urlcolor=black, colorlinks=true}
+%*************************************************
+%----------------------------------------------------------------------------------------
+% MARGINS
+%----------------------------------------------------------------------------------------
+\setmarginsrb  { 1.5in}  % left margin
+                        { 0.6in}  % top margin
+                        { 1.0in}  % right margin
+                        { 0.8in}  % bottom margin
+                        {  20pt}  % head height
+                        {0.25in}  % head sep
+                        {   9pt}  % foot height
+                        { 0.3in}  % foot sep
+%----------------------------------------------------------------------------------------
+% COMMANDS
+\lhead[\rm\thepage]{\fancyplain{}{\sl{\rightmark}}}
+\newcommand\bhrule{\typeout{------------------------------------------------------------------------------}}
+\newcommand\btypeout[1]{\bhrule\typeout{\space #1}\bhrule}
+\newcommand\listofsymbols[2]{
+\btypeout{\listsymbolname}
+\addtotoc{\listsymbolname}
+    \chapter*{\listsymbolname
+      \@mkboth{
+          \MakeUppercase\listsymbolname}{\MakeUppercase\listsymbolname}}
+\begin{longtable}[c]{#1}#2\end{longtable}\par
+    \cleardoublepage
+}
+% *****************
+\setlength{\parindent}{0pt} 
+\setlength{\parskip}{2.0ex plus0.5ex minus0.5ex}%plus0.5ex minus0.2ex} 
+
+\lstset{captionpos=b,
+        breaklines=true
+        frame=tb,
+        basicstyle=\scriptsize\ttfamily,
+        showstringspaces=false,
+        keepspaces=true}
+\lstdefinestyle{matlab} {
+        language=Matlab,
+        keywordstyle=\color{blue},
+        commentstyle=\color[rgb]{0.13,0.55,0.13}\em,
+        stringstyle=\color[rgb]{0.7,0,0} }
+%********************************************************
+\begin{document}
+\renewcommand{\labelitemi}{$\bullet$}
+\frontmatter
+\fancyhead{}
+\pagestyle{fancy}
+\graphicspath{{Pictures/}}
+\setstretch{1.3} 
+
+\author{Xavier Crochet}
+\title{Automatisation de la gestion des programmes de cours}
+\date{June 2013}
+\frontmatter
+\begin{titlepage}
+\begin{center}
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\includegraphics[width=0.6\textwidth]{ucl}
+\end{flushleft}
+\end{minipage}
+\begin{minipage}{0.4\textwidth}
+\begin{flushright}
+\includegraphics[width=0.6\textwidth]{epl}
+\end{flushright}
+\end{minipage}
+\vfill
+Université Catholique de Louvain \\
+Louvain School of Engineering \\
+Department of Computer Engineering
+\vfill
+%\\%[1.2cm]
+\textsc{\LARGE Automatisation de la gestion des programmes de cours}%\\%[1.2cm]
+\vfill
+\emph{Auteur}\\
+\large{Xavier \textsc{Crochet}}
+\vfill
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Promoteurs}\\Kim \textsc{Mens}\\
+Chantal \textsc{Poncin}\\
+\emph{Lecteur}\\Bernard \textsc{Lambeau}\\
+\end{flushleft}
+\end{minipage}
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+Mémoire présenté dans le cadre du \emph{Master 120} en \emph{Sciences Informatiques} option \emph{sécurité et réseaux}
+\end{flushright}
+\end{minipage}
+\vfill
+Louvain-la-Neuve\\
+{\large Juin 2014}
+\end{center}
+\end{titlepage}
+\newpage
+\vspace*{\fill}
+\begin{center}
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+Un grand merci à Chantal Poncin et à Kim mens pour leur support, conseils et excellente disponibilité.
+\end{flushright}
+\end{minipage}
+\end{center}
+\vspace*{\fill}
+
+%\frontmatter
+\tableofcontents
+%\include{preface}
+
+\clearpage
+\setstretch{1.5} 
+\lhead {\emph{Abréviations}}
+
+\begin{longtable}{c c}
+
+\textbf{FWB} & \textbf{F}édération \textbf{W}allonie - \textbf{B}ruxelles\\
+\textbf{Commission INFO} & Commission de Programme du département\\ 
+&d'informatique de l'école polytechnique de Louvain -là-Neuve\\
+\textbf{Module} & Ensemble de cours, obligatoire ou non\\
+& Ex: L'option intelligence artificielle dans le programme de master\\
+\textbf{EPC} & (...)\\
+\textbf{Rails} & Ruby On Rails\\
+%\textbf{Acronym} & \textbf{W}hat (it) \textbf{S}tands \textbf{F}or \\
+\end{longtable}
+
+ 
+
+
+\mainmatter
+% add intro
+\include{Chapters/Introduction}
+\include{Chapters/Chapter2}
+\include{Chapters/Chapter3}
+\include{Chapters/Chapter4}
+\include{Chapters/Chapter5}
+\include{Chapters/Chapter6}
+\include{Chapters/Chapter7}
+
+\backmatter
+
+\label{Bibliography}
+\backmatter
+\lhead{\emph{Bibliographie}}
+\bibliographystyle{plain}
+\bibliography{Bibliography}
+
+\appendix 
+
+\include{Appendices/AppendixA}
+\end{document}

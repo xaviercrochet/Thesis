@@ -1,0 +1,634 @@
+\chapter{Développement du système}
+\label{developpement_system}
+\lhead{Chapitre 4 - Développement du système}
+\section{Architecture}
+\subsection{Modèle de données}
+
+\subsubsection{Architecture globale}
+
+\begin{figure}[H]
+\caption{Architecture globale}
+\centering
+\label{fig:complete_arch}
+\includegraphics[width=\textwidth]{complete_arch}
+\end{figure}
+
+Ce modèle représente l'architecture de l'application et de l'ensemble de ses modules. L'objet application représente la partie \textit{Rails} de l'application. Cette partie comporte essentiellement les différents modèles, leurs vues et leurs contrôleurs. L'application utilise trois modules développés indépendamment.
+\begin{enumerate}
+  \item \textbf{GraphParser} - le module s'occupant de parser les fichier .Graphml générer par yEd, 
+  \item \textbf{ConstraintCheker} - le module s'occupant de vérifier les contraintes des programmes d'étudiants
+  \item \textbf{XlsParser} - le module occupant d'écrire et de lire dans des fichier excels. 
+\end{enumerate}
+
+L'architecture de chacun de ces modules, en plus de celle de l'application sera expliqué dans les sous-sections qui suivent.
+
+Les conventions utilisées pour réaliser chacun des modèles sont les suivantes; 
+
+\begin{figure}[H]
+\centering
+\caption{Généralisation}
+\label{fig:generalization}
+\includegraphics[scale=1]{generalization}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\caption{Dépendance}
+\label{fig:dependancy}
+\includegraphics[scale=1]{dependancy}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\caption{Association ``has many''}
+\label{fig:has_many}
+\includegraphics[scale=1]{has_many}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\caption{Association ``many to many''}
+\label{fig:many_to_many}
+\includegraphics[scale=1]{many_to_many}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\caption{Représentationd d'un objet. En haut; les attributs, en bas; les méthodes.}
+\label{fig:class_example}
+\includegraphics[scale=1]{class_example}
+\end{figure}
+
+
+
+\subsubsection{Application Rails}
+\label{arch}
+\begin{figure}[H]
+\centering
+\caption{Architecture de l'application}
+\label{fig:app_arch}
+\includegraphics[angle=90, height=\textheight, width=\textwidth]{app_arch}
+\end{figure}
+
+\textbf{Student - Admin} - Ces objets représentent les deux acteurs de l'application, à savoir la \textit{Commission INFO} (Admin) et les étudiants (Student).
+
+\textbf{Property} - Un objet \textit{Property} est composé d'un type et d'une valeur. Chacun des objets \textit{Program}, \textit{PModule} et \textit{Course} peut en avoir 0 ou plusieurs. Par exemple, pour représenter le sigle d'un cours, une propriété de type \textit{SIGLE} et de valeur \textit{SINF1101} sera ajoutée au cours correspondant. Il a été choisi d'opter pour cette solution, plutôt que d'ajouter des champs arbitraire (Sigle, crédits, ...) à chacun des objets car on ne sait pas à l'avance quelles seront leur propriété. En effet, elle sont déterminées par les informations mises dans le fichier excel qui est importé régulièrement dans l'application. 
+
+\textbf{PModule} - C'est un ensemble de cours. Un \textit{PModule} peut avoir plusieurs \textit{PModule}. Ce comportement est justifié par le fait qu'un module de cours peut comporté un sous module qui comporte une série de cours obligatoires (L'option réseau et l'ensemble de ses cours obligatoires par exemple).
+
+\textbf{Program} - Il représente un programme de cours. (Le programme de master par exemple) C'est un ensemble de cours et de modules divers. On peut créer des programmes via l'outil de graphes yEd, mais il est possible dans l'application de créer des Programmes \textit{à la carte} en choisissant les modules et cours qui le compose. C'est pourquoi il y a une relation \textit{many to many} entre \textit{PModule} et \textit{Program} et une autre entre \textit{Program} et \textit{Course}. En effet, chaque Programme peut avoir un ou plusieurs cours, et chaque cours peut appartenir à un ou plusieurs programmes (Le même comportement est observé pour les modules). Il n'est donc pas possible de représenter cette relation avec une relation \textit{has many} classique, qui implique d'avoir l'identifiant d'un des deux objets dans l'autre. \cite{active_record}. 
+\textbf{Catalog} - Un catalogue est composé de plusieurs \textit{Program}, \textit{PModule} et \textit{Course}.
+
+\textbf{StudentProgram} - C'est le programme que se crée l'étudiant lorsqu'il utilise l'application. Un \textit{StudentProgram} est une instanciation d'un des \textit{Program} disponible dans le \textit{Catalog} utilisé (d'où la relation \textit{many to many}). De plus, un étudiant doit choisir les modules qu'il va suivre. Ce comportement est expliqué par la relation \textit{many to many} entre les deux modèles. Pour configurer son programme année par année, l'étudiant va se créer une année (\textit{Year})
+
+\textbf{Year} - Une année est composé de deux semestres. Un semestre est représenté par l'objet \textit{Semester}. Le choix de chacun des cours du semestre est représenté par l'association \textit{many to many} qui existe entre les deux objets. Pour représenter le premier et le second semestre, un modèle \textit{FirstSemester} et un modèle \textit{SecondSemester} ont été créés, tout deux étendant le modèle \textit{Semester} en utilisant la \textit{Single Table Inheritance} de \textit{Rails} \cite{STI}. Notez que la relation entre ces deux types de \textit{Semester} et leur \textit{StudentProgram} est une \textit{has one} (la cardinalité est donc (1, 1) ici)
+
+\textbf{Header} - Chacun des modèles \textit{Course}, \textit{Pmodule} et \textit{Program} contient une méthode get\_header qui renvoie une suggestion de propriétés utilisées à titre indicatif avec le module \textit{XlsParser} (voir \ref{xls_parser}) pour créer les formulaires excel. Nous avons le header suivant : \{"SIGLE", "CREDITS", "SEMESTRE", "OBLIGATOIRE"\} pour le modèle \textit{Course} par exemple.  
+
+
+
+
+
+\subsubsection{Architecture du vérificateur de contraintes}
+\label{constraint_checker}
+\begin{figure}[H]
+\centering
+\caption{Vérificateur de contraintes}
+\label{fig:constraint_checker_arch}
+\includegraphics[width=\textwidth]{constraint_checker_arch}
+\end{figure}
+
+L'architecture de ce module est composé en deux parties;
+\begin{enumerate}
+  \item Les différents types de contraintes (Contraintes binaires, ensemble de contraintes ...)
+  \item Les différents types d'entités (Cours, modules, ...)
+\end{enumerate}
+
+Le lien avec l'application se situe au niveau de la classe \textit{Catalog}. En effet, chacune des différentes entrées des tables concernées (courses, p\_modules, constraints) sont traduites en un objet entité.
+
+L'idée ici est d'utiliser au plus l'héritage pour éviter d'avoir des duplications de code dans les classes. Par exemple, un objet \textit{Course} peut avoir beaucoup de contraintes mais chacune d’entre elles peut être de n'importe quel type. Cet objet n'a pas besoin de savoir le type de ses contraintes. Tout ce qu'il sait, c'est qu'il doit appeler leur méthode \textit{check} pour tester si les contraintes sont vérifiées. 
+
+
+\subsubsection{Parser de graphes}
+
+\begin{figure}[H]
+\centering
+\caption{Architecture du parser de graphe}
+\label{fig:graph_parser_arch}
+\includegraphics[width=\textwidth]{graph_parser_arch}
+\end{figure}
+
+Tout comme dans le vérificateur de contraintes \ref{constraint_checker}, le parser travail avec des objets \textit{entités} à la différence que c'est lui qui les fournit à l'application (et pas l'inverse)
+
+De nouveau, l'héritage tient une page prépondérante ici, pour diminuer le couplage, augmenter la cohésion  et éviter autant que possible la duplication de code \cite{cohesion_couplage}. 
+
+\subsubsection{Parser de fichiers excel}
+\label{xls_parser}
+\begin{figure}[H]
+\centering
+\caption{Architecture du parser de fichiers excel}
+\label{xls_parser_arch}
+\includegraphics[scale=1]{xls_parser_arch}
+\end{figure}
+
+Ce module est relativement simple; il est composé de deux classe, un \textit{Writer} qui prend en input un tableau de donnée et un \textit{Reader} dont l'output est aussi un tableau de donnée.
+
+
+\clearpage
+%*************************************************************************************************************************************
+\section{Implémentation}
+\subsection{Hébergement de l'application}
+L'application est hébergée sur \textit{Heroku}. Cela impose cependant quelques restrictions;
+\begin{enumerate}
+  \item On obligé d'utiliser postgresql comme système de base de données.
+  \item Le répertoire de l'application est en lecture seule. On ne peut donc pas stocker le fichier de graphe et le formulaire excel dedans. Il est donc nécessaire d'utiliser un service de \textit{cloud storage} externe à l'application. Amazon S3 à été utilisé pour palier à ce problème. Pour rendre le téléchargement des fichiers vers ce service plus aisé, la gem \textit{Paperclip} a été utilisé. Les détails de configuration de ces différents services sont expliqués en annexes. 
+\end{enumerate}
+\subsection{Gestion des utilisateurs}
+Les utilisateur sont gérés à l'aide de deux gems. 
+
+Devise est utilisé pour tout ce qui concerne la gestion des comptes (Création, modification, suppression), la gestion des sessions (Login/logout) et surtout la création de la table users et des différents attributs requis.
+
+CanCan est utilité pour tout ce qui concerne les permissions des utilisateurs, à savoir à quel modèles un utilisateur à accès, et quels actions il peut effectuer sur ces modèles (Read, Create, Destroy, ...) 
+
+Pour gérer les deux types d'utilisateur (Commission INFO et Étudiants, trois choix s'offrent à nous;
+\begin{enumerate}
+  \item générer avec devise deux tables séparées
+  \item utiliser la Single Table Inheritance \cite{STI}. On crée un modèle user, puis on crée deux modèles spécifiques (student et admin) qui hérite de ce premier modèle
+  \item générer un seul modèle user et y ajouter un attribut \textit{admin} pour identifier le rôle de l'utilisateur
+\end{enumerate}
+
+La troisième solution a été choisie. Elle permet d'éviter la redondance induite par la première solution et est plus simple à implémenter et à maintenir que la deuxième solution. En effet nos deux types d'utilisateur ne diffèrent que par leur rôle. 
+
+
+La table générée par devise est la suivante;
+
+\begin{lstlisting}
+  create_table "users", force: true do |t|
+    t.string   "email",                  default: "",    null: false
+    t.string   "encrypted_password",     default: "",    null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          default: 0,     null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "admin",                  default: false
+  end
+\end{lstlisting}
+
+Pour vérifier si un utilisateur est connecté dans les vues, il suffit d'appeler le helper suivant
+
+\begin{lstlisting}
+user_signed_in?
+\end{lstlisting}
+
+Cela nous permet par exemple de cacher à l'utilisateur les menus permettant accéder aux différentes vues s'il n'est pas connecter
+
+Pour vérifier si l'utilisateur à le rôle admin, il suffit de vérifier l'attribut dans la vue
+
+\begin{lstlisting}
+current_user.admin?
+\end{lstlisting}
+
+current\_user représentant l'utilisateur qui est connecté pour le moment.
+
+
+Cependant, cela n'est pas suffisant. En effet, cela n'empêche pas l'utilisateur d'accéder aux différentes vues en entrant l'url dans la barre de navigation. C'est pourquoi il est nécessaire de dire à chaque contrôleur qu'il faut vérifier qu'un utilisateur est connecté avant d'afficher les vues. C'est fort heureusement très simple à faire avec Devise. Il suffit d'ajouter la ligne 
+\begin{lstlisting}
+before_action :authenticate_user!
+\end{lstlisting}
+
+dans chaque contrôleur où il est nécessaire que l'utilisateur soit connecté pour accéder aux vues. 
+
+\textit{CanCan} intervient pour gérer les accès autorisés aux deux rôles de notre application (Utilisateur normal et admin). Il suffit simplement de créer un modèle \textit{Ability} dans lequel on décrit ce à quoi chaque rôle à accès. C'est de nouveau très simple;
+
+\begin{lstlisting}
+    if user.admin?
+        can :manage, :all
+    else
+        can :manage, [StudentProgram, Year, Semester]
+        can :create, Validation
+    end
+\end{lstlisting}
+
+Il suffit de définir, en fonction du rôle de l'utilisateur, les modèles auxquels il a accès et ce qu'il peut faire. L'utilisateur \textit{normal} par exemple, n'a accès qu'aux modèles \textit{StudentProgram, Year, Semester}. S'il tente d'accéder aux vues des modèles auxquels il n'a pas accès, il sera redirigé vers la page d’accueil. 
+
+Notez qu'il est possible de générer les vues qui permettent à l'utilisateur de s'enregistrer, de se connecter et de gérer les informations relatives à son compte utilisateur. Ces vues ont cependant été modifiées pour que leur style s'adapte à celui de l'application. 
+
+Enfin, il n'est pas possible, pour des questions de sécurité évidentes, de se créer un compte \textit{admin} via les formulaires d'enregistrement disponibles dans l'application. Il faut tout d'abord se créer un compte utilisateur dans l'application, et ensuite modifier l'attribut \textit{admin} directement dans la console.  
+
+\subsection{Importation du graphe}
+\subsubsection{Introduction}
+Une fois le graphe créé à l'aide de yEd, plusieurs choix s'offrent à nous pour exporter nos données. Les formats (non binaires) dans lesquels nous pouvons exporter les informations contenues dans notre graphe sont les suivantes. 
+\begin{enumerate}
+\item GraphML, un format de fichier basé sur XML pour les graphes
+\item XGML, une alternative au format GraphML, mise en place par yWorks, la société qui développe le logiciel yEd
+\item TGF (Trivial Graph Format) un format de fichier texte relativement simple pour décrire des graphiques
+\end{enumerate}
+
+TGF est de la forme
+
+\begin{lstlisting}
+1 SINF1101
+2 FSAB1401
+3 SINF1103
+4 SINF1102
+5 SINF1140
+6 INGI1123
+7 INGI1101
+8 FSAB1402
+9 NS //(Option network & security du programme Master)
+\end{lstlisting}
+
+et contient trop peu d'informations sur le graphe, comme les appartenances des cours aux différents modules et programmes. C'est pourquoi une solution basée sur XML a été choisie.
+
+Voici ce à quoi ressemble les informations d'un fichier GraphML pour un noeud de type COURS.
+
+\begin{lstlisting}
+ <node id="n1::n3" yfiles.foldertype="group">
+  <data key="d5"/>
+    <data key="d6">
+    (...)
+  <node id="n1::n3::n2">
+      <data key="d5"/>
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="30.0" width="68.0" x="1136.0" y="1541.453125"/>
+          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:BorderStyle color="#000000" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="61.57421875" x="3.212890625" y="6.015625">SINF2335</y:NodeLabel>
+          <y:Shape type="rectangle"/>
+        </y:ShapeNode>
+     </data>
+  </node>
+  (...)
+</node>
+\end{lstlisting}
+
+En comparaison, la version \textit{XGML} du même nœud.
+\begin{lstlisting}
+<section name="node">
+  <attribute key="id" type="int">69</attribute>
+  <attribute key="label" type="String">SINF2335</attribute>
+  <section name="graphics">
+    <attribute key="x" type="double">1170.0</attribute>
+    <attribute key="y" type="double">1556.453125</attribute>
+    <attribute key="w" type="double">68.0</attribute>
+    <attribute key="h" type="double">30.0</attribute>
+    <attribute key="type" type="String">rectangle</attribute>
+    <attribute key="fill" type="String">#FFCC00</attribute>
+    <attribute key="outline" type="String">#000000</attribute>
+  </section>
+  <section name="LabelGraphics">
+    <attribute key="text" type="String">SINF2335</attribute>
+    <attribute key="fontSize" type="int">12</attribute>
+    <attribute key="fontName" type="String">Dialog</attribute>
+    <attribute key="anchor" type="String">c</attribute>
+  </section>
+  <attribute key="gid" type="int">61</attribute>
+</section>
+\end{lstlisting}
+
+La principale différence entre le format XGML et GraphML se situe au niveau de la structure des informations. XGML structure toute les données de façon linéaire, en ne respectant pas la hiérarchie des différents nœuds et boites.
+
+\begin{figure}[H]
+\centering
+\caption{Exemple de graphe hiérarchique} 
+\label{fig:hierarchical_graph_example}
+\includegraphics[scale=1]{hierarchical_graph_example}
+\end{figure}
+
+Pour le graph \ref{fig:hierarchical_graph_example} par exemple, la structure du fichier sera de la sorte:
+\begin{lstlisting}
+Node Programme
+Node SINF4444
+Node MODULE
+Node LINGI2242
+Node SOUS MODULE OBLIGATOIRE
+(...)
+\end{lstlisting}
+
+Lorsque l'on parsera le fichier, on devrait donc une première fois lire le fichier, récupérer les informations, puis retraiter une deuxième fois les données pour ajouter les parents des différents nœuds.
+
+TODO : Insérer l'algorithme tel qu'il devrait être pour un graphe de la sorte?
+
+Avec GraphML par contre, la structure  du fichier sera la suivante;
+
+\begin{lstlisting}
+Node Programme
+Childs : [
+  Node SINF4444
+  Node MODULE
+  Childs : [
+    Node LINGI2242
+    Node SOUS MODULE OBLIGATOIRE
+    Childs : [
+    ]
+  ]
+]
+(...)
+\end{lstlisting}
+
+Il n'est donc pas nécessaire de retraiter tout les éléments pour compléter les informations à propos de leur parent et de leurs enfants. Ceci est la principale raison pourquoi \textit{Graphml} est le format supporté par l'application
+
+
+\subsubsection{Parsing}
+Le but de ce module est de fournir une abstraction supplémentaire à la gem \textit{Nokogiri}\footnote{Librairie ruby permettant de parser des fichiers XML} pour parser le format \textit{GraphML} de yEd. Les informations contenue dans le graphe généré avec \textit{yEd} sont les suivantes:
+\begin{itemize}
+\item Les Programmes de cours (Bachelier, Masters)
+\item Les Modules et leur nom
+\item Les Sous-modules et leur nom
+\item Les cours et leur sigle
+\item Les contraintes hiérarchiques (Qui contient quoi)
+\item Les dépendances entre les cours (Corequis et Prérequis)
+\end{itemize}
+
+Ce module est appelé par le modèle \textit{Catalogue} de l'application à sa création. Le fichier graphe est d'abord envoyé sur le  \textit{cloud amazon}, puis parsé par le module \textit{GraphParser}. Une fois le parsing terminé, les différents objets (Cours, Modules et Programmes) sont récupérés par le modèle \textit{Catalogue}, puis traités par chacun des modèles concernés, avant d'être enregistrés en base de données. 
+
+Tout ses éléments sont représentés par des nœuds dans le fichier GraphML. Seul les dépendances entre les cours sont représentées par des arrêtes dans le graphes, nommées \textit{Edge} dans le fichier. Les nœuds sont stockés en premier dans le fichier de graphe, suivit par toute les arrêtes. 
+
+Le module ajoutes deux fonctionnalités à \textit{Nokogiri}.
+\begin{enumerate}
+  \item Il parse un fichier GraphML et extrait les métadonnées de ses nœuds (type, enfants, parent) et arrêtes (source, destination, type de contrainte, type de l'ensemble de contrainte). 
+  \item Il renvoie des objets cours, modules et programmes ainsi que leur différentes dépendances.  
+\end{enumerate}
+
+ Comme expliqué dans l'introduction de cette section, chaque élément peut avoir un enfant, est identifié par un tag, peut avoir des attributs et contient de l'information. 
+
+ la structure plus détaillée d'un nœud est la suivante:
+
+\begin{lstlisting}
+<node id="parentID::nodeID" [GROUP]>
+  <(...)>
+  </(...)
+  <NodeLabel>
+    NAME
+  </(...)
+  <(...)>
+  </(...)>
+</node>
+<graph id="parentID">
+  <node id (...)>
+  <node id (...)>
+</graph>
+\end{lstlisting}
+
+Il y a donc quatre informations à extraire;
+\begin{enumerate}
+  \item l'identifiant du nœud parent (parentID);
+  \item l'identifiant du nœud (nodeID);
+  \item son nom (NAME);
+  \item est-ce un groupe? (GROUP)
+\end{enumerate}
+
+La structure de graphe imposée à la commission est la suivante; 
+
+\begin{itemize}
+\item les modules et programmes sont représentés par des nœuds \textit{Group};
+\item les cours sont représentés par des simple nœuds;
+\item les dépendances par des arrêtes.
+\end{itemize}
+
+Notez que chaque cour et module \textbf{DOIT} se trouver dans un programme. En effet, \textit{nœuds groupes} sans parents sont parsés comme programmes. Cela nous permet de distinguer les modules des programmes, sans devoir ajouter une convention de couleur sur les boites pour les différencier.  
+
+L'algorithme de parsing est donc relativement simple.
+
+On a;
+\begin{itemize}
+  \item une méthode qui parse les arrêtes; 
+  \item une methode qui parse les nœuds;
+  \item une méthode qui aprse les programmes et ses enfants;
+  \item une méthode qui parse les modules et ses enfants;
+  \item une méthode qui parse les cours.
+\end{itemize}
+
+On crée au préalable un objet catalogue. Chacune des méthodes listées précédemment renvoie un objet Cours, Module, Programme, Contrainte. Ces objets sont ajoutés au catalogue en respectant leur hiérarchie. Un cours aura donc comme parent un module ou un programme. 
+
+
+\begin{lstlisting}
+FOREACH elements in graph do
+- IF node -> 
+  parse node
+  - IF program -> 
+    parse program (extract informations and add to catalog)
+    (1) parse childs
+      - IF module
+        -> parse module (extract informations and add to parent)
+        -> parse childs (go_to (1))
+      - IF course
+        -> parse course (extract informations and add to parent)
+
+
+- IF edge -> 
+  parse edge
+    retrieve source(s)
+    retrieve destinatinations(s)
+    retrieve constraint type
+\end{lstlisting}
+
+
+
+% \begin{enumerate}
+% \item{\textbf{Node} : Ces éléments identifient les programmes, les modules, les sous-modules, les cours et les dépendances n-aires.
+% Les enfants contenant de l'information importante sont les suivants:\\
+% \begin{tabular}{ | c || c | c || c | }
+% \hline
+% \textbf{Attribut}: & \textbf{Nom} & \textbf{Type} & \textbf{Information}\\
+% \hline
+% \hline
+% & id & int & Identifiant de l'élément\\
+% \hline
+% & label & string & Nom de l'élément\\
+% \hline
+% & isGroup & boolean & Spécifie si l'élément est un groupe\\
+% \hline
+% & gid & int & Identifiant du groupe parent\\
+% \hline
+% & customconfiguration & boolean & Identifie les formes spéciales\\
+% \hline
+% \end{tabular}
+% }
+% \item
+% {
+% \textbf{Edge} : Ces éléments identifient les dépendances entre les cours. Ils se situent à la suite de tout les éléments \textit{"node"} dans le fichier xml (Nous allons voir par la suite pourquoi cela pause un problème dans le parsing).Les enfants contenant de l'information pertinente sont les suivants:\\
+% \begin{tabular}{ | c || c | c || c| }
+% \hline
+% \textbf{Attribut} & \textbf{Nom} & \textbf{Type} & \textbf{Information}\\
+% \hline
+% \hline
+% & source & int & Source de l'arrête\\
+% \hline
+% & target & int & Cible de l'arrête\\
+% \hline
+% & targetArrow & string & Type de l'arrête\\
+% \hline
+% \end{tabular}
+% }
+% \end{enumerate}
+
+% Le parsing est donc relativement simple. En utilisant la gem Nokogiri, on a aisément accès à toute les informations présentée plus haut. Cependant, on est obligé de parser le fichier xml de façon linéaire. En effet, yEd n'utilise pas à 100\% l'aspect hiérarchique du xml. Les nœuds sont stockés l'un a la suite de l'autre, alors qu'il pourrait être stockés en tant que fils de leur parents, s'il sont dans un groupe par exemple.
+
+% L'idée de l'algorithme de parsing est donc de parcourir chacun des éléments \textit{"node"} et dans extraire l'information nécessaire. \\
+% \begin{itemize}
+% \item Pour les nœuds, nous devons regarder les élément-enfant \textbf{label} et \textbf{id} pour les identifier. Pour identifier le type d'objet qu'il représente (Cours, Modules, ...), il faut aller regarder la valeur de l'élément \textbf{isGroup}. Ensuite, pour identifier le parent de l'objet, s'il y a, il faut aller recupérer la valeur contenue dans l'élément \textbf{gid}. Notons que pour les contraintes n-aire, il faut aller voir certains attributs spéciaux de l'élément (\textbf{cutomConfiguration} par example), car nous utilisons des formes spéciales pour les représenter.
+% \item Pour les arrêtes (edge), nous devons récupérer les identifiant contenu dans les éléments \textbf{source} et \textbf{target} pour identifier ses sommets. Enfin, il faut aussi aller regarder le contenu de l'élément \textbf{targetArrow}  pour identifier le type de la dépendance.
+% \end{itemize}d
+\subsection{Gestion des contraintes}
+Les contraintes sont vérifiées au niveau du modèle \textit{StudentProgram}, le modèle qui contient les informations à propos des programmes de cours des étudiants (C'est ce modèle qui appelle le module \textit{ConstraintsChecker}. 
+
+Ce module est divisé en deux parties.
+
+D'un coté nous avons les contraintes. Tout les types de contraintes héritent de la super classe \textit{Contrainte} qui, en plus de constructeur ne contient qu'une seule méthode \textbf{Check}.
+
+De l'autre coté nous avons les entités qui représentent les modèles \textit{Course}, \textit{Module} et \textit{Program}
+
+\subsubsection{Entités}
+\textit{Entity} est la classe qui représente les objets traités par le module \textit{ConstraintsChecker}. Entity étends la classe OpenStruct. Openstruct est une librairie qui permet de créer des objets à la volée. Pour chaque paramètre passé à un objet \textit{OpenStruct} \cite{OpenStruct}, un attribut sera créé ainsi que les méthodes pour le modifier et y accéder. On évite ainsi de devoir modifier la classe \textit{Entity} et ses enfants {Course, PModule} lorsque l'on veut rajouter une contrainte par exemple.
+
+Nos différents objets sont stockés sous forme d'arbre. La racine est l'objet catalogue, et les enfants sont les différents objets \textit{Course} et \textit{PModule}, tous étendant le super-type \textit{Entity}.
+
+Un objet \textit{entity} contient essentiellement;
+
+\begin{itemize}
+  \item un attribut \textbf{constraints} qui contienne les différentes contraintes de l'objet;
+  \item un attribut \textbf{childrens} qui contient les références vers ses enfant dans l'arbre;
+  \item un attribut \textbf{parent} qui contient la référence vers son parent dans l'arbre;
+  \item une méthode \textbf{find\_children(children\_id, children\_type)} qui permet d'effectuer une recherche sur ses enfants. Le paramètre \textit{children\_type} permets de spécifier le type d'enfant que nous recherchons (Cours, PModule);
+  \item une méthode \textbf{search(children\_id, children\_type)} qui permet d'effectuer une recherche dans tout l'arbre. Cette méthode est utilisé dans les methodes \textit{check} des différentes contraintes pour retrouver des objets \textit{Course}. (Retrouver une dépendance par exemple). L'algorithme est le suivant;
+  \begin{lstlisting}
+  - Retrouver la racine de l'arbre
+  - Appeler find_children sur ses enfants
+  \end{lstlisting}
+  \item une méthode \textbf{check} qui vérifie ses contraintes et celle de ses enfants;
+  \item des méthodes relatives aux différentes contraintes, comme \textit{count\_credits}, \textit{check\_max}, \textit{check\_min}, \ldots
+\end{itemize}
+
+Ces objets sont construits dans les différents modèles de l'application. L'idée, dans chacun de ces modèles (Course, PModule, Constraint) est d'avoir une méthode get\_[model\_name]object qui va créer l'objet correspondant.
+
+Dans le cas du modèle \textit{Course}, la méthode est la suivante:
+
+
+\textbf{Course}
+
+\begin{lstlisting}
+def get_course_object(passed)
+  course = ConstraintsChecker::Entities::Course.new(name: self.name, id: self.id, passed: passed, parent_id: self.p_module_id, credits: self.credits, mandatory: self.mandatory?)
+  self.constraints.each do |c|
+    course.add_constraint(c.get_constraint_object(course))
+  end
+  return course
+end
+\end{lstlisting}
+
+
+Le paramètre \textit{passed} sert à identifier si un cours a été réussi ou non. Cela est utile notamment lors de la vérification des contraintes de type \textit{Prérequis}.
+
+Comme expliqué plus haut, on peut passer au constructeur de \textit{Course} tout ce que l'on veut, grâce à OpenStruct \cite{OpenStruct}.
+
+Rien ne nous oblige à passer par le modèle \textit{Constraint} pour ajouter les contraintes. Comme expliqué dans le chapitre \ref{présentation_système}, certaines contraintes, comme les contraintes sur les propriétés,  n'ont pas d'objet pour les représenter en base de données. En effet la plupart des données relatives à ces contraintes sont, en plus d'être présentes en base de données, assez volatiles, car elles peuvent être modifiées régulièrement via l'import de fichiers excels. Nous évitons ainsi de surcharger notre architecture avec des objets dont l'utilité est plus que relative \ldots. Pour revenir à ce type de contraintes, il est préférable de les ajouter dans la méthode \textit{get\_[model\_name]object}.
+
+\textbf{PModule}
+
+\begin{lstlisting}
+  def get_p_module_object(mandatory)
+    p_module = ConstraintsChecker::Entities::PModule.new(id: self.id, name: self.name)
+    p_module.add_constraint(ConstraintsChecker::Constraints::Min.new(p_module, self.min))-
+    p_module.add_constraint(ConstraintsChecker::Constraints::Max.new(p_module, self.max))
+    self.sub_modules.each do |m|
+      p_module.add_children(m.get_p_module_object(true))
+    end
+
+    if mandatory
+      course_ids = []
+      self.courses.each do |course|
+        course_ids << course.id
+      end
+      p_module.add_constraint(ConstraintsChecker::Constraints::Mandatory.new(p_module, course_ids))
+    end
+
+    return p_module
+  end
+\end{lstlisting}
+
+Le paramètre \textit{mandatory} sert à identifier si le module est obligatoire ou non. Cela est utile lors de la vérification des contraintes sur les propriétés notamment. 
+
+Nous avons ici un exemple de contraintes (Min \& Max) qui ne sont pas ajoutées en passant par le modèle \textit{Constraint}. 
+
+
+\subsubsection{Contraintes}
+L'idée, pour chaque type de contraintes, est d'étendre la super-classe \textit{Constraint} en ré-implémentant la méthode \textit{check} pour qu'elle corresponde au comportement recherché. Cette méthode renvoie un \textit{hash}, spécifique à chaque type de contraintes, contenant les résultats de la vérification.
+
+Par exemple, pour les dépendances entre les cours nous avons deux types. Les dépendances binaires, qui correspondent à un prérequis ou corequis entre deux cours, et les dépendances n-aire qui correspondent à un ensemble de prérequis ou corequis entre plusieurs cours avec une condition sur cet ensemble de contraintes. Cet ensemble peut être une disjonction (OR) de contraintes par exemple, exprimant qu'il faut choisir au moins une des dépendances, ou une disjonction exclusive (XOR), exprimant qu'il faut choisir une et une seule dépendance. 
+
+Prenons l'exemple des dépendances binaires. Nous avons une classe \textit{BinaryConstraint} qui ne ré-implémente pas la méthode check de sa super-classe \textit{Constraint} car elle sert de super-classe pour les deux classes représentant les deux types de contraintes; \textit{Prerequisite} et \textit{Corequisite}. 
+
+\begin{description}
+  \item[Corequisite] La méthode check va appeler la méthode \textit{find\_course} du cours en question, qui va remonter jusqu'à la racine (le catalogue), et chercher si le corequis du cours est présent dans le catalogue. S'il n'est pas présent, le message ``corequisite\_missing :[course\_id]'' est envoyé.
+  \item[Prerequisite] La méthode check se comporte comme celle de \textit{Corequisite}, à la différence qu'elle va vérifier si l'attribut \textit{passed} du cours est \textit{true}, conformément au comportement d'un pré-requis. 
+\end{description}
+
+Dans le cas d'un ensemble n-aire de contraintes, il y a essentiellement deux points qui diffèrent;
+\begin{enumerate}
+  \item l'existence d'une méthode \textit{find\_dependancies} qui récupère les \textit{course\_id} manquants pour la contrainte en question;
+  \item une vérification sur la taille de la liste, correspondant à la condition qui régit cet ensemble de contrainte. Dans le cas d'un ensemble disjonctif (OR), il faut vérifier que le nombre de \textit{course\_id} renvoyé soit strictement inférieure au nombre de dépendances du cours, pour vérifier qu'il y ai au moins une dépendance qui est choisie, conformément à la logique d'une disjonction. Dans le cas d'un ensemble disjonctif exclusif (XOR), il faut vérifier qu'il n'y aie qu'une et une seule dépendance choisie, conformément à la logique d'une disjonction exclusive.
+\end{enumerate}
+
+Pour vérifier ces contraintes, l'objet \textit{Catalog} appelle sur chacune des contraintes de ses enfants et de leur enfants leur méthode \textit{check} et récupère les messages qu'elles renvoient. Ces messages sont traités par le modèle \textit{StudentProgram} et affichés sur les vues correspondantes.
+
+À ce jour, la liste des messages renvoyés par les méthodes \textit{check} des différents types de contraintes est la suivante:
+
+\begin{description}
+\item[or\_corequisites\_missing] Ce message concerne la contrainte n-aire \textit{OR-Corequisite}. Il contient la liste des ids des cours concernés par la contrainte si elle n'est pas vérifiée;
+\item[xor\_corequisites\_missing] Ce message concerne la contrainte n-aire \textit{XOR-Corequisite}. Il contient la liste des ids des cours concernés par la contrainte si elle n'est pas vérifiée;
+\item[or\_prerequisites\_missing] Ce message concerne la contrainte n-aire \textit{OR-Prerequisite}. Il contient la liste des ids des cours concernés par la contrainte si elle n'est pas vérifiée;
+\item[xor\_prerequisites\_missing] Ce message concerne la contrainte n-aire \textit{XOR-Prerequisite}. Il contient la liste des ids des cours concernés par la contrainte si elle n'est pas vérifiée;
+\item[prerequisites\_missing] Ce message concerne la contrainte binaire \textit{Prerequisite}. Il contient l'id du cours concerné par la contrainte si elle n'est pas vérifiée;
+\item[corequisites\_missing] Ce message concerne la contrainte binaire \textit{Corequisite}. Il contient l'id du cours concerné par la contrainte si elle n'est pas vérifiée;
+\item[to\_few\_credits] Ce message concerne la contrainte sur la propriété (Crédits) \textit{Min}. Il contient l'id de l'entité concerné par la contrainte si elle n'est pas vérifiée;
+\item[to\_many\_credits] Ce message concerne la contrainte sur la propriété (Crédits) \textit{Max}. Il contient l'id de l'entité concerné par la contrainte si elle n'est pas vérifiée;
+\item[courses\_missing\_in\_module] Ce message concerne la contrainte sur la propriété \textit{Mandatory} d'un objet \textit{Module}. Il contient les ids des entités manquantes d'un Module; obligatoire si la contrainte n'est pas vérifiée;  
+\item[mandatory\_courses\_missing] Ce message concerne la contrainte sur la propriété \textit{Mandatory} d'un objet \textit{Course}. Il contient l'id du cours en question si la contrainte n'est pas vérifiée.
+\end{description}
+
+Pour ajouter un nouveau type de contraintes, il faut procéder comme suit;
+
+\begin{enumerate}
+  \item Si le type de la contrainte ne rentre pas dans la catégorisation des contraintes déjà existantes (BinaryConstraint, PropertyConstraint, NaryConstraint), il faut créer une nouvelle classe. Sinon, il suffit d'étendre la classe existante.
+  \item Implémenter la méthode \textit{check} de cette contrainte avec le comportement désiré. Il ne faut pas oublier de renvoyer à la fin de cette méthode un message qui \textit{explique} pourquoi la contrainte n'est pas vérifiée, en cas d'échec
+  \item Dans la méthode \textit{get\_object} du modèle concerné par la contrainte, créer et ajouter l'objet contrainte et ajouter les informations nécessaire dans l'objet créé par le modèle. Par exemple, si je rajoute une contrainte sur les crédits, il faut passer le paramètre \textit{credits: value} au constructeur de l'objet \textit{Entity::Course}
+\end{enumerate}
+
+
+
+\subsection{Importation du formulaire Excel}
+Le module est composé de deux parties: 
+\begin{enumerate}
+\item Un \textit{Reader} qui propose une fonction pour récupérer sous forme de tableau de \textit{Hash} les informations d'une page Excel, en lui fournissant \textbf{le nom de la page}, ainsi que \textbf{la propriété qui est utilisée pour identifier l'objet} (Le sigle pour les cours par exemple).
+\item Un \textit{Writter} qui propose une fonction pour écrire des données dans une page d'un document Excel.
+\end{enumerate}
+
+L'intérêt de fournir une abstraction supplémentaire se situe sur la structure des documents échangés avec l'utilisateur. En effet, chaque document comporte plusieurs pages. Chacune d'entre elles contient des informations sur un des objets (Course, Sub-Module, Modules ou Program). Ces informations sont représentées par le Modèle \textit{Property} en base de données. Il est donc nécessaire d'avoir la première ligne de chacune de ces pages réservée pour y mettre le header afin de savoir pour chaque ligne à quel type de propriétés l'information appartient.
+
+Pour les cours par exemple, ce header est de la forme:
+\begin{table}[H]
+\centering
+\begin{tabular}{| c | c | c | c |}
+\hline
+\textbf{Sigle} & \textbf{Crédits} & \textbf{...} & \textbf{...}\\
+\hline
+\end{tabular}  
+\end{table}
+
+Ici, il n'a pas été nécessaire d'utiliser une abstraction \textit{Entity}, contrairement aux autres modules (GraphParser, ConstraintsChecker), pour représenter les données. En effet, nous ne manipulons que des tableaux de données, et surtout nous n'avons pas à nous occuper des inclusions entre les différents objets, ce module traitant exclusivement leur propriétés. C'est pourquoi ce module et l'application s'échangent des \textit{Hash}. 
+
+
+Le \textit{Writter} est appelé lorsque l'utilisateur télécharge un template de formulaire excel après avoir créer le catalogue. 
+
+Le \textit{Reader} est appelé à chaque fois que l'utilisateur mets à jours  les données d'un catalogue de cours via le formulaire excel. 
+
+
+Notez que ce fichier est stocké, tout comme celui contenant le graphe, sur le cloud \textit{Amazon}
