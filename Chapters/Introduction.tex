@@ -27,7 +27,7 @@ L'image~\ref{fig:master_program} représente une vue de l'ensemble des cours, mo
 \begin{figure}
 \centering
 \caption{Programme de Master}
-\includegraphics[width=\textwidth]{master_program}
+\includegraphics[angle=90, height=0.95\textheight, width=0.9\textwidth]{master_program}
 \label{fig:master_program}
 \end{figure}
 
@@ -106,27 +106,25 @@ Quatrièmement, il faut s'attaquer au processus de négociation qui amène l'ét
 De manière générale, le but de cette application est d'automatiser la gestion des programmes de cours. 
 
 
-Le \textit{pré-objectif} est d'être indépendant de la base de données EPC. Pour des raisons institutionnelles, l'équipe EPC est surchargée en plus d'être réticente à donner un accès au données. Qui plus est, il n'ont pas le temps de changer  leur processus et ils s'intéressent peu, par manque de ressources, à la facilité d'utilisation. Mieux vaux éviter l'utilisation direct de EPC pour le moment, jusqu'à ce que notre outil aie un certain succès. Après quoi, peut être l'outil pourrait échanger des données avec EPC ou même être intégré, mais ce ne sera pas pour immédiatement. C'est pourquoi il faut pouvoir importer les données de façon efficace et intuitive.
+Le \textit{pré-objectif} est d'être indépendant de la base de données EPC. Pour des raisons institutionnelles, l'équipe EPC est surchargée en plus d'être réticente à donner un accès au données. Dans le futur, peut être l'outil pourrait échanger des données avec EPC ou même être intégré, mais ce ne sera pas pour immédiatement. C'est pourquoi il faut pouvoir importer les données de façon efficace et intuitive.
  
 La solution doit être maintenable et évolutive. En effet, la structure des programmes est en constante évolution. De plus, il est probable que la commission de programme découvre de nouveaux besoins qui devront être implémentés à l'avenir. Il est donc primordial de structurer l'application intelligemment pour que celle-ci soit modulaire et qu'on ne doive pas repartir de zéro lors de développement ultérieurs.
 
 La \textit{commission INFO} doit pouvoir apporter des catalogues de cours sur l'application. Un catalogue de cours est un ensemble de programmes de cours, contenant les différents modules, cours et dépendances. Un programme de cours est un cursus qu'il est possible de suivre dans la faculté, comme par exemple le programme de MASTER destinés aux SINFs (SINF2M), le programme de passerelle (SINF1PM) ou encore celui de BAC destinés aux ingénieurs civils (FSA1BA).  
 
-Les informations des programmes de cours  doivent pouvoir être téléchargées depuis l'application ainsi qu'être mises à jour.
-
-Les données doivent être visibles de manière synthétique par la commission (vue \textit{admin})
+Les informations des programmes de cours  doivent pouvoir être téléchargées depuis l'application ainsi qu'être mises à jour. En effet, les programmes de cours sont sujets régulièrement à des changements. Il est donc nécessaire que ces données ne soient pas ajoutées en \textit{"en dur"} dans l'application. De plus, ces données doivent être visibles de manière synthétique par la commission (vue \textit{admin}).
 
 Il doit y avoir un historique des différentes versions des programmes de cours mis en ligne par la \textit{commission INFO} tout aux long des années académiques,pour gérer l'évolution de ceux-ci et pouvoir permettre aux étudiants (à qui cela est permis) de choisir dans leurs programmes des cours d'anciens catalogues, en cas de report de note par exemple.
  
-Les étudiants doivent pouvoir construire leur programmes. L'application doit leur dire si leur programme est cohérent ou non.
+Les étudiants doivent pouvoir construire leur programmes, en choisissant les cours et les modules qu'ils vont suivre chaque année. L'application doit leur dire si leur programme est cohérent ou non.
 
-Au niveau de ces contraintes, il doit y avoir une certaine souplesse. Il n'est pas possible d'avoir une vision \textit{manichéenne} à ce niveau
+Au niveau de ces contraintes, il doit y avoir une certaine souplesse. Il n'est pas possible d'avoir une vision \textit{manichéenne} à ce niveau.
 
 Il doit être possible aux étudiants d'attirer l'attention sur certaines parties de leur programme en y ajoutant un commentaire pour poser une question, ou pour justifier un choix.
 
 En tant qu'étudiant il doit être possible de
 \begin{itemize}
-\item se créer un compte utilisateur avec son adresse mail UCL;
+\item se créer un compte utilisateur avec son adresse mail UCL:
 \item sélectionner la version du catalogue de cours avec laquelle il va travailler;
 \item se créer un programme en choisissant un des programmes de cours disponibles à suivre;
 \item choisir les différents modules de cours à suivre, option, tronc commun, \ldots ;
@@ -134,10 +132,10 @@ En tant qu'étudiant il doit être possible de
 \item configurer son programme par année académique, en choisissant les cours que l'on va suivre durant les différents semestres;
 \item voir les contraintes qui ne sont pas respectées, par exemple, le nombre de crédits manquants pour valider un module, ou encore les dépendances d'un cours;
 \item pouvoir soumettre à la validation son programme, même s'il ne respecte pas toutes les contraintes;
-\item pouvoir communiquer avec la commission info à travers l'application. Par exemple justifier une contrainte non respectée par écrit. ("J'ai déjà suivit un cours très semblable durant mon cursus dans la faculté X à l'université Y").  
+\item pouvoir communiquer avec la commission info à travers l'application; par exemple justifier une contrainte non respectée par écrit. ("J'ai déjà suivit un cours très semblable durant mon cursus dans la faculté X à l'université Y").  
 \end{itemize}
 
-La \textit{commission INFO} doit pouvoir
+La \textit{commission INFO} doit pouvoir:
 \begin{itemize}
 \item vérifier, de la façon la plus automatisée possible, le programme d'un étudiant;
 \item importer les différents programmes de cours dans l'application;
@@ -145,27 +143,28 @@ La \textit{commission INFO} doit pouvoir
 \item être notifié lorsqu'un étudiant envoie son programme à la validation;
 \item accéder aux programmes des étudiants;
 \item communiquer avec les étudiants à travers l'application;
-\item marquer les années précédentes des étudiants comme réussies ou ratées;
+\item marquer les années précédentes des étudiants comme réussies ou ratées.
 \end{itemize}
 
 Le processus auquel nous désirons arriver est illustré sur l'image \ref{fig:desired_process};
 
-\begin{figure}[H]
+\begin{figure}
 \centering
 \caption{Processus désiré}
 \label{fig:desired_process}
 \includegraphics[width=\textwidth]{desired_process}
 \end{figure}
 
-La \textit{commission INFO} importe et mets à jour les différents programmes de cours directement dans l'application. 
+
+La \textit{commission de programme} importe et mets à jour les différents programmes à l'aide d'un fichier yEd ou Excel externe qui est ensuite importé dans l'application
 
 L'étudiant se connecte à l'application, crée son programme de cours, et le configure pas à pas en réduisant au maximum le nombre de contraintes non vérifiées. Pour les contraintes non vérifiées restantes, il insère en commentaire les justifications à ces exceptions. 
 
 L'étudiant envoie son programme à la validation. 
 
-\textbf{Négociation} - La \textit{commission INFO} récupère la requête de validation. L'application lui montre les contraintes qui ne sont pas respectée. La \textit{commission INFO} regarde ensuite les justifications de l'étudiant. Si elle ne sont pas suffisante, la \textit{commission INFO} refuse la demande de validation et commente sa validation en expliquant pourquoi certaines justifications ne sont pas suffisantes. 
+\textbf{Négociation} - La \textit{commission de programme} récupère la requête de validation. L'application lui montre les contraintes qui ne sont pas respectée. La \textit{commission de programme} regarde ensuite les justifications de l'étudiant. Si elle ne sont pas suffisante, la \textit{commission INFO} refuse la demande de validation et commente sa validation en expliquant pourquoi certaines justifications ne sont pas suffisantes. 
 
-Le processus de négociation se répète jusqu'à ce que le programme de l'étudiant soit valide.
+Le processus de négociation se répète jusqu'à ce que le programme de l'étudiant soit valide. S'il n'y a pas d'exceptions, l'application peut immédiatement vérifier si le programme de l'étudiant est valide et le valider (si c'est le cas) ou demander de modifier son programme (si il n'est pas valide).
 
 
 
