@@ -1,8 +1,7 @@
 \chapter{Présentation du système}
-\label{présentation_système}
+\label{presentation_systeme}
 \lhead{Chapitre 3 - Présentation du système}
 \section{Introduction}
-
 
 Ce chapitre vise, à l'aide d'un exemple concret d'utilisation,  à:
 \begin{enumerate}
@@ -57,10 +56,11 @@ Un programme de \textbf{Master} (le grand rectangle à gauche de la figure \ref{
 \subsection{Introduction}
 Le but poursuivit par cette section est de présenter les différents choix faits aux niveaux des technologies utilisées par l'application. Ces choix sont de deux types. Premièrement, les technologies utilisées pour construire l'application seront présentées, comme le framework ou la base de données qui est utilisée. Les technologies externes à l'application qui sont utilisées pour construire les différents curricula ou mettre à jour leur informations seront présentées par la suite.
 
-On parle de technologie interne pour représenter celles qui sont utilisées pour développer les fonctionnalités de application. Les technologies externes sont quant à elles des applications déjà existantes qu'il faut utiliser \textbf{en dehors} de l'application et pour lesquelles il ne faut pas écrire de lignes de codes.\subsection{Ruby on Rails}
+On parle de technologie interne pour représenter celles qui sont utilisées pour développer les fonctionnalités de application. Les technologies externes sont quant à elles des applications déjà existantes qu'il faut utiliser \textbf{en dehors} de l'application et pour lesquelles il ne faut pas écrire de lignes de codes.
+\subsection{Ruby on Rails}
 \subsubsection{Introduction}
 
-Cette section a pour but de présenter la technologie principale utilisée pour développer l'application. Le but n'est pas de parcourir en détails le fonctionnement de rails, mais bien d'en présenter les concepts clés. En effet, il me semble important d'en comprendre les grande lignes, car son architecture, aussi bien que ses principes ont influencé la structure de la solution.
+Cette section a pour but de présenter la technologie principale utilisée pour développer l'application. Le but n'est pas de parcourir en détails le fonctionnement de Rails, mais bien d'en présenter les concepts clés. En effet, il semble important d'en comprendre les grande lignes, car son architecture, aussi bien que ses principes ont influencé la structure de la solution.
 \subsubsection{Le choix d'un framework}
 A première vue, l'utilisation d'un framework n'est pas absolument nécessaire. Cependant, un framework apporte toute une collection d'outils qui aident à développer mieux et plus rapidement.
 
@@ -68,13 +68,13 @@ A première vue, l'utilisation d'un framework n'est pas absolument nécessaire. 
 
 \textbf{Plus rapide} car il permet de gagner du temps en réutilisant des modules génériques afin de se concentrer sur d'autres domaines. Avec un framework, on assemble des briques plutôt que de réinventer la roue. 
 
-Enfin, le dernier atout d'un framework se situe au niveau de l'intégration de nouveaux développeurs sur le projet. Dans le cadre de ce mémoire, il est clair que de nouvelles fonctionnalités devront être ajoutées dans le futur. De plus, les fonctionnalités existantes devront peut être modifiées ou améliorées. Il sera plus facile pour cette personne de se plonger dans du code qui n'est pas le sien, s'il a une structure propre aux standart web d'aujourd'hui.
+Enfin, le dernier atout d'un framework se situe au niveau de l'intégration de nouveaux développeurs sur le projet. Dans le cadre de ce mémoire, il est clair que de nouvelles fonctionnalités devront être ajoutées dans le futur. De plus, les fonctionnalités existantes devront peut être modifiées ou améliorées. Il sera plus facile pour cette personne de se plonger dans du code qui n'est pas le sien, s'il a une structure propre aux standard web d'aujourd'hui.
 
 \textbf{Il est donc fortement conseillé d'utiliser un framework web pour créer ce genre d'application.} 
 
-Il en existe une multitude aujourd'hui. Il y a tout d'abord les frameworks PHP comme CakePHP, DRUPAL ou Symfony (pour ne citer que les plus connus). Vient ensuite Ruby on Rails, un framework en ruby et Django, un framework en Python.  
+Il en existe une multitude aujourd'hui. Il y a tout d'abord les frameworks PHP comme CakePHP, DRUPAL ou Symfony (pour ne citer que les plus connus). Vient ensuite Ruby on Rails, un framework en ruby et Django, un framework en Python. Cette liste n'est bien entendu pas exhaustive. 
 \subsubsection{Le choix de Ruby on Rails}
-L'intérêt réside dans le niveau de productivité et de maintenabilité accru que l'on obtient en travaillant avec le framework. Les design pattern sous-jacents, et la philosophie de Rails permettent de concentrer son travail sur les fonctionnalités de l'application plutôt que de passer son temps à écrire du code répétitif ou remplir des fichiers de configuration. 
+L'intérêt réside dans le niveau de productivité et de maintenabilité accru que l'on obtient en travaillant avec le framework. Les design patterns sous-jacents, et la philosophie de Rails permettent de concentrer son travail sur les fonctionnalités de l'application plutôt que de passer son temps à écrire du code répétitif ou remplir des fichiers de configuration. 
 
 De plus, il existe une multitude de librairies tierces appelées \textit{ruby-gem} qui réduisent encore le nombre de lignes de codes à produire, en apportant des fonctionnalités à l'application. Le meilleur exemple est \textbf{devise}, une librairie qui permet d'ajouter la gestion de l'utilisateur(création, connexion, récupération de mot de passe, envois de mails, etc ..) en quelques lignes en plus de gérer les sessions et les accès aux différentes actions et vues. 
 
@@ -82,16 +82,16 @@ Rails pousse aux bonnes pratiques, c'est d'ailleurs cette philosophie qui m'a in
 
 
 En outre, Rails dispose d'une communauté très active et passionnée, qui teste, documente et améliore les fonctionnalités du framework. 
-\subsubsection{Limites}
+
 Les limites du framework sont les suivantes
 \begin{itemize}
 \item Lorsque l'on débute, on est souvent tenté de charger les modèles en voulant suivre la philosophie \textit{tiny view - skinny controller - fat model}\footnote{Bonne pratique qui consiste à délaisser toute la logique aux modèles} et l'on oublie souvent qu'il est possible de déléguer la plupart des fonctionnalités à des librairies externes, qui sont plus faciles à développer - car crées en pure \textit{ruby} - et plus facile à tester - car indépendantes de rails \cite{fat_models}.
 
-\item (...)
+\item Un des principaux aprioris sur les frameworks et particulièrement Ruby on Rails, est qu'il sont lents (et peu efficace). En effet, ruby est un langage interprété . Ce type de langage tend à être plus lent que les langages compilés. Cependant, il faut garder à l'esprit qu'écrire du code, trouver et corriger des bugs ou encore ajouter des nouvelles fonctionnalités dans une application sont des tâches encore plus couteuses en temps. Rails permet de réduire le temps consacré à ces tâches, ce qui est bien plus important lorsque l'on développe ou maintient une application, particulièrement dans le cadre d'un mémoire. Ainsi, à la place de configurer le mapping entre ces différentes ressources, on utilise un convention.
 \end{itemize}
 
 \subsubsection{Conclusion}
-Le choix s'est naturellement porté Ruby on Rails. C'est un framework open-source, utilisé pour développer des applications web. Le développement se fait à travers le langage de programmation multi-paradigmes (Programmation fonctionnelle, orientée object, ...) \textbf{ruby}. Il se base sur des puissants design patterns et principes qui vont être présentés en quelques lignes ci-dessous.
+Le choix s'est naturellement porté vers Ruby on Rails. C'est un framework open-source, utilisé pour développer des applications web. Le développement se fait à travers le langage de programmation multi-paradigmes (Programmation fonctionnelle, orientée object, ...) \textbf{ruby}. Il se base sur des puissants design patterns et principes qui vont être présentés en quelques lignes ci-dessous.
 
 \subsubsection{DRY - Don't repeat yourself}
 Comme son nom l'indique, ce premier principe pousse à la réutilisation du code existant le plus souvent que possible, plutôt que d'avoir des bout de codes similaire un peu partout dans l'application. L'idée de tendre vers une structure \textit{Api}, où tout ce qui n'est pas nécessaire aux classes et méthodes externes est caché en interne. Le principal avantage se situe au niveau de la \textbf{maintenabilité}. On évite ainsi de devoir partir à la recherche des différents bouts de code dupliqués lorsque l'on veut modifier le comportement d'une méthode, d'une classe, ou même d'un module.
@@ -104,16 +104,16 @@ Cela permet au développeur de se concentrer sur les parties non conventionnelle
 
 Le framework s'appuie sur le pattern \textbf{MVC}. Destiné aux applications dites \textit{interactives}, il divise l'application en trois parties; le modèle, les vues et le contrôleur. Notez que \textit{Ruby on Rails} ne respecte pas totalement MVC dans sa conception initiale. Cela se justifie par le fait que ce pattern n'est pas destiné à la base aux applications web, notamment car la vue est ici une page web. Le modèle ne peut donc pas lui envoyer tous les changements qui surviennent au niveau des données. C'est la vue, qui doit expressément faire les requêtes pour ces données, à travers le contrôleur.
 
-MVC à la sauce Rails se présente comme suit. Nous avons;
+MVC à la sauce Rails se présente comme suit. Nous avons:
 
 \begin{description}
-\item[le modèle] lié à une base de données, qui contient les données et l'état de l'application. Il contient aussi toute la \textit{business logic}, qui détermine comment l'information est créée, mise à jour, et affichée;
-\item[les vues] qui génèrent l'interface utilisateur et lui présente les données. Ce composant est passif, il ne traite aucune information. \textit{Vues} est au pluriel ici, car plusieurs vues peuvent avoir accès au même modèle;
+\item[le modèle] lié à une base de données, qui contient les données et l'état de l'application. Il contient aussi tout les objets métiers \footnote{Objets qui font tout le travail.}, qui détermine comment l'information est créée, mise à jour, et affichée;
+\item[les vues] qui génèrent l'interface utilisateur et lui présentent les données. Ce composant est passif, il ne traite aucune information. \textit{Vues} est au pluriel ici, car plusieurs vues peuvent avoir accès au même modèle;
 \item[le contrôleur] qui reçoit les événements du monde extérieur, interagit avec le modèle et choisit la vue à afficher à l'utilisateur. Par exemple, lorsque l'utilisateur veut éditer un commentaire dans un blog, le contrôleur va rendre la vue relative à l'édition de l'objet correspondant. 
 \end{description} 
 
 \subsubsection{Active Record}
-Ce pattern quant à lui stocke les données dans une base de données relationnelle. Il s'agit simplement de fournir une abstraction supplémentaire à la base de données et fournir des fonctions pour manipuler les données. Dans le cas de rails, il y a donc une couche ruby entre la base de données proprement dite et la logique dans notre modèle. Cela permet par exemple, d'être indépendant du système de base de données utilisée en dessous.  Par exemple, \textit{postgresql} est le système de gestion de base de données utilisé pour le moment. Si pour une raison X ou Y, il devient nécessaire de passer à \textit{sqlite3}, il suffit de changer le fichier de configuration \textit{config/database.yml} de
+Ce pattern quant à lui stocke les données dans une base de données relationnelle. Il s'agit simplement de fournir une abstraction supplémentaire à la base de données et fournir des fonctions pour manipuler les données. Dans le cas de rails, il y a donc une couche ruby entre la base de données proprement dite et la logique dans notre modèle. Cela permet par exemple, d'être indépendant du système de base de données utilisée en dessous.  Par exemple, \textit{postgresql} est le système de gestion de base de données utilisé pour le moment (source : \cite{rails_cast_migration_to_postgresql}. Si pour une raison X ou Y, il devient nécessaire de passer à \textit{sqlite3}, il suffit de changer le fichier de configuration \textit{config/database.yml} de
 \begin{lstlisting}
 development:
   adapter: postgresql
@@ -136,34 +136,39 @@ rake db:create:all
 rake db:migrate
 \end{lstlisting}
 
-(source : \cite{rails_cast_migration_to_postgresql}
 
-Tout cela est fait sans devoir changer la façon dont j'accède aux données dans les différents modèles.  
+
+Tout cela est fait sans devoir changer comment sont accédées les données dans les différents modèles.  
 
 \subsection{Base de données - PostgreSQL}
 
-Rails supporte plusieurs systèmes de gestion de base de données : (PostgreSQL, MySQL, SQLite). Le choix du système est cependant restreint à l'outil utilisé pour héberger l'application. En effet, il est nécessaire d'avoir une base de données PostgreSQL pour pouvoir héberger l'application sur la plateforme. 
+Rails supporte plusieurs systèmes de gestion de base de données : PostgreSQL, MySQL, SQLite. Le choix du système est cependant restreint à la plateforme utilisée pour héberger l'application (Heroku). En effet, il est nécessaire d'avoir une base de données PostgreSQL pour pouvoir héberger l'application sur Heroku. 
 
 \subsection{Éditeur de graphes - yEd}
 \label{yed}
+Comme expliqué plus tard dans la section \ref{data_mgmt} détaillant comment sont importés les données, le choix s'est porté vers une importation en deux étapes des données dans l'application. 
 
-Comme expliqué plus tard dans la section gestion des données, le choix s'est porté vers une importation en deux parties des données dans l'application. Pour ce faire, il est nécessaire de construire un graphe de cours pour représenter le catalogue contenant les différents programmes de cours proposés par la \textit{commission INFO}.
+\textbf{La première étape} consiste à créer et importer le graphe de cours. Les données importées durant cette étapes sont les nom identifiant les différents objets du graphes (cours, programme, podule), la structure des différents programmes de cours (les cours et modules constituant les programmes de cours) et les dépendances entre les cours.\footnote{Se référer à la section \ref{dependances} pour plus de détails.}
 
-Plusieurs alternatives se sont présentées.
+\textbf{La deuxième étape} consiste à ajouter des nouvelles données des différents objets (ou les mettre à jour) à l'aide d'un formulaire excel. Cela permet d'ajouter des propriétés comme les crédits d'un cours ou les crédits minimum requis d'un programme de cours par exemple.\footnote{Se référer à la section \ref{properties} pour plus de détails.} 
 
-La première correspond à un logiciel intégré dans l'application, qui permet de construire explicitement un catalogue de cours sous forme de graphe, en proposant exclusivement de placer des objets cours, modules, ou programmes sur le graphe et en n'offrant que des arrêtes de type corequis ou prérequis. Cette application communiquerait directement avec les modèles et permettrait de générer directement les objets (cours, modules, ...) désirés. Cependant il n'existe pas d'applications réalisant ce genre de graphe pour le moment, et cela sort du cadre de ce mémoire
+Le but de cette section est d'expliquer les choix qui on été faits aux niveau des technologies utilisées pour s'occuper de \textbf{la première étape} (La construction d'un graphe). 
 
-La deuxième alternative serait d'intégrer un outil générant des graphes plus standard dans l'application. YEd offre une solution très chère à ce sujet. Il y a aussi une librairie en Javascript assez souple (d3js ). Ces solutions implique quoiqu'il arrive de devoir parser les données par ces outils.
+Pour construire et importer le graphe de cours, plusieurs alternatives se sont présentées.
 
-La troisième et dernière alternative serait d'utiliser un logiciel externe à l'application pour générer ces graphes. Ce logiciel doit être entre autre multi-plateformes (Mac os x, Linux \& Windows) et capable d'exporter dans un format relativement facile à parser. La liste de ce genre de logiciel est assez longue (Dia, Yed, OmniGraffle, Graphiz)
+La première correspond à un logiciel intégré dans l'application, qui permet de construire explicitement un catalogue de cours sous forme de graphe, en proposant exclusivement de placer des objets cours, modules, ou programmes sur le graphe et en n'offrant que des arrêtes de type corequis ou prérequis. Cette application communiquerait directement avec les modèles et permettrait de générer directement les objets (cours, modules, ...) désirés. Cependant il n'existe pas d'applications réalisant ce genre de graphe pour le moment. Il faudrait donc développer un outil, intégré dans l'application,  fournissant ces fonctionnalité. Cependant, cela sort du cadre de ce mémoire, faute de temps. 
+
+La deuxième alternative serait d'intégrer un outil générant des graphes plus standard dans l'application. YWorks offre une solution, yFiles, qui est permet la création et l'édition de graphes en HTML5 et en javascript. Ce logiciel est cependant très chère.
+
+La troisième et dernière alternative serait d'utiliser un logiciel externe à l'application pour générer ces graphes. Ce logiciel, en plus d'être gratuit, doit être multi-plateformes (Mac os x, Linux \& Windows) et capable d'exporter dans un format relativement facile à parser. La liste de ce genre de logiciel est assez longue (Dia, Yed, OmniGraffle, Graphiz)
 \begin{itemize}
-  \item Dia - C'est un logiciel assez léger qui est capable d'exporter en Xml, un format standard pour représenter des données. Il devient cependant très ennuyeux à utiliser lorsque l'on manipule des graphes de taille importante.
+  \item Dia - C'est un logiciel assez léger qui est capable d'exporter en Xml, un format standard pour représenter des données. Il devient cependant très ennuyeux à utiliser lorsque l'on manipule des graphes de taille importante. C'est cependant un éditeur graphique très générique qui n'est pas seulement destiner à la création de graphes. 
   \item OmniGraffle - Ce logiciel n'est disponible que sur Mac Os X malheureusement.
   \item Yed - Ce logiciel est assez complet. Il est cross-plateforme et à l'avantage de contenir des algorithmes qui permettent de restructurer automatiquement les graphes. Il permet aussi d'exporter en deux formats de types xml (Graphml \& XGml)
   \item (...)
 \end{itemize}
 
-Étant donné la contrainte de temps imposé par le cadre du mémoire, le choix c'est porté vers un logiciel déjà existant. Il a été préférable de choisir une solution externe pour éviter de surcharger l'application avec de lourds modules graphiques. De plus, intégrer ce genre de logiciels dans l'application ne changeait rien au fait qu'il fallait parser le fichier exporté par l'outil pour importer les données dans l'application.
+Étant donné la contrainte de temps imposé par le cadre du mémoire, le choix s'est porté vers un logiciel déjà existant. Il a été préférable de choisir une solution externe pour éviter de surcharger l'application avec de lourds modules graphiques. De plus, intégrer ce genre de logiciels dans l'application ne changeait rien au fait qu'il fallait parser le fichier exporté par l'outil pour importer les données dans l'application.
 
 YEd a été choisi pour toutes ces raisons. 
 \clearpage
@@ -222,7 +227,7 @@ Ces contraintes étant des prérequis, il est donc nécessaire d'avoir suivit et
 
 Notez que les dépendances sont importées à l'aide du logiciel yEd \ref{yed}. Il n'est donc pas possible de les modifier une fois le graph importé dans l'application. 
 \subsubsection{Contraintes s’exerçant sur les propriétés des cours, modules et programmes}
-
+\label{properties}
 Ces contraintes regroupent plusieurs catégories de contraintes au sens où elles on été présentée dans le chapitre \ref{contraintes_intro}. On dit que ces contraintes portent sur des propriétés car leur validité dépend de l'information contenues dans celles-ci. Pour reprendre l'exemple du minimum de crédits requis pour valider un programme de cours. La validité de cette contrainte dépends (en plus des cours et modules qui compose ce programme) de deux choses:
 \begin{enumerate}
   \item la valeur de cette propriété MIN, contenue dans la propriété du même nom de l'objet Programme;
