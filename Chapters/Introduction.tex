@@ -3,7 +3,7 @@
 \lhead{Chapitre 1 - Introduction}
 \section{Contexte}
 
-Chaque année à l'Université catholique de Louvain, et dans toute les autres universités, un étudiant est amené à devoir effectuer des choix au niveau du programme de cours qu'il va suivre. Même si ces choix demeurent plus restreint en bac qu'en master, le processus actuel représente une lourde tâche de travail pour le personnel en charge de la vérification de ces programmes et risque de s'amplifier encore plus avec le nouveau décret. 
+Chaque année à l'Université catholique de Louvain, et dans toutes les autres universités, un étudiant est amené à devoir effectuer des choix au niveau du programme de cours qu'il va suivre. Même si ces choix demeurent plus restreints en bac qu'en master, le processus actuel représente une lourde tâche de travail pour le personnel en charge de la vérification de ces programmes et risque de s'amplifier encore plus avec le nouveau décret. 
 
 En bachelier, cela se limite au choix d'une mineure de manière générale. La tâche est déjà plus compliquée lorsqu'il faut traiter le programme d'un étudiant qui recommence son année.
 
@@ -18,7 +18,7 @@ Cette réforme a pour conséquence de complexifier la gestion des programmes de 
 Le problème est, une fois découpé, relativement simple à comprendre. Nous avons deux acteurs; \textit{la commission INFO} et les étudiants. 
 La \textit{commission INFO} propose un catalogue de cours aux étudiants et plusieurs types de contraintes s'exercent sur chacun des cours de ce catalogue. L'étudiant doit se construire un programme de cours à partir du catalogue et \textit{la commission INFO} doit vérifier l'intégrité du programme de chaque étudiant. Il y a donc un processus de \textit{négociation} entre les deux parties, durant lequel \textit{la commission INFO} souligne les erreurs éventuelles pour être, par après,  corrigées par l'étudiant jusqu'à la validation de son programme.
 
-Cependant, il faut garder à l'esprit que l'état du catalogue, des contraintes ou même des cours peut évoluer à tout moment. Comme mentionné plus haut, la \textit{FWB} peut émettre de nouvelles règles, de nouvelles lois dont l'impact peut bouleverser de façon relativement importante la structure et l'organisation des programmes. De plus, il est fréquent de voir certaines contraintes comme les crédits d'un cours, le semestre ou même le cycle durant lequel il est dispensé changer au cours des années.
+Cependant, il faut garder à l'esprit que l'état du catalogue, des contraintes ou même des cours peut évoluer à tout moment. Comme mentionné plus haut, la \textit{FWB} peut émettre de nouvelles règles, de nouvelles lois dont l'impact peut bouleverser de façon relativement importante la structure et l'organisation des programmes. De plus, il est fréquent de voir certaines contraintes, comme les crédits d'un cours, le semestre ou même le cycle durant lequel il est dispensé, changer au cours des années.
 
 L'encodage, l'interprétation, la connaissance et la vérification de l'ensemble de ces contraintes, qui ne sont parfois pas très explicites, sont à la charge de \textit{la commission INFO}.
 
@@ -78,11 +78,11 @@ Les données implicites correspondent aux informations relatives aux étudiants,
 
 Les données explicites correspondent aux choix faits par les étudiants. Ces données concernent les
 \begin{itemize}
-\item les choix faits par les étudiants au niveau de leur programmes de cours;
+\item les choix faits par les étudiants au niveau de leur programme de cours;
 \item les justifications des étudiants à propos des exceptions de leur programme par rapports aux règles et structures fixées par le programme de cours suivit. 
 \end{itemize}
 
-Il faut aussi garder une trace de ce que l'étudiant a suivi et réussi les années précédentes. En effet, il est nécessaire de savoir quel cours un étudiant à réussi l'année précédente pour attribuer les différentes dispenses lorsqu'il recommence son année par exemple.
+Il faut aussi garder une trace de ce que l'étudiant a suivi et réussi les années précédentes. En effet, il est nécessaire de savoir quel cours un étudiant a réussi l'année précédente pour attribuer les différentes dispenses lorsqu'il recommence son année par exemple.
 
 Dès lors, la \textit{commission INFO} doit pouvoir valider le programme d'un étudiant lorsque celui-ci l'a réussi. 
 
@@ -90,7 +90,7 @@ Il est donc indispensable d'inclure dans la solution une base de données pour y
 
 Différents points du processus actuel \ref{fig:initial_process} doivent être automatisés.
 
-Le premier point identifié se situe au niveau du support utilisé par l'étudiant et \textit{la commission INFO}, le formulaire excel, pour ajouter de l'information sur le programme de cours. Tout d'abord, \textit{la commission INFO} doit générer manuellement ce formulaire, en y incluant les cours et différentes options du programme de cours en question. Ajouter les différents blocs, cours et leur crédits respectifs est assez contraignant sur un simple tableur. De plus, beaucoup d'erreurs peuvent êtes laissées par l'étudiant lorsqu'il complète celui-ci. Certes, il y a certains moyen à disposition sous Excel (en utilisant des macros), pour vérifier certaines contraintes du programmes (comme le nombre de crédits d'un module par exemple) mais ceux-ci peuvent être ignorés par l'étudiant, et doivent de toute façon être revérifiées par après par \textit{la commission INFO}. 
+Le premier point identifié se situe au niveau du support utilisé par l'étudiant et \textit{la commission INFO}, le formulaire excel, pour ajouter de l'information sur le programme de cours. Tout d'abord, \textit{la commission INFO} doit générer manuellement ce formulaire, en y incluant les cours et différentes options du programme de cours en question. Ajouter les différents blocs, cours et leur crédits respectifs est assez contraignant sur un simple tableur. De plus, beaucoup d'erreurs peuvent être laissées par l'étudiant lorsqu'il complète celui-ci. Certes, il y a certains moyen à disposition sous Excel (en utilisant des macros), pour vérifier certaines contraintes du programmes (comme le nombre de crédits d'un module par exemple) mais celles-ci peuvent être ignorées par l'étudiant, et doivent de toute façon être revérifiées par après par \textit{la commission INFO}. 
 
 \textbf{Le premier point} de la solution proposée est donc d’offrir une plate-forme permettant aux acteurs d'échanger ces différentes informations.
 
@@ -106,7 +106,7 @@ Quatrièmement, il faut s'attaquer au processus de négociation qui amène l'ét
 De manière générale, le but de cette application est d'automatiser la gestion des programmes de cours. 
 
 
-Le \textit{pré-objectif} est d'être indépendant de la base de données EPC. Pour des raisons institutionnelles, l'équipe EPC est surchargée en plus d'être réticente à donner un accès au données. Dans le futur, peut être l'outil pourrait échanger des données avec EPC ou même être intégré, mais ce ne sera pas pour immédiatement. C'est pourquoi il faut pouvoir importer les données de façon efficace et intuitive.
+Le \textit{pré-objectif} est d'être indépendant de la base de données EPC. Pour des raisons institutionnelles, l'équipe EPC est surchargée en plus d'être réticente à donner un accès aux données. Dans le futur, peut-être l'outil pourrait échanger des données avec EPC ou même être intégré, mais ce ne sera pas pour immédiatement. C'est pourquoi il faut pouvoir importer les données de façon efficace et intuitive.
  
 La solution doit être maintenable et évolutive. En effet, la structure des programmes est en constante évolution. De plus, il est probable que la commission de programme découvre de nouveaux besoins qui devront être implémentés à l'avenir. Il est donc primordial de structurer l'application intelligemment pour que celle-ci soit modulaire et qu'on ne doive pas repartir de zéro lors de développement ultérieurs.
 
@@ -116,7 +116,7 @@ Les informations des programmes de cours  doivent pouvoir être téléchargées 
 
 Il doit y avoir un historique des différentes versions des programmes de cours mis en ligne par la \textit{commission INFO} tout aux long des années académiques,pour gérer l'évolution de ceux-ci et pouvoir permettre aux étudiants (à qui cela est permis) de choisir dans leurs programmes des cours d'anciens catalogues, en cas de report de note par exemple.
  
-Les étudiants doivent pouvoir construire leur programmes, en choisissant les cours et les modules qu'ils vont suivre chaque année. L'application doit leur dire si leur programme est cohérent ou non.
+Les étudiants doivent pouvoir construire leurs programmes, en choisissant les cours et les modules qu'ils vont suivre chaque année. L'application doit leur dire si leur programme est cohérent ou non.
 
 Au niveau de ces contraintes, il doit y avoir une certaine souplesse. Il n'est pas possible d'avoir une vision \textit{manichéenne} à ce niveau.
 
@@ -156,15 +156,15 @@ Le processus auquel nous désirons arriver est illustré sur l'image \ref{fig:de
 \end{figure}
 
 
-La \textit{commission de programme} importe et mets à jour les différents programmes à l'aide d'un fichier yEd ou Excel externe qui est ensuite importé dans l'application
+La \textit{commission de programme} importe et met à jour les différents programmes à l'aide d'un fichier yEd ou Excel externe qui est ensuite importé dans l'application
 
 L'étudiant se connecte à l'application, crée son programme de cours, et le configure pas à pas en réduisant au maximum le nombre de contraintes non vérifiées. Pour les contraintes non vérifiées restantes, il insère en commentaire les justifications à ces exceptions. 
 
 L'étudiant envoie son programme à la validation. 
 
-\textbf{Négociation} - La \textit{commission de programme} récupère la requête de validation. L'application lui montre les contraintes qui ne sont pas respectée. La \textit{commission de programme} regarde ensuite les justifications de l'étudiant. Si elle ne sont pas suffisante, la \textit{commission INFO} refuse la demande de validation et commente sa validation en expliquant pourquoi certaines justifications ne sont pas suffisantes. 
+\textbf{Négociation} - La \textit{commission de programme} récupère la requête de validation. L'application lui montre les contraintes qui ne sont pas respectées. La \textit{commission de programme} regarde ensuite les justifications de l'étudiant. Si elles ne sont pas suffisantes, la \textit{commission INFO} refuse la demande de validation et commente sa validation en expliquant pourquoi certaines justifications ne sont pas suffisantes. 
 
-Le processus de négociation se répète jusqu'à ce que le programme de l'étudiant soit valide. S'il n'y a pas d'exceptions, l'application peut immédiatement vérifier si le programme de l'étudiant est valide et le valider (si c'est le cas) ou demander de modifier son programme (si il n'est pas valide).
+Le processus de négociation se répète jusqu'à ce que le programme de l'étudiant soit valide. S'il n'y a pas d'exceptions, l'application peut immédiatement vérifier si le programme de l'étudiant est valide et le valider (si c'est le cas) ou demander de modifier son programme (s'il n'est pas valide).
 
 
 
