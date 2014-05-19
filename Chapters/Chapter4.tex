@@ -223,6 +223,7 @@ Enfin, il n'est pas possible, pour des questions de sécurité évidentes, de se
 
 \subsection{Importation du graphe}
 \subsubsection{Introduction}
+\label{graph_format_justification}
 Une fois le graphe créé à l'aide de yEd, plusieurs choix s'offrent à nous pour exporter nos données. Les formats (non binaires) dans lesquels nous pouvons exporter les informations contenues dans notre graphe sont les suivantes. 
 \begin{enumerate}
 \item GraphML, un format de fichier basé sur XML pour les graphes
@@ -337,6 +338,7 @@ Il n'est donc pas nécessaire de retraiter tout les éléments pour compléter l
 
 
 \subsubsection{Parsing}
+\label{graph_parsing}
 Le but de ce module est de fournir une abstraction supplémentaire à la gem \textit{Nokogiri}\footnote{Librairie ruby permettant de parser des fichiers XML} pour parser le format \textit{GraphML} de yEd. Les informations contenue dans le graphe généré avec \textit{yEd} sont les suivantes:
 \begin{itemize}
 \item Les Programmes de cours (Bachelier, Masters)

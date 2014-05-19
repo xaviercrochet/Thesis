@@ -168,7 +168,7 @@ La troisième et dernière alternative serait d'utiliser un logiciel externe à 
   \item (...)
 \end{itemize}
 
-Étant donné la contrainte de temps imposé par le cadre du mémoire, le choix s'est porté vers un logiciel déjà existant. Il a été préférable de choisir une solution externe pour éviter de surcharger l'application avec de lourds modules graphiques. De plus, intégrer ce genre de logiciels dans l'application ne changeait rien au fait qu'il fallait parser le fichier exporté par l'outil pour importer les données dans l'application.
+Étant donné la contrainte de temps imposé par le cadre du mémoire, le choix s'est porté vers un logiciel déjà existant. Il a été préférable de choisir une solution externe pour éviter de surcharger l'application avec de lourds modules graphiques. De plus, intégrer ce genre de logiciels dans l'application ne changeait rien au fait qu'il fasse parser le fichier exporté par l'outil pour importer les données dans l'application.
 
 YEd a été choisi pour toutes ces raisons. 
 \clearpage
@@ -187,10 +187,58 @@ L'application est la  plateforme qui tient le rôle d'intermédiaire entre la co
 Les fonctionnalités de l'application, telles qu'elles apparaissent sur la figure \ref{fig:desired_process} vont être expliquées dans les sous-sections qui suivent.
 \subsection{Gestion des données}
 \label{data_mgmt}
- 
+Cette section explique comment sont importées les données relatives aux programmes, leur cours, leurs informations et leur différentes contraintes. 
+
+Les différentes informations contenue dans chacun des programmes proposés sont les suivantes. Nous avons:
+\begin{itemize}
+\item plusieurs programmes de cours (SINF1BA, FSA1BA, SINF1PM SINF2M SINF2M1 et INFO2M);
+\item chacun de ces programmes contiennent des modules et des cours, avec des informations relatives aux cours et modules obligatoires;
+\item chacun de ces cours peut avoir des dépendances \footnote{Se référer à la section \ref{contraintes_intro} et la section \ref{contraintes} pour plus de détails sur ces contraintes};
+\item chaque cours, module et programme contient des propriétés. (Le nombre de crédits d'un cours, le semestre durant lequel il est dispensé, l'obligation de suivre un module, le nombre de crédits minium et maximum d'un programme ou module).
+\end{itemize}
+
+Il n'est pas viable pour la commission de programme d'ajouter ces informations une à une à l'aide de formulaires permettant d'ajouter et de modifier ces différents objets. Cette approche malgré qu'elle soit facile à mettre en place, contraint la commission de programme à de longues et fastidieuses séances d'encodage de programmes. Qui plus est, chacun des programme de cours proposés a la forme d'un graphe. La solution la plus logique est donc d'utiliser un éditeur graphique pour construire les différents programme de cours.
+
+La démarche qui a amené à utiliser le logiciel yEd est expliquée en détail dans la section \ref{yed}. Cette solution a deux conséquences:
+
+\begin{enumerate}
+  \item Le logiciel étant externe à l'application, il est nécessaire d'exporter le graphe vers un fichier. Ensuite, il faut parser ce fichier pour en extraire les informations.
+  \item On est restreint dans les données que l'on peut ajouter dans un graphe. Ces informations se limitent aux différents labels des nœuds et à leurs dépendances. Une solution est requise pour ajouter les données manquantes. 
+\end{enumerate}
+
+Pour \textbf{le premier point}, il a été décidé d'exporter le graphe dans le format \textit{GraphML} (une extension de XML destinée aux graphes). Les informations contenue dans ce fichier sont extraite par l'application à la création du catalogue. Plusieurs formats étaient disponibles pour exporter le graphe créé avec yEd, les raisons qui ont mené à utiliser le format GraphML sont expliquées en détail dans la section \ref{graph_format_justification}.
+
+Les détails de l'implémentation concernant le module qui s'occupe d'extraire les informations contenues dans les graphes sont disponibles dans la section \ref{graph_parsing}.
+
+\textbf{Le deuxième point} justifie le fait que l'importation des données se fait en deux étapes (la première étant l'import du fichier de graphe). Les données manquantes après l'import du graphe sont les suivantes:
+
+\begin{itemize}
+  \item les propriétés d'un cours; son sigle, le semestre durant lequel il est dispensé, le nombre de crédits, le fait qu'il soit obligatoire;
+  \item les propriétés d'un module; son nom, le nombre de crédits minimum et maximum requis pour le valider;
+  \item les propriétés d'un programme de cours; son nom, le nombre de crédits minimum et maximum requis pour le valider.
+\end{itemize}
+
+La liste de ces propriétés n'est pas exhaustive. Il se peut qu'à l'avenir, le besoin se fasse sentir d'ajouter des informations comme le nom d'un professeur, l'url du cours, ou tout autre informations nécessaire pour des contraintes qui n'ont pas été prévue lors de la conception de l'application. C'est pourquoi en plus de pouvoir d'ajouter et mettre à jour ces informations, il doit être pouvoir d'ajouter des nouvelles propriétés.
+
+Excel a été choisi pour ajouter toutes ces informations car:
+\begin{itemize}
+  \item il est disponible sur toute les plateformes (Mac OS, Windows, Linux);
+  \item il est facile d'utilisation;
+  \item il permet de gérer des grandes quantités d'information de façon structurée;
+  \item le format vers lequel il exporte est très facile à parser (XLS)
+\end{itemize}
+
+\subsubsection{Conclusion}
+L'import de toute les données se fait en deux étapes. La première consiste à importer le graphe de cours, contenant le nom de chacun des cours, modules et programmes, en plus de leur structure (les cours et modules inclus dans chaque module et programme) et des dépendances entre les cours. Ces informations ne sont pas modifiables une fois le catalogue de cours créer. La deuxième étape quant à elle, consiste à importer le reste des données dans l'application, via un formulaire excel. Cette étape est répétable, à tout moment les données peuvent être mise à jour sans mettre en péril le fonctionnement de l'application. De plus, il n'y a pas de limites aux informations que l'on peut ajouter de cette manière.
+
+Par soucis de modularité, ces deux étapes sont implémentées dans des modules externes à l'application, comme expliqué dans le chapitre relatif au développement du système \ref{developpement_system}. L'application est totalement indépendante de ces modules, dans le sens ou il serait relativement aisé d'ajouter une méthode encore plus pratique pour ajouter toute ces informations, sans devoir modifier tout le reste de l'application.
+
+
+
+
 \subsection{Contraintes}
 \label{contraintes}
-Comme présenté dans le chapitre \ref{contraintes_intro} précédent, les contraintes sont de plusieurs types. Le but de cette section n'est pas de recommencer leur énumération mais plutôt de présenter les choix que cette catégorisation impose de faire et d'expliquer plus en détails la logique intrinsèque des plus compliquées d'entre elles.    
+Comme présenté dans le chapitre précédent \ref{contraintes_intro}, les contraintes sont de plusieurs types. Le but de cette section n'est pas de recommencer leur énumération mais plutôt de présenter les choix que cette catégorisation impose de faire et d'expliquer plus en détails la logique intrinsèque des plus compliquées d'entre elles.    
 
 Comme expliqué dans les sections qui suivent, la location des informations relatives aux contraintes (les crédits et les dépendances d'un cours par exemple) n'est pas la même pour toute les contraintes. Qui plus est, chaque contrainte n'est pas vérifiée de la même façon. Une dépendance par exemple implique d'aller chercher si un cours est présent dans un programme, alors que le minimum de crédits requis d'un programme implique de compter les crédits de chacun ces cours. Dès lors, pour ne pas surcharger les modèles de l'application et la rendre plus flexible, la vérification de ces contraintes a été déléguée à un module externe. On évite, ainsi, de se retrouver avec des modèles dont la taille se chiffre en milliers de lignes de code. 
 \subsubsection{Dépendances}
@@ -380,21 +428,10 @@ La page qui donne accès à la commission de programme aux demandes de validatio
 \end{figure}
 
 
-
-% BOUGER VERS DEV
-% \subsection{Contraintes}
-
 % \subsection{Gestion des Données}
 % \label{gestion_des_données}
 % \subsubsection{Introduction}
-% Cette section répond à la question de comment sont importées les données relatives aux programmes, leur cours, leurs informations et leur différentes contraintes. 
 
-% Les différentes informations contenue dans le catalogue de cours du département sont les suivantes. Nous avons
-% \begin{itemize}
-% \item Plusieurs programmes de cours (BAC SINF et INFO, MASTER SINF et INFO, Passerelle SINF et toute les options qu'elles contiennent)
-% \item Chacun de ces programmes contiennent des modules et des cours, avec des informations relatives aux cours et modules obligatoires.
-% \item Chacun de ces cours peut avoir des dépendances. (Voir section contrainte pour plus de détails)
-% \end{itemize}
 
 % Il faut donc trouver un moyen de télécharger ces informations dans l'application. La solution la plus naïve serait de fournir des formulaires pour chaque entité (Cours, modules, ...) permettant d'ajouter une à une toute les informations nécessaire. Si l'on veut modifier les informations d'une entité, \textit{"il suffirait"} de naviguer dans les différents menu et de sélectionner le menu d'édition correspondant. Cependant cette solution n'atteint pas l'objectif fixé dans la solution, à savoir fournir un support pour enregistrer efficacement (et donc en peu de temps) les informations relatives aux curricula. Ajouter une à une toute les dépendances de cours peut être très ennuyant. 
 
