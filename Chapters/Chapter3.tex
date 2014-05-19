@@ -148,7 +148,7 @@ Rails supporte plusieurs systèmes de gestion de base de données : PostgreSQL, 
 \label{yed}
 Comme expliqué plus tard dans la section \ref{data_mgmt} détaillant comment sont importés les données, le choix s'est porté vers une importation en deux étapes des données dans l'application. 
 
-\textbf{La première étape} consiste à créer et importer le graphe de cours. Les données importées durant cette étapes sont les nom identifiant les différents objets du graphes (cours, programme, podule), la structure des différents programmes de cours (les cours et modules constituant les programmes de cours) et les dépendances entre les cours.\footnote{Se référer à la section \ref{dependances} pour plus de détails.}
+\textbf{La première étape} consiste à créer et importer le graphe de cours. Les données importées durant cette étapes sont les nom identifiant les différents objets du graphes (cours, programme, podule), la structure des différents programmes de cours (les cours et modules constituant les programmes de cours) et les dépendances entre les cours.\footnote{Se référer à la section \ref{dependances} (relative aux dépendances) pour plus de détails.}
 
 \textbf{La deuxième étape} consiste à ajouter des nouvelles données des différents objets (ou les mettre à jour) à l'aide d'un formulaire excel. Cela permet d'ajouter des propriétés comme les crédits d'un cours ou les crédits minimum requis d'un programme de cours par exemple.\footnote{Se référer à la section \ref{properties} pour plus de détails.} 
 
@@ -184,7 +184,10 @@ L'application est la  plateforme qui tient le rôle d'intermédiaire entre la co
 
 \textbf{La base données} - Elle stocke les informations liés aux curricula enregistrés précédemment par la commission, mais aussi les programmes des étudiants. La commission pourra avoir accès aux anciens programmes de cours et à toutes les programmes des étudiants. Ces derniers quant à eux, pourront accéder aux différents programmes qu'ils ont déjà suivit et avoir une vision claire de ce qu'il leur reste à valider pour voir leur diplôme.
 
-Les fonctionnalités de l'application, telles qu'elles apparaissent sur la figure \ref{fig:desired_process} vont être expliquées dans les sous-sections qui suivent. 
+Les fonctionnalités de l'application, telles qu'elles apparaissent sur la figure \ref{fig:desired_process} vont être expliquées dans les sous-sections qui suivent.
+\subsection{Gestion des données}
+\label{data_mgmt}
+ 
 \subsection{Contraintes}
 \label{contraintes}
 Comme présenté dans le chapitre \ref{contraintes_intro} précédent, les contraintes sont de plusieurs types. Le but de cette section n'est pas de recommencer leur énumération mais plutôt de présenter les choix que cette catégorisation impose de faire et d'expliquer plus en détails la logique intrinsèque des plus compliquées d'entre elles.    
