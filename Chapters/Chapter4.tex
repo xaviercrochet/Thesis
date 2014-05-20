@@ -378,14 +378,14 @@ En comparaison, la version \textit{XGML} du même nœud.
 
 La principale différence entre le format XGML et GraphML se situe au niveau de la structure des informations. XGML structure toute les données de façon linéaire, en ne respectant pas la hiérarchie des différents nœuds et boites.
 
-\begin{figure}[H]
+\begin{figure}
 \centering
 \caption{Exemple de graphe hiérarchique} 
 \label{fig:hierarchical_graph_example}
-\includegraphics[scale=1]{hierarchical_graph_example}
+\includegraphics[width=\textwidth]{hierarchical_graph_example}
 \end{figure}
 
-Pour le graph \ref{fig:hierarchical_graph_example} par exemple, la structure du fichier sera de la sorte:
+Pour le graph \ref{fig:hierarchical_graph_example} par exemple, la structure d'un fichier XGML sera de la sorte:
 \begin{lstlisting}
 Node Programme
 Node SINF4444
@@ -395,9 +395,11 @@ Node SOUS MODULE OBLIGATOIRE
 (...)
 \end{lstlisting}
 
-Lorsque l'on parsera le fichier, on devrait donc une première fois lire le fichier, récupérer les informations, puis retraiter une deuxième fois les données pour ajouter les parents des différents nœuds.
-
-TODO : Insérer l'algorithme tel qu'il devrait être pour un graphe de la sorte?
+Lorsque l'on parsera le fichier, on devra:
+\begin{itemize}
+  \item Parcourir le fichier, extraire les informations (nom, parent) de chaque cours, module et programme;
+  \item Parcourir la liste des cours, modules et programmes pour ajouter les références vers leur parent et leurs enfants.
+\end{itemize} 
 
 Avec GraphML par contre, la structure  du fichier sera la suivante;
 
@@ -416,12 +418,12 @@ Childs : [
 (...)
 \end{lstlisting}
 
-Il n'est donc pas nécessaire de retraiter tout les éléments pour compléter les informations à propos de leur parent et de leurs enfants. Ceci est la principale raison pourquoi \textit{Graphml} est le format supporté par l'application
+Lorsqu'on parsera le fichier; on devra simplement extraire les informations comme précédemment. On saura par contre au moment ou l'on parse un objet à quel parent il appartient.  Il n'est donc pas nécessaire de retraiter tout les éléments pour compléter les informations à propos de leur parent et de leurs enfants. Ceci est la principale raison pourquoi \textit{Graphml} est le format supporté par l'application.
 
 
 \subsubsection{Parsing}
 \label{graph_parsing}
-Le but de ce module est de fournir une abstraction supplémentaire à la gem \textit{Nokogiri}\footnote{Librairie ruby permettant de parser des fichiers XML} pour parser le format \textit{GraphML} de yEd. Les informations contenue dans le graphe généré avec \textit{yEd} sont les suivantes:
+Le but de ce module est de fournir une abstraction supplémentaire à la gem \textit{Nokogiri}\footnote{Librairie ruby permettant de parser des fichiers XML} pour extraire les informations contenues dans le fichier \textit{GraphML} de yEd. Les informations contenue dans le graphe généré avec \textit{yEd} sont les suivantes:
 \begin{itemize}
 \item Les Programmes de cours (Bachelier, Masters)
 \item Les Modules et leur nom
@@ -433,7 +435,7 @@ Le but de ce module est de fournir une abstraction supplémentaire à la gem \te
 
 Ce module est appelé par le modèle \textit{Catalogue} de l'application à sa création. Le fichier graphe est d'abord envoyé sur le  \textit{cloud amazon}, puis parsé par le module \textit{GraphParser}. Une fois le parsing terminé, les différents objets (Cours, Modules et Programmes) sont récupérés par le modèle \textit{Catalogue}, puis traités par chacun des modèles concernés, avant d'être enregistrés en base de données. 
 
-Tout ses éléments sont représentés par des nœuds dans le fichier GraphML. Seul les dépendances entre les cours sont représentées par des arrêtes dans le graphes, nommées \textit{Edge} dans le fichier. Les nœuds sont stockés en premier dans le fichier de graphe, suivit par toute les arrêtes. 
+Tout ces éléments sont représentés par des nœuds dans le fichier GraphML. Seul les dépendances entre les cours sont représentées par des arrêtes dans le graphes, nommées \textit{Edge} dans le fichier. Les nœuds sont stockés en premier dans le fichier de graphe, suivit par toute les arrêtes. 
 
 Le module ajoutes deux fonctionnalités à \textit{Nokogiri}.
 \begin{enumerate}
@@ -477,24 +479,24 @@ La structure de graphe imposée à la commission est la suivante;
 \item les dépendances par des arrêtes.
 \end{itemize}
 
-Notez que chaque cour et module \textbf{DOIT} se trouver dans un programme. En effet, \textit{nœuds groupes} sans parents sont parsés comme programmes. Cela nous permet de distinguer les modules des programmes, sans devoir ajouter une convention de couleur sur les boites pour les différencier.  
+Notez que chaque cour et module \textbf{DOIT} se trouver dans un programme. En effet, \textit{nœuds groupes} sans parents sont interprétés comme programmes. Cela nous permet de distinguer les modules des programmes, sans devoir ajouter une convention de couleur sur les boites pour les différencier.  
 
 L'algorithme de parsing est donc relativement simple.
 
 On a;
 \begin{itemize}
   \item une méthode qui parse les arrêtes; 
-  \item une methode qui parse les nœuds;
+  \item une méthode qui parse les nœuds;
   \item une méthode qui aprse les programmes et ses enfants;
   \item une méthode qui parse les modules et ses enfants;
   \item une méthode qui parse les cours.
 \end{itemize}
 
-On crée au préalable un objet catalogue. Chacune des méthodes listées précédemment renvoie un objet Cours, Module, Programme, Contrainte. Ces objets sont ajoutés au catalogue en respectant leur hiérarchie. Un cours aura donc comme parent un module ou un programme. 
+On crée au préalable un \textbf{objet} catalogue. Chacune des méthodes listées précédemment renvoie un \textbf{objet} Cours, Module, Programme, Contrainte. Ces objets sont ajoutés au catalogue en respectant leur hiérarchie. Un cours aura donc comme parent un module ou un programme. 
 
 
 \begin{lstlisting}
-FOREACH elements in graph do
+FOREACH element in graph do
 - IF node -> 
   parse node
   - IF program -> 
@@ -509,69 +511,24 @@ FOREACH elements in graph do
 
 - IF edge -> 
   parse edge
-    retrieve source(s)
-    retrieve destinatinations(s)
+    retrieve sources
+    retrieve destinatinations
     retrieve constraint type
+    FOREACH course in destinations do
+      add new contraint to course
 \end{lstlisting}
 
 
+Une fois le parsing terminé, toutes les informations contenues dans chacun des \textbf{objets} cours, modules et programmes et contraintes sont ajoutés dans la table correspondante en base de donnée. 
 
-% \begin{enumerate}
-% \item{\textbf{Node} : Ces éléments identifient les programmes, les modules, les sous-modules, les cours et les dépendances n-aires.
-% Les enfants contenant de l'information importante sont les suivants:\\
-% \begin{tabular}{ | c || c | c || c | }
-% \hline
-% \textbf{Attribut}: & \textbf{Nom} & \textbf{Type} & \textbf{Information}\\
-% \hline
-% \hline
-% & id & int & Identifiant de l'élément\\
-% \hline
-% & label & string & Nom de l'élément\\
-% \hline
-% & isGroup & boolean & Spécifie si l'élément est un groupe\\
-% \hline
-% & gid & int & Identifiant du groupe parent\\
-% \hline
-% & customconfiguration & boolean & Identifie les formes spéciales\\
-% \hline
-% \end{tabular}
-% }
-% \item
-% {
-% \textbf{Edge} : Ces éléments identifient les dépendances entre les cours. Ils se situent à la suite de tout les éléments \textit{"node"} dans le fichier xml (Nous allons voir par la suite pourquoi cela pause un problème dans le parsing).Les enfants contenant de l'information pertinente sont les suivants:\\
-% \begin{tabular}{ | c || c | c || c| }
-% \hline
-% \textbf{Attribut} & \textbf{Nom} & \textbf{Type} & \textbf{Information}\\
-% \hline
-% \hline
-% & source & int & Source de l'arrête\\
-% \hline
-% & target & int & Cible de l'arrête\\
-% \hline
-% & targetArrow & string & Type de l'arrête\\
-% \hline
-% \end{tabular}
-% }
-% \end{enumerate}
 
-% Le parsing est donc relativement simple. En utilisant la gem Nokogiri, on a aisément accès à toute les informations présentée plus haut. Cependant, on est obligé de parser le fichier xml de façon linéaire. En effet, yEd n'utilise pas à 100\% l'aspect hiérarchique du xml. Les nœuds sont stockés l'un a la suite de l'autre, alors qu'il pourrait être stockés en tant que fils de leur parents, s'il sont dans un groupe par exemple.
-
-% L'idée de l'algorithme de parsing est donc de parcourir chacun des éléments \textit{"node"} et dans extraire l'information nécessaire. \\
-% \begin{itemize}
-% \item Pour les nœuds, nous devons regarder les élément-enfant \textbf{label} et \textbf{id} pour les identifier. Pour identifier le type d'objet qu'il représente (Cours, Modules, ...), il faut aller regarder la valeur de l'élément \textbf{isGroup}. Ensuite, pour identifier le parent de l'objet, s'il y a, il faut aller recupérer la valeur contenue dans l'élément \textbf{gid}. Notons que pour les contraintes n-aire, il faut aller voir certains attributs spéciaux de l'élément (\textbf{cutomConfiguration} par example), car nous utilisons des formes spéciales pour les représenter.
-% \item Pour les arrêtes (edge), nous devons récupérer les identifiant contenu dans les éléments \textbf{source} et \textbf{target} pour identifier ses sommets. Enfin, il faut aussi aller regarder le contenu de l'élément \textbf{targetArrow}  pour identifier le type de la dépendance.
-% \end{itemize}d
 \subsection{Gestion des contraintes}
 Les contraintes sont vérifiées au niveau du modèle \textit{StudentProgram}, le modèle qui contient les informations à propos des programmes de cours des étudiants (C'est ce modèle qui appelle le module \textit{ConstraintsChecker}. 
 
-Ce module est divisé en deux parties.
-
-D'un coté nous avons les contraintes. Tout les types de contraintes héritent de la super classe \textit{Contrainte} qui, en plus de constructeur ne contient qu'une seule méthode \textbf{Check}.
-
-De l'autre coté nous avons les entités qui représentent les modèles \textit{Course}, \textit{Module} et \textit{Program}
+Le module \textit{ConstraintsChecker} est divisé en deux parties. D'un coté nous avons les contraintes. Tout les types de contraintes héritent de la super classe \textit{Contrainte} qui, en plus de constructeur ne contient qu'une seule méthode \textbf{Check}. De l'autre coté nous avons les entités qui représentent les modèles \textit{Course}, \textit{Module} et \textit{Program}
 
 \subsubsection{Entités}
-\textit{Entity} est la classe qui représente les objets traités par le module \textit{ConstraintsChecker}. Entity étends la classe OpenStruct. Openstruct est une librairie qui permet de créer des objets à la volée. Pour chaque paramètre passé à un objet \textit{OpenStruct} \cite{OpenStruct}, un attribut sera créé ainsi que les méthodes pour le modifier et y accéder. On évite ainsi de devoir modifier la classe \textit{Entity} et ses enfants {Course, PModule} lorsque l'on veut rajouter une contrainte par exemple.
+\textit{Entity} est la classe qui représente les objets traités par le module \textit{ConstraintsChecker}. Entity étends la classe OpenStruct. Openstruct est une librairie qui permet de créer des objets à la volée. Pour chaque paramètre passé à un objet \textit{OpenStruct} \cite{OpenStruct}, un attribut sera créé ainsi que les méthodes pour le modifier et y accéder. On évite ainsi de devoir modifier la classe \textit{Entity} et ses enfants {Course, PModule} lorsque l'on veut rajouter une contrainte ou une nouvelle propriété par exemple.
 
 Nos différents objets sont stockés sous forme d'arbre. La racine est l'objet catalogue, et les enfants sont les différents objets \textit{Course} et \textit{PModule}, tous étendant le super-type \textit{Entity}.
 
@@ -599,8 +556,8 @@ Dans le cas du modèle \textit{Course}, la méthode est la suivante:
 \textbf{Course}
 
 \begin{lstlisting}
-def get_course_object(passed)
-  course = ConstraintsChecker::Entities::Course.new(name: self.name, id: self.id, passed: passed, parent_id: self.p_module_id, credits: self.credits, mandatory: self.mandatory?)
+def get_course_object(start_year, end_year)
+  course = ConstraintsChecker::Entities::Course.new(name: self.name, id: self.id, start_year: start_year, end_year: end_year, parent_id: self.p_module_id, credits: self.credits, mandatory: self.mandatory?)
   self.constraints.each do |c|
     course.add_constraint(c.get_constraint_object(course))
   end
@@ -609,37 +566,38 @@ end
 \end{lstlisting}
 
 
-Le paramètre \textit{passed} sert à identifier si un cours a été réussi ou non. Cela est utile notamment lors de la vérification des contraintes de type \textit{Prérequis}.
+Les paramètre \textit{start\_year} et \textit{end\_year} identifient l'année académique au cours de laquelle un cours a été suivie dans un programme d'étudiant. Ces informations sont utilisés lors de la vérification des dépendances. 
+
+Dans le cas d'un prérequis  par exemple, l'algorithme va vérifier que l'année académique durant laquelle a été suivie le cours est strictement antérieure à l'année académique du cours pour le quel il est un prérequis. Ce mécanisme gère aussi bien les années réussies que les années ratées. En effet, dans le cas d'une année raté, la commission aura au préalable sélectionner les cours qui on été réussis. Les cours ratés (qui ne sont pas sélectionnés) seront retiré de l'année en question. Il ne seront donc pas présent dans \textbf{objet} catalogue lors de la vérification des contraintes. 
 
 Comme expliqué plus haut, on peut passer au constructeur de \textit{Course} tout ce que l'on veut, grâce à OpenStruct \cite{OpenStruct}.
 
-Rien ne nous oblige à passer par le modèle \textit{Constraint} pour ajouter les contraintes. Comme expliqué dans le chapitre \ref{presentation_systeme}, certaines contraintes, comme les contraintes sur les propriétés,  n'ont pas d'objet pour les représenter en base de données. En effet la plupart des données relatives à ces contraintes sont, en plus d'être présentes en base de données, assez volatiles, car elles peuvent être modifiées régulièrement via l'import de fichiers excels. Nous évitons ainsi de surcharger notre architecture avec des objets dont l'utilité est plus que relative \ldots. Pour revenir à ce type de contraintes, il est préférable de les ajouter dans la méthode \textit{get\_[model\_name]object}.
+Rien ne nous oblige à passer par le modèle \textit{Constraint} pour ajouter les contraintes. Comme expliqué dans la section \ref{rails_arch} (présentant l'architecture de l'application) , seul les dépendances sont représentés par l'objet \textit{Constraint} en base de données. En effet la plupart des données relatives à ces contraintes sont, en plus d'être présentes en base de données, assez volatiles, car elles peuvent être modifiées régulièrement via l'import de fichiers excels. Nous évitons ainsi de surcharger notre architecture avec des objets dont l'utilité est plus que relative. Pour revenir à ce type de contraintes, il est préférable de les ajouter dans la méthode \textit{get\_[model\_name]object} (la méthode du modèle qui crée l'objet \textit{Entity}.
 
 \textbf{PModule}
 
 \begin{lstlisting}
-  def get_p_module_object(mandatory)
-    p_module = ConstraintsChecker::Entities::PModule.new(id: self.id, name: self.name)
-    p_module.add_constraint(ConstraintsChecker::Constraints::Min.new(p_module, self.min))-
-    p_module.add_constraint(ConstraintsChecker::Constraints::Max.new(p_module, self.max))
-    self.sub_modules.each do |m|
-      p_module.add_children(m.get_p_module_object(true))
-    end
-
-    if mandatory
-      course_ids = []
-      self.courses.each do |course|
-        course_ids << course.id
-      end
-      p_module.add_constraint(ConstraintsChecker::Constraints::Mandatory.new(p_module, course_ids))
-    end
-
-    return p_module
+def get_p_module_object(mandatory)
+  p_module = ConstraintsChecker::Entities::PModule.new(id: self.id, name: self.name)
+  p_module.add_constraint(ConstraintsChecker::Constraints::Min.new(p_module, self.min))-
+  p_module.add_constraint(ConstraintsChecker::Constraints::Max.new(p_module, self.max))
+  self.sub_modules.each do |m|
+    p_module.add_children(m.get_p_module_object(true))
   end
+
+  if mandatory
+    course_ids = []
+    self.courses.each do |course|
+      course_ids << course.id
+    end
+    p_module.add_constraint(ConstraintsChecker::Constraints::Mandatory.new(p_module, course_ids))
+  end
+
+  return p_module
+end
 \end{lstlisting}
 
-Le paramètre \textit{mandatory} sert à identifier si le module est obligatoire ou non. Cela est utile lors de la vérification des contraintes sur les propriétés notamment. 
-
+Le paramètre \textit{mandatory} sert à identifier si le module est obligatoire ou non. Cela est utile pour vérifier si les cours d'un module obligatoire on bien été suivis.
 Nous avons ici un exemple de contraintes (Min \& Max) qui ne sont pas ajoutées en passant par le modèle \textit{Constraint}. 
 
 
@@ -651,13 +609,13 @@ Par exemple, pour les dépendances entre les cours nous avons deux types. Les d�
 Prenons l'exemple des dépendances binaires. Nous avons une classe \textit{BinaryConstraint} qui ne ré-implémente pas la méthode check de sa super-classe \textit{Constraint} car elle sert de super-classe pour les deux classes représentant les deux types de contraintes; \textit{Prerequisite} et \textit{Corequisite}. 
 
 \begin{description}
-  \item[Corequisite] La méthode check va appeler la méthode \textit{find\_course} du cours en question, qui va remonter jusqu'à la racine (le catalogue), et chercher si le corequis du cours est présent dans le catalogue. S'il n'est pas présent, le message ``corequisite\_missing :[course\_id]'' est envoyé.
-  \item[Prerequisite] La méthode check se comporte comme celle de \textit{Corequisite}, à la différence qu'elle va vérifier si l'attribut \textit{passed} du cours est \textit{true}, conformément au comportement d'un pré-requis. 
+  \item[Corequisite] La méthode check va appeler la méthode \textit{find\_course} du cours en question, qui va remonter jusqu'à la racine (le catalogue), et chercher si le corequis du cours est présent dans le catalogue.  S'il est présent, il va vérifier qu'il n'est pas suivit dans une année postérieure au cours pour le quel il est un corequis (conformément à la définition d'un prérequis \ref{contraintes}). Si la vérification précédente échoue, ou si le cours n'est tout simplement pas présent, le message ``corequisite\_missing :[course\_id]'' est envoyé.
+  \item[Prerequisite] La méthode check se comporte comme celle de \textit{Corequisite}, à la différence que la vérification de l'année académique est plus stricte: le cours doit être suivit dans une année strictement antérieure (conformément à la définition d'un prérequis \ref{contraintes}). 
 \end{description}
 
 Dans le cas d'un ensemble n-aire de contraintes, il y a essentiellement deux points qui diffèrent;
 \begin{enumerate}
-  \item l'existence d'une méthode \textit{find\_dependancies} qui récupère les \textit{course\_id} manquants pour la contrainte en question;
+  \item l'existence d'une méthode \textit{find\_dependancies} qui récupère les \textit{course\_id} manquants pour la contrainte en question en vérifiant aussi les années académiques;
   \item une vérification sur la taille de la liste, correspondant à la condition qui régit cet ensemble de contrainte. Dans le cas d'un ensemble disjonctif (OR), il faut vérifier que le nombre de \textit{course\_id} renvoyé soit strictement inférieure au nombre de dépendances du cours, pour vérifier qu'il y ai au moins une dépendance qui est choisie, conformément à la logique d'une disjonction. Dans le cas d'un ensemble disjonctif exclusif (XOR), il faut vérifier qu'il n'y aie qu'une et une seule dépendance choisie, conformément à la logique d'une disjonction exclusive.
 \end{enumerate}
 
@@ -716,3 +674,7 @@ Le \textit{Reader} est appelé à chaque fois que l'utilisateur mets à jours  l
 
 
 Notez que ce fichier est stocké, tout comme celui contenant le graphe, sur le cloud \textit{Amazon}
+
+\subsection{Conclusion}
+
+Ce chapitsre clos l'explication de la solution
