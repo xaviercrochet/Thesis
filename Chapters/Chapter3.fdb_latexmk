@@ -1,0 +1,15 @@
+# Fdb version 3
+["pdflatex"] 1400518638 "Chapter3.tex" "Chapter3.pdf" "Chapter3" 1400518639
+  "/etc/texmf/web2c/texmf.cnf" 1393243427 1101 af7716885e081ab43982cab7b4672c1a ""
+  "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
+  "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm" 1136768653 1328 c834bbb027764024c09d3d2bf908b5f0 ""
+  "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmti10.tfm" 1136768653 1480 aa8e34af0eb6a2941b776984cf1dfdc4 ""
+  "/usr/share/texlive/texmf-dist/web2c/texmf.cnf" 1374751034 31103 dbc49c70ca9e47fd7f4e40a14691afe7 ""
+  "/usr/share/texmf/web2c/texmf.cnf" 1374751034 31103 dbc49c70ca9e47fd7f4e40a14691afe7 ""
+  "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1393243624 1092724 68dfee8822f2be26b3ec35baed7917ed ""
+  "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1393243572 3823577 208914495f8fae965ca88b529ab44d15 ""
+  "Chapter3.aux" 1400518620 9549 a95c6d765cf673b335aeec4611b78796 ""
+  "Chapter3.tex" 1400518636 62169 ef40b06016e0a58777cd76bbff6bc961 ""
+  (generated)
+  "Chapter3.log"
+  "Chapter3.pdf"

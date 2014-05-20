@@ -1,95 +1,176 @@
 \chapter{Développement du système}
+\section{Introduction}
+Le but poursuivit par ce chapitre est d'expliquer les choix qui ont influencé le développement de l'application et de chacun de ses modules externes, à savoir:
+
+\begin{description}
+  \item[ConstraintsChecker] le module qui s'occupe de vérifier la validité des programmes des étudiants;
+  \item[XlsParser] le module qui s'occupe d'exporter les données des programmes de cours vers les formulaires et d'extraire les formulaires en provenance de la commission de programme;
+  \item[GraphParser] le module qui s'occupe d'extraire les données en provenances des graphes que la commission de programme importe dans l'application.
+\end{description}(ConstraintChecker, XlsParser et GraphParser). La structure du chapitre sera la suivante. 
+
+La première section présentera l'architecture de l'application et de ses différents modules. On évitera ici de parler de l'architecture MVC car très peut de choix on été fait à ce niveau  (peu de libertés sont laissées par le framework au final). L'application gère et échange (avec ses modules) une grande quantité de données. Leur modélisation a un impacte critique sur les fonctionnalités de l'application (et leur implémentation). C'est pourquoi, l'accent sera mis ici sur la modélisation des classes de l'application.   
+
+La deuxième section présentera les choix faits au niveau de l'implémentation des différentes fonctionnalités. Il sera expliqué par la même occasion comment ces fonctionnalités on été implémentées. 
+
+
 \label{developpement_system}
 \lhead{Chapitre 4 - Développement du système}
 \section{Architecture}
-\subsection{Modèle de données}
 
-\subsubsection{Architecture globale}
+\subsection{Architecture globale}
 
-\begin{figure}[H]
+\begin{figure}
 \caption{Architecture globale}
 \centering
 \label{fig:complete_arch}
 \includegraphics[width=\textwidth]{complete_arch}
 \end{figure}
 
-Ce modèle représente l'architecture de l'application et de l'ensemble de ses modules. L'objet application représente la partie \textit{Rails} de l'application. Cette partie comporte essentiellement les différents modèles, leurs vues et leurs contrôleurs. L'application utilise trois modules développés indépendamment.
+Ce modèle représente l'architecture de l'application et de l'ensemble de ses modules. L'objet application représente la partie \textit{Rails} de l'application. Cette partie comporte essentiellement les différents modèles, leurs vues et leurs contrôleurs (en plus de la base de données). L'application utilise trois modules développés indépendamment.
 \begin{enumerate}
-  \item \textbf{GraphParser} - le module s'occupant de parser les fichier .Graphml générer par yEd, 
+  \item \textbf{GraphParser} - le module s'occupant d'extraire l'information contenue dans les fichiers \textit{Graphml} générés par yEd, 
   \item \textbf{ConstraintCheker} - le module s'occupant de vérifier les contraintes des programmes d'étudiants
-  \item \textbf{XlsParser} - le module occupant d'écrire et de lire dans des fichier excels. 
+  \item \textbf{XlsParser} - le module occupant d'exporter les données relatives au programmes de cours vers un formulaire excel et d'extraire les informations contenues dans les formulaires excels que la commission importe via l'application. 
 \end{enumerate}
 
-L'architecture de chacun de ces modules, en plus de celle de l'application sera expliqué dans les sous-sections qui suivent.
+Les informations manipulées par ces trois modules sont présentées en détail dans la section relative à la gestion des données du chapitre précédent \ref{data_mgmt}.
 
-Les conventions utilisées pour réaliser chacun des modèles sont les suivantes; 
+L'architecture de chacun de ces modules, en plus de celle de l'application sera expliqué dans les sous-sections qui suivent. Notez que la notation UML sera utilisée pour présenter les différents diagrammes de classe. 
+
+Les conventions utilisées pour réaliser chacun des modèles sont les suivantes:
+
 
 \begin{figure}[H]
 \centering
 \caption{Généralisation}
 \label{fig:generalization}
-\includegraphics[scale=1]{generalization}
+\includegraphics[width=\textwidth]{generalization}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \caption{Dépendance}
 \label{fig:dependancy}
-\includegraphics[scale=1]{dependancy}
+\includegraphics[width=\textwidth]{dependancy}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\caption{Association avec ses cardinalités}
+ \label{fig:association}
+\includegraphics[width=\textwidth]{association}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\caption{Association ``has many''}
-\label{fig:has_many}
-\includegraphics[scale=1]{has_many}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\caption{Association ``many to many''}
-\label{fig:many_to_many}
-\includegraphics[scale=1]{many_to_many}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\caption{Représentationd d'un objet. En haut; les attributs, en bas; les méthodes.}
+\caption{Représentation d'une classe. En haut; les attributs, en bas; les méthodes.}
 \label{fig:class_example}
 \includegraphics[scale=1]{class_example}
 \end{figure}
 
 
+\clearpage
+\subsection{Application Rails}
+\label{rails_arch}
 
-\subsubsection{Application Rails}
+Il y a plusieurs types d'associations en ruby on rails:
+\begin{description}
+  \item[Has One] - les cardinalité de cette association sont (0..1, 1..1); lorsqu'un objet A a une association \textit{has\_one} avec un objet B, B contient une référence vers l'objet A; 
+  \item[Has Many] - les cardinalité de cette association sont (0..*, 1..*); lorsqu'un objet A a une association \textit{has\_many} avec un objet B, B contient une référence vers l'objet A;
+  \item[Has And Belongs To Many] - les cardinalité de cette association sont (0..*, 0..*). Lorsqu'un objet a unne association \textit{has\_and\_belongs\_to\_many}, aucune référence n'est stockée dans les objets; à la place, une table intermédiaire est créée contenant l'id des deux objets.  
+\end{description}
+
 \label{arch}
-\begin{figure}[H]
+\begin{figure}
 \centering
 \caption{Architecture de l'application}
 \label{fig:app_arch}
-\includegraphics[angle=90, height=\textheight, width=\textwidth]{app_arch}
+\includegraphics[width=\textwidth]{app_arch}
 \end{figure}
 
-\textbf{Student - Admin} - Ces objets représentent les deux acteurs de l'application, à savoir la \textit{Commission INFO} (Admin) et les étudiants (Student).
+\subsubsection{User} 
 
-\textbf{Property} - Un objet \textit{Property} est composé d'un type et d'une valeur. Chacun des objets \textit{Program}, \textit{PModule} et \textit{Course} peut en avoir 0 ou plusieurs. Par exemple, pour représenter le sigle d'un cours, une propriété de type \textit{SIGLE} et de valeur \textit{SINF1101} sera ajoutée au cours correspondant. Il a été choisi d'opter pour cette solution, plutôt que d'ajouter des champs arbitraire (Sigle, crédits, ...) à chacun des objets car on ne sait pas à l'avance quelles seront leur propriété. En effet, elle sont déterminées par les informations mises dans le fichier excel qui est importé régulièrement dans l'application. 
+Cette classe représente les utilisateurs.  L'attribut \textbf{admin} sert à différencier les deux acteurs de l'application, à savoir la \textit{Commission de programme} et les étudiants. La section \ref{user_mgmt}
+ explique en détail comment sont gérés les accès de ces deux types d'utilisateurs.
 
-\textbf{PModule} - C'est un ensemble de cours. Un \textit{PModule} peut avoir plusieurs \textit{PModule}. Ce comportement est justifié par le fait qu'un module de cours peut comporté un sous module qui comporte une série de cours obligatoires (L'option réseau et l'ensemble de ses cours obligatoires par exemple).
+\subsubsection{Property}
 
-\textbf{Program} - Il représente un programme de cours. (Le programme de master par exemple) C'est un ensemble de cours et de modules divers. On peut créer des programmes via l'outil de graphes yEd, mais il est possible dans l'application de créer des Programmes \textit{à la carte} en choisissant les modules et cours qui le compose. C'est pourquoi il y a une relation \textit{many to many} entre \textit{PModule} et \textit{Program} et une autre entre \textit{Program} et \textit{Course}. En effet, chaque Programme peut avoir un ou plusieurs cours, et chaque cours peut appartenir à un ou plusieurs programmes (Le même comportement est observé pour les modules). Il n'est donc pas possible de représenter cette relation avec une relation \textit{has many} classique, qui implique d'avoir l'identifiant d'un des deux objets dans l'autre. \cite{active_record}. 
-\textbf{Catalog} - Un catalogue est composé de plusieurs \textit{Program}, \textit{PModule} et \textit{Course}.
+Un objet \textit{Property} est composé d'un type et d'une valeur. Chacun des objets \textit{Program}, \textit{PModule} et \textit{Course} peu en avoir zéro ou plusieurs. Par exemple, pour représenter le sigle d'un cours, une propriété de type \textit{SIGLE} et de valeur \textit{SINF1101} sera ajoutée au cours correspondant. Il a été choisi d'opter pour cette solution, plutôt que d'ajouter des champs arbitraire (Sigle, crédits, ...) à chacun des objets car on ne sait pas à l'avance quelles seront leur propriété. En effet, elle sont déterminées par les informations mises dans le fichier excel qui est importé régulièrement dans l'application. 
 
-\textbf{StudentProgram} - C'est le programme que se crée l'étudiant lorsqu'il utilise l'application. Un \textit{StudentProgram} est une instanciation d'un des \textit{Program} disponible dans le \textit{Catalog} utilisé (d'où la relation \textit{many to many}). De plus, un étudiant doit choisir les modules qu'il va suivre. Ce comportement est expliqué par la relation \textit{many to many} entre les deux modèles. Pour configurer son programme année par année, l'étudiant va se créer une année (\textit{Year})
+\subsubsection{PModule}
 
-\textbf{Year} - Une année est composé de deux semestres. Un semestre est représenté par l'objet \textit{Semester}. Le choix de chacun des cours du semestre est représenté par l'association \textit{many to many} qui existe entre les deux objets. Pour représenter le premier et le second semestre, un modèle \textit{FirstSemester} et un modèle \textit{SecondSemester} ont été créés, tout deux étendant le modèle \textit{Semester} en utilisant la \textit{Single Table Inheritance} de \textit{Rails} \cite{STI}. Notez que la relation entre ces deux types de \textit{Semester} et leur \textit{StudentProgram} est une \textit{has one} (la cardinalité est donc (1, 1) ici)
+C'est un ensemble de cours. Un \textit{PModule} peut avoir plusieurs \textit{PModule}. Ce comportement est justifié par le fait qu'un module de cours peut comporté un sous module qui comporte une série de cours obligatoires (L'option réseau et l'ensemble de ses cours obligatoires par exemple).
 
-\textbf{Header} - Chacun des modèles \textit{Course}, \textit{Pmodule} et \textit{Program} contient une méthode get\_header qui renvoie une suggestion de propriétés utilisées à titre indicatif avec le module \textit{XlsParser} (voir \ref{xls_parser}) pour créer les formulaires excel. Nous avons le header suivant : \{"SIGLE", "CREDITS", "SEMESTRE", "OBLIGATOIRE"\} pour le modèle \textit{Course} par exemple.  
+\subsubsection{Program}
+
+Il représente un programme de cours. (Le programme de master par exemple) C'est un ensemble de cours et de modules divers. On peut créer des programmes via l'outil de graphes yEd, mais il est possible dans l'application de créer des Programmes \textit{à la carte} en choisissant les modules et cours qui le compose. C'est pourquoi il y a une relation \textit{many to many} entre \textit{PModule} et \textit{Program} et une autre entre \textit{Program} et \textit{Course}. En effet, chaque Programme peut avoir un ou plusieurs cours, et chaque cours peut appartenir à un ou plusieurs programmes (Le même comportement est observé pour les modules). Il n'est donc pas possible de représenter cette relation avec une relation \textit{has many} classique, qui implique d'avoir une références vers l'un des deux objets dans contenue l'autre. \cite{active_record}. 
+
+\subsubsection{Catalog} 
+
+Un catalogue est composé de plusieurs \textit{Program}, \textit{PModule} et \textit{Course}. Il contient aussi les informations à propos du fichier de graphe et du formulaire excel (nom, date, type). 
+
+L'attribut \textit{version} est un entier qui représente la version du catalogue de cours. Il peut prendre trois valeurs différentes:
+
+\begin{description}
+  \item[0] version \textit{future};
+  \item[1] version \textit{principale};
+  \item[2] version \textit{ancienne}.
+\end{description}
+
+Les trois méthodes principales de cette classes sont:
+
+\begin{description}
+  \item[parse] qui appelle le module \textit{GraphParser}
+  \item[parse\_spreadsheet] qui extrait les informations du formulaire excel (et upload la nouvelle version du formulaire sur le cloud).
+  \item[create\_spreadsheet] qui crée le formulaire excel (et l'upload sur le cloud).
+\end{description}
+
+Les détails d'implémentation de ces méthodes seront expliquées dans la section relative au module avec lequel elles interagissent. 
+
+\subsubsection{StudentProgram}
+
+C'est le programme que se crée l'étudiant lorsqu'il utilise l'application. Un \textit{StudentProgram} est une instanciation d'un des \textit{Program} disponible dans le \textit{Catalog} utilisé (d'où la relation \textit{many to many}). De plus, un étudiant doit choisir les modules qu'il va suivre. Ce comportement est expliqué par la relation \textit{many to many} entre les deux modèles. Pour configurer son programme année par année, l'étudiant va se créer une année (\textit{Year})
+
+La méthode \textit{can\_validate?} vérifie que certaines conditions sont remplies pour pouvoir envoyer un programme d'étudiant à la validation (Se référer à la section \ref{validation_request} pour plus de détail sur cette fonctionnalité).
+
+La méthode \textit{check\_constraint} gère l’interaction avec le module \textit{ConstraintsChecker}. 
+
+\subsubsection{Year}
+
+Une année est composé de deux semestres. Un semestre est représenté par l'objet \textit{Semester}. L'attribut \textit{status} représente le fait qu'un programme d'étudiant aie été validé ou non par la commission. Le choix de chacun des cours du semestre est représenté par une association \textit{has\_and\_belongs\_to\_many} qui existe entre les deux objets.
+
+Pour représenter le premier et le second semestre, un modèle \textit{FirstSemester} et un modèle \textit{SecondSemester} ont été créés, tout deux étendant le modèle \textit{Semester} en utilisant la \textit{Single Table Inheritance} de \textit{Rails} \cite{STI}. Notez que la relation entre ces deux types de \textit{Semester} et leur \textit{StudentProgram} est une \textit{has one} (la cardinalité est donc (1, 1) ici)
+
+La choix d'utiliser la \textit{single table inheritance} est justifié par plusieurs raisons:
+\begin{itemize}
+  \item un objet \textit{year} étant composé de deux semestres, c'est plus clair d'utiliser deux associations \textit{has\_one} que d'utiliser une association \textit{has\_many} et de restreindre leur nombre par année en utilisant une validation; \textit{hardcodée}
+  \item l'implémentation des formulaire de création d'année est plus aisée; on sait explicitement quel objet va représenter quel semestre;
+  \item on laisse à rails le travail de devoir gérer le type de l'objet \textit{Semester} et comment devoir accéder à chacun de ceux-ci. Si l'on décide de changer le nombre de semestres par année, il suffit de créer un nouveau modèle qui étend \textit{Semester} et de rajouter la relation. Avec une solution conventionnelle, on devrait écrire du code pour représenter, créer et récupérer ce nouvel objet \textit{Semester} dans l'objet \textit{Year}. 
+\end{itemize}
 
 
+\subsubsection{Header}
 
+Chacun des modèles \textit{Course}, \textit{Pmodule} et \textit{Program} contient une méthode get\_header qui renvoie une suggestion de propriétés utilisées à titre indicatif avec le module \textit{XlsParser} (voir \ref{xls_parser}) pour créer les formulaires excel. Nous avons le header suivant : \{"SIGLE", "CREDITS", "SEMESTRE", "OBLIGATOIRE"\} pour le modèle \textit{Course} par exemple.
 
+\subsubsection{Méthodes get\_objet}
+Ces méthode s'occupe de traduire les données concernant les contraintes des différents cours et modules en objet ruby. Ces objets sont par après manipulés par le module \textit{ConstraintsChecker}. 
+\subsubsection{Constraints}
+Cette classe représente les dépendances entre les cours. Le type de la dépendance est représenté par l'objet \textit{ConstraintType}. L'attribut \textit{set\_type} quant à lui représente le type de l'ensemble de contraintes. Comme expliqué dans la section \ref{contraintes}, une dépendance peut être une relation binaire entre un cours et sa dépendance. Elle peut être aussi une relation n-aire entre plusieurs cours et leurs dépendances.
 
-\subsubsection{Architecture du vérificateur de contraintes}
+Il existe deux association (bien qu'elles ne soient représentées que par une seule, par soucis de clarté, sur le diagramme de classes \ref{fig:app_arch}) qui relient les objets \textit{constraints} aux objets \textit{courses}. La classe \textit{Constraint} ne représentent que les contraintes de type dépendance, comme expliqué dans la section \ref{contraintes}. Ce type de contrainte ayant un cours source et un cours destination, il donc est nécessaire d'avoir deux relations.  La relation entre la destination et la contrainte est représentée par une association \textit{has\_many} entre le cours et la contrainte. La relation entre la source et la contrainte, quant à elle, est représentée par une association \textit{has\_and\_belongs\_to\_many}. 
+
+Ce comportement est justifié par le fait que l'on accède aux contraintes depuis le cours \textit{destination}. C'est à dire que l'on va chercher les dépendances d'un cours, et non chercher la relation inverse, à savoir quels sont les cours pour lequel un cours joue le rôle de dépendance.
+
+\subsubsection{AcademicYear}
+Cette classe représente une année académique, c'est à dire composé de deux années. Elle est utilisée dans deux situations:
+\begin{enumerate}
+  \item identifier les objets \textit{Year} et \textit{Catalogue};
+  \item gérer, du coté du module \textit{ConstraintsChecker} les dépendances de cours (on peut ainsi savoir quand à été suivit un cours). 
+\end{enumerate}
+
+\subsection{Architecture du vérificateur de contraintes}
 \label{constraint_checker}
 \begin{figure}[H]
 \centering
@@ -109,7 +190,7 @@ Le lien avec l'application se situe au niveau de la classe \textit{Catalog}. En 
 L'idée ici est d'utiliser au plus l'héritage pour éviter d'avoir des duplications de code dans les classes. Par exemple, un objet \textit{Course} peut avoir beaucoup de contraintes mais chacune d’entre elles peut être de n'importe quel type. Cet objet n'a pas besoin de savoir le type de ses contraintes. Tout ce qu'il sait, c'est qu'il doit appeler leur méthode \textit{check} pour tester si les contraintes sont vérifiées. 
 
 
-\subsubsection{Parser de graphes}
+\subsection{Parser de graphes}
 
 \begin{figure}[H]
 \centering
@@ -122,7 +203,7 @@ Tout comme dans le vérificateur de contraintes \ref{constraint_checker}, le par
 
 De nouveau, l'héritage tient une page prépondérante ici, pour diminuer le couplage, augmenter la cohésion  et éviter autant que possible la duplication de code \cite{cohesion_couplage}. 
 
-\subsubsection{Parser de fichiers excel}
+\subsection{Parser de fichiers excel}
 \label{xls_parser}
 \begin{figure}[H]
 \centering
@@ -144,6 +225,7 @@ L'application est hébergée sur \textit{Heroku}. Cela impose cependant quelques
   \item Le répertoire de l'application est en lecture seule. On ne peut donc pas stocker le fichier de graphe et le formulaire excel dedans. Il est donc nécessaire d'utiliser un service de \textit{cloud storage} externe à l'application. Amazon S3 à été utilisé pour palier à ce problème. Pour rendre le téléchargement des fichiers vers ce service plus aisé, la gem \textit{Paperclip} a été utilisé. Les détails de configuration de ces différents services sont expliqués en annexes. 
 \end{enumerate}
 \subsection{Gestion des utilisateurs}
+\label{user_mgmt}
 Les utilisateur sont gérés à l'aide de deux gems. 
 
 Devise est utilisé pour tout ce qui concerne la gestion des comptes (Création, modification, suppression), la gestion des sessions (Login/logout) et surtout la création de la table users et des différents attributs requis.

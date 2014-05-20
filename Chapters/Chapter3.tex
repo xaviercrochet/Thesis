@@ -290,6 +290,8 @@ Il est évidemment nécessaire que cette contrainte soit vérifier par le module
 Par contre, le module de contraintes n'a pas besoin de vérifier cette contrainte, car la configuration de chaque année se fait par semestre. Il n'est donc pas permis aux étudiants de choisir un cours, pour un semestre donné, qui n'est pas dispensé pendant ce semestre. 
 
 Les données relatives à ces propriétés sont importées et mise à jour par le module qui s'occupe d'importer les formulaires excels. Elle peuvent donc être, contrairement aux dépendances, modifiées quand on le souhaite.  
+
+\clearpage
 \subsection{Fonctionnalités de l'application - Commission de programme}
 \subsubsection{Introduction}
  Une fois connecté à l'aide du compte admin, nous arrivons à la page illustrée sur la figure suivante \ref{fig:landing_page_admin}. Quatre menus sont accessible depuis la barre de navigation (en haut dans la page d’accueil):
@@ -307,7 +309,7 @@ Les données relatives à ces propriétés sont importées et mise à jour par l
 \subsubsection{Encoder et mettre à jour les programmes de cours}
 L'ajout de nouveaux programmes de cours se fait en deux étapes dans l'application (comme expliqué dans la section \ref{yed}). La première étape correspond à l'import du graphe créer avec yed. Cette étape importe dans la base de donnée les différents programmes de cours, leurs modules, leurs cours et les dépendances entre ces cours.
 
-Cependant, les informations ajoutées par l'intermédiaire de cette étape ne sont pas suffisantes. Il manque toute les propriétés des différents objets qui en plus d'être des compléments d'informations, servent pour certaines contraintes comme expliqué dans la section précédente \ref{contraintes}. C'est pourquoi il existe une deuxième étape qui permet d'importer un formulaire excel contenant les informations complémentaires des différents cours, modules et programmes (le nombre de crédits minium et maximum d'un programme, le nombre de crédit d'un cours, le semestre durant lequel il est dispensé). 
+Cependant, les informations ajoutées par l'intermédiaire de cette étape ne sont pas suffisantes. Il manque toute les propriétés des différents objets qui, en plus d'être des compléments d'informations, servent pour certaines contraintes comme expliqué dans la section précédente \ref{contraintes}. C'est pourquoi il existe une deuxième étape qui permet d'importer un formulaire excel contenant les informations complémentaires des différents cours, modules et programmes (le nombre de crédits minium et maximum d'un programme, le nombre de crédit d'un cours, le semestre durant lequel il est dispensé). 
 
 
 Reprenons  l'exemple \ref{fig:running_example}. Les différents programmes de cours sont importés dans l'application par l'intermédiaire d'un module important les graphes yEd. Un catalogue de cours représente l'ensemble des programmes de cours présent sur le graphe \ref{fig:running_example}. Le formulaire suivant \ref{fig:catalog_new_page} permet de créer ces catalogues. 
@@ -328,6 +330,7 @@ L'utilisateur peut choisir l'année académique et le nom qui vont identifier le
 \item les version futures; ces versions correspondent aux nouveaux catalogues créés par la commission de programmes, qui ne sont pas encore disponibles aux étudiants; il n'y a pas de limites sur le nombre de catalogues futurs et ils ne sont pas accessibles aux étudiants. 
 \end{enumerate}
 
+\label{catalog_version}
 La version d'un catalogue de cours évolue comme suit. À sa création il a la version \textit{future}. Ensuite il passe à la version \textit{principale} lorsque la commission le décide. Enfin, il passe à la version \textit{ancienne} lorsqu'un autre catalogue est \textit{élu} \textit{principal}. 
 
 L'ajout, la modification et la récupération des informations relatives aux cours, modules et programmes se fait par l'intermédiaire d'un module d'import de fichiers excel. Les consignes pour présenter les données sont expliquées en détails dans le manuel présent en annexe. Pour plus de facilité, il est possible télécharger directement un template de ce formulaire depuis l'application. La structure reconnue par le module d'import est présente dans ce template, ainsi que le nom des différents cours, modules et programmes présents dans la base de donnée. De plus, il y a aussi, pour chaque type d'objet (cours, modules et programmes) des exemples de propriété. 
@@ -375,6 +378,7 @@ Toute ces fonctionnalités sont accessible depuis la page telle qu'elle est illu
 En naviguant dans les différents sous menu du catalogue (cours, programmes, modules), vous pouvez accéder aux informations complètes concernant ces objets. Il est possible par exemple d'accéder aux détails des contraintes d'un cours. Il est notamment possible de créer des programmes de cours \textit{customisés} à partir des informations présentes dans le catalogue (cours, modules). On pourrait donc par exemple créer un programme \textit{Erasmus} ou \textit{Mercator} avec les modules et cours disponibles, pour proposer aux étudiants étrangers un programme de cours adapté à leur profil.
 
 \subsubsection{Gérer les années des étudiants}
+\label{year_mgmt}
 Bien qu'elle ne soit pas mentionné sur le diagramme \ref{fig:desired_process}, la fonctionnalité qui permet à la commission de programme de marquer les années des étudiants comme réussie, ou comme ratée (en sélectionnant les cours réussis) est relativement importante pour le bon fonctionnement du module qui s'occupe de vérifier les contraintes. 
 
 
@@ -399,8 +403,6 @@ On peut donc gérer sur la page \ref{fig:year_mgmt} les années des étudiants. 
 
 
 \subsubsection{Gérer les demandes de validations}
-\subsection{Fonctionnalité de l'application - Étudiant}
-
 Cette fonctionnalité s'occupe de gérer les étapes \textit{Négociation avec l'étudiant et Valider le programme de l'étudiant} du processus représentée sur le diagramme \ref{fig:desired_process}. 
 
 Lorsqu'un étudiant pense que son programme est correct, il envoie une demande de validation à la commission de programme. Dans le meilleur des mondes, le programme de l'étudiant respecte toute les contraintes imposées par le programme qu'il suit. Cependant, pour une raison X ou Y, il arrive qu'un étudiant pense avoir une bonne raison pour enfreindre une ou plusieurs contraintes.
@@ -426,6 +428,116 @@ La page qui donne accès à la commission de programme aux demandes de validatio
 \label{fig:messenger}
 \includegraphics[width=\textwidth]{messagerie}
 \end{figure}
+
+\clearpage
+\subsection{Fonctionnalités de l'application - Étudiant}
+\subsubsection{Introduction}
+Une fois connecté à l'application, l'étudiant arrive sur la page illustrée sur la figure \ref{fig:student_landing_page}. Deux menu sont accessibles dans la barre de menu en haut; 
+
+\begin{description}
+  \item[Mes programmes de cours] ce menu permet d'accéder à la création du ou des programmes suivit par l'étudiant. C'est par ici que le module de contrainte est appelé pour vérifier la valider des programmes de cours. 
+  \item[Programmes disponibles] ce menu permet d'accéder en détail aux programmes proposés. Il est aussi possible de changer la version du catalogue utilisé via ce menu. (Les différentes versions et leur utilité est expliquée dans la section \ref{catalog_version})
+\end{description}
+\begin{figure}
+\centering
+\caption{Page d’accueil des étudiants}
+\label{fig:student_landing_page}
+\includegraphics[width=\textwidth]{student_landing_page}
+\end{figure}
+
+Les sous-section suivante expliqueront les différentes fonctionnalités offertes aux étudiants. 
+
+
+\subsubsection{Accéder au programmes de cours disponibles}
+Lorsqu'un étudiant désire créer un programme de cours, il doit tout d'abord choisir le programme qu'il va suivre. Si nous reprenons l'exemple fictif \ref{fig:running_example}, il y a deux programmes proposé dans ce catalogue; celui de BACHELIER et celui de MASTER. Comme expliqué dans la section \ref{catalog_version}, plusieurs versions de catalogue de cours sont disponibles dans l'application. 
+
+En effet, si au cours de son cursus universitaire, le programme que suit l'étudiant évolue, il doit pouvoir avoir accès au deux versions. Par exemple, l'année dernière, les cours du module \textit{Tronc Comun} du programme de MASTER sont passés de 5 à 6 crédits. Les étudiants qui n'avaient pas suivit tout les cours de ce module, on pu suivre, pour les cours qu'ils n'avaient pas encore suivit, leur version à 6 crédits. 
+
+Pour permettre ce comportement, l'étudiant à la possibilité de choisir le catalogue dans le quel il pourra sélectionner le programme qu'il compte suivre. On peut voir sur l'image \ref{fig:prgrm_availables} les programmes disponibles dans le catalogue de l'exemple fictif. 
+
+\begin{figure}
+\centering
+\caption{Programmes disponibles}
+\label{fig:prgrm_availables}
+\includegraphics[width=\textwidth]{prgrm_availables}
+\end{figure}
+\subsubsection{Configuration d'un programme d'étudiant}
+\label{prgrm_mgmt}
+Un étudiant à deux choses à faire pour configurer son programme; configurer les différentes années qui le constitue et choisir les différents modules. La page illustrée sur l'image \ref{fig:program_configure} affiche les différentes fonctionnalités à la disposition de l'étudiant. 
+
+Notez que le bouton \textit{Envoyer à la validation} est désactivé pour le moment. En effet, il n'est possible d'envoyer son programme à la validation que lorsque certaines conditions sont remplies, pour éviter que la commission de programme reçoivent des demandes de validations pas assez complètes. Les conditions requises pour pouvoir envoyer son programme à la validation seront expliquées en détail dans la section \ref{fig:validation_mgmt}. 
+
+Il est aussi possible d'afficher l'état de son programme de cours en accédant au menu \textit{Status}. Ce menu affiche la progression du programme de cours, en montrant le nombre de crédits manquant pour valider le programme sous forme de barre de progression. L'attention de l'étudiant est attirée s'il ne dispose pas encore d'assez de crédits. De la même façon il sera averti s'il dépasse le nombre minimum ou maximum de crédits. La figure \ref{fig:prgrm_status} illustre le statut d'un programme d'étudiant après avoir ajouté quelques cours.
+
+\begin{figure}
+\centering
+\caption{Statut du programme d'un étudiant}
+\label{fig:prgrm_status}
+\includegraphics[width=\textwidth]{prgrm_status}
+\end{figure} 
+
+
+L'idée, pour construire son programme est de configurer chacune des années qui le compose et de choisir les modules correspondant, pour éliminer une à une les contraintes qui ne sont pas respectées. Si nous reprenons le diagramme \ref{fig:desired_process}, l'étape qui correspond à cette section est celle qui s'intitule \textit{Construire/Modifier son programme}.
+
+
+
+\begin{figure}
+\centering
+\caption{Configuration du programme}
+\label{fig:program_configure}
+\includegraphics[width=\textwidth]{prgrm_configuration}
+\end{figure}
+
+La page permettant à l'étudiant de configurer une année de son programme est illustrée sur l'image \ref{fig:year_configuration}. Les cours sont affichés en fonction de leur semestre et de s'il sont obligatoires ou non. Un cours sera obligatoire s'il a été marqué comme tel via le formulaire excel, ou si son module parent l'est aussi.
+
+Notez que si la commission n'a pas complété les informations après avoir importé le graphe, les champs \textit{SEMESTRE} de chacun des cours ne seront pas initialisés. Aucun de ces cours ne sera affiché dans cette vue, cela, afin de permettre la vérification automatique des contraintes temporelles et éviter ainsi qu'un étudiant choisisse un cours qui n'appartient pas au bon semestre. On évite ainsi de surcharger la page de vérification des contraintes (qui est déjà fort chargée).
+
+Tant que ces années ne sont pas marquées comme réussies ou ratées par la commission (via la fonctionnalité expliquée dans la section \ref{year_mgmt}), elle sont modifiables et même supprimables. Par contre, une fois ces années marquées, il ne sera plus possible de les modifier. 
+
+De la même façon, il est possible de sélectionner les modules qui constituent le programme. Sélectionner un module n'ajoute pas de cours supplémentaires.
+\begin{figure}
+\centering
+\caption{Configuration des années}
+\label{fig:year_configuration}
+\includegraphics[width=\textwidth]{year_configuration}
+\end{figure}
+
+\subsubsection{Vérification des contraintes}
+Le module de gestion des contraintes renvoi beaucoup d'informations à propos des choses qu'il manque dans le programme. La page illustré sur la figure \ref{fig:constraint_mgmt} filtre ces informations et affiche essentiellement les dépendances manquantes.
+
+\begin{figure}
+\centering
+\caption{Gestion des contraintes}
+\label{fig:constraint_mgmt}
+\includegraphics[width=\textwidth]{constraints_mgmt}
+\end{figure} 
+
+Toute les contraintes ne sont pas affichées sur cette page. La liste complète des contraintes gérées par le module qui gère les contraintes est la suivante:
+\begin{itemize}
+  \item les différentes dépendances entre les cours, telles qu'elles sont présentées sur la figure \ref{fig:constraint_mgmt};
+  \item les contraintes relatives au nombre de crédits d'un ensemble de cours (programme ou module);
+  \item les contraintes relatives au champ \textit{OBLIGATOIRE} d'un cours ou d'un module.
+\end{itemize}
+
+Comme expliqué dans la section \ref{prgrm_mgmt}, les contraintes temporelles sont gérées directement lorsqu'un cours est proposé à l'étudiant. En effet, une année se configure par semestre et, lorsque l'on configure le premier semestre par exemple, les cours du second semestre ne sont pas affichés. 
+
+\subsubsection{Négociation - Envoyer son programme à la validation}
+ \label{validation_request}
+Pour filtrer au maximum les demandes de validation et éviter ainsi de surcharger la commission de programme de requêtes inutiles, il n'est possible d'envoyer son programme à la validation que si certaines conditions sont respectées:
+\begin{description}
+  \item[avoir assez de crédit] le programme de l'étudiant doit respecter le minimum de crédits requis par le programme qu'il suit (dans le cas ou le programme ne propose pas suffisamment de cours, il suffit d'avoir autant de crédits que le programme en propose)
+  \item[avoir accéder au menu de gestion des contraintes] à chaque fois que l'étudiant modifie son programme, il lui est demandé d'avoir visité au moins une fois la page relative à la vérification des contraintes pour pouvoir soumettre son programme;
+  \item[ne pas avoir de dépendances non respectées ou avoir rempli le formulaire de justification] si le programme de l'étudiant comporte des contraintes non respectées, il lui est demandé de remplir un formulaire de justification dans le quel il doit justifier pourquoi son programme ne respecte pas les contraintes;
+  \item[ne pas avoir une requête en cours] si une requête a déjà été envoyée pour le programme, il n'est pas possible d'en envoyer une nouvelle tant que la précédente n'a pas été refusée ou acceptée par la commission de programme.
+\end{description} 
+
+\subsection{Conclusion}
+L'ensemble des fonctionnalités proposés au deux types d'utilisateurs (étudiant et commission de programme) vient d'être présenté tout au long de cette section. Bien que cette section puisse servir de manuel, une version plus détaillée est présente en annexe expliquant plus en détail la démarche complète à suivre pour gérer les catalogues de cours et les programmes d'étudiant.
+
+Notez que l'interface de l'application a été conçue pour être utilisée aussi bien sur un ordinateur que sur un smartphone. 
+
+Il se peut que l'interface et certaines des fonctionnalités évoluent sensiblement suite au feedback récupéré après la remise des scénario de validation. Cependant, l'ensemble des fonctionnalité est présente au moment ou cette section est rédigée, les modifications éventuelles n'ajouteront donc aucun concepts. Dès lors, les explications de cette section resteront, quoi qu'il arrive,  cohérentes avec l'application.
+
 
 
 % \subsection{Gestion des Données}
