@@ -523,6 +523,7 @@ Une fois le parsing terminé, toutes les informations contenues dans chacun des 
 
 
 \subsection{Gestion des contraintes}
+\label{constraint_mgmt}
 Les contraintes sont vérifiées au niveau du modèle \textit{StudentProgram}, le modèle qui contient les informations à propos des programmes de cours des étudiants (C'est ce modèle qui appelle le module \textit{ConstraintsChecker}. 
 
 Le module \textit{ConstraintsChecker} est divisé en deux parties. D'un coté nous avons les contraintes. Tout les types de contraintes héritent de la super classe \textit{Contrainte} qui, en plus de constructeur ne contient qu'une seule méthode \textbf{Check}. De l'autre coté nous avons les entités qui représentent les modèles \textit{Course}, \textit{Module} et \textit{Program}

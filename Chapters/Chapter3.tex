@@ -9,7 +9,7 @@ Ce chapitre vise, à l'aide d'un exemple concret d'utilisation,  à:
 \item expliquer les différentes fonctionnalités de l'application d'un point de vue utilisateur. Les utilisateurs étant de deux types, la section relative aux fonctionnalités sera divisées en deux parties. Dans un premier temps, nous expliqueront les fonctionnalités offertes à la commission de programme à savoir;
   \begin{itemize}
     \item l'import de données dans l'application (Programmes de cours, modules, cours);
-    \item la gestion des données (Accéder au différents cours, modules et programmes, mettre à jour leur données);
+    \item la gestion des données (Accéder au différents cours, modules et programmes, mettre à jour leurs données);
     \item la gestion des contraintes;
     \item comment vérifier les programmes de cours des étudiants.
   \end{itemize}
@@ -18,7 +18,7 @@ Ensuite, nous présenterons ce qu'il est possible de faire en tant qu'étudiant 
   \item se créer un compte utilisateur;
   \item se connecter avec son compte utilisateur;
   \item se créer (ou modifier) un programme de cours, en choisissant le programme à suivre;
-  \item configurer son programme de cours, en configurant les différentes années qui le compose et en choisissant les modules de cours à suivre;
+  \item configurer son programme de cours, en configurant les différentes années qui le composent et en choisissant les modules de cours à suivre;
   \item vérifier la validité de son programme;
   \item négocier avec la commission de programme la justification des exceptions. 
 \end{itemize}
@@ -29,14 +29,14 @@ Un des principaux objectifs de ce mémoire étant d'offrir une solution maintena
 
 Ces trois parties sont les suivantes:
 \begin{itemize}
-\item l'import et la mise à jour des catalogues, de ses programmes, modules, cours et des différentes contraintes par la \textit{commission de programme}; 
+\item l'import et la mise à jour des catalogues, de programmes, modules, cours et des différentes contraintes par la \textit{commission de programme}; 
 \item la création du programme par l'étudiant, via l'interface utilisateur;
 \item la vérification (par l'application) des différentes contraintes induites par le programme créé précédemment par l'étudiant.
 \end{itemize}
 
 \subsection{Exemple d'utilisation}
 
-Tout au long de ce chapitre, l'exemple suivant va être utilisé pour illustrer le fonctionnement de l'application. Il s'agit d'un catalogue de cours fictif proposant deux programmes de cours. Ce programme fictif se rapproche très fort de la réalité. Certaines parties du catalogue (Certains modules optionnels du programme de master, certains cours) on été élaguée pour rendre l'exemple plus clair. L'exemple n'en reste pas néanmoins représentatif de la réalité, il comporte en effet les différents types de contraintes que l'on peut rencontrer par exemple. 
+Tout au long de ce chapitre, l'exemple suivant va être utilisé pour illustrer le fonctionnement de l'application. Il s'agit d'un catalogue de cours fictif proposant deux programmes de cours. Ce programme fictif se rapproche très fort de la réalité. Certaines parties du catalogue (certains modules optionnels du programme de master, certains cours) ont été élaguées pour rendre l'exemple plus clair. L'exemple reste néanmoins représentatif de la réalité, il comporte en effet les différents types de contraintes que l'on peut rencontrer par exemple. 
 \begin{figure}
 \centering
 \caption{Exemple fictif de catalogue de cours}
@@ -48,7 +48,7 @@ Ce catalogue est composé de deux programmes de cours.
 
 Un programme de \textbf{Bachelier} (le grand rectangle à droite de la figure \ref{fig:running_example}) composé d'un module obligatoire (Introduction, la petite boite imbriquée s’appelant \textit{Intro})
 
-Un programme de \textbf{Master} (le grand rectangle à gauche de la figure \ref{fig:running_example}) composé d'un module optionnel (L'option réseaux et sécurité, la boite imbriquée à gauche) et d'un module obligatoire (Le tronc commun, la boite imbriquée à droite). De plus, certains cours de master dépendent de cours de bac. 
+Un programme de \textbf{Master} (le grand rectangle à gauche de la figure \ref{fig:running_example}) composé d'un module optionnel (l'option réseaux et sécurité, la boite imbriquée à gauche) et d'un module obligatoire (Le tronc commun, la boite imbriquée à droite). De plus, certains cours de master dépendent de cours de bac. 
 
 
 %************************************************************
@@ -56,7 +56,7 @@ Un programme de \textbf{Master} (le grand rectangle à gauche de la figure \ref{
 \subsection{Introduction}
 Le but poursuivit par cette section est de présenter les différents choix faits aux niveaux des technologies utilisées par l'application. Ces choix sont de deux types. Premièrement, les technologies utilisées pour construire l'application seront présentées, comme le framework ou la base de données qui est utilisée. Les technologies externes à l'application qui sont utilisées pour construire les différents curricula ou mettre à jour leur informations seront présentées par la suite.
 
-On parle de technologie interne pour représenter celles qui sont utilisées pour développer les fonctionnalités de application. Les technologies externes sont quant à elles des applications déjà existantes qu'il faut utiliser \textbf{en dehors} de l'application et pour lesquelles il ne faut pas écrire de lignes de codes.
+On parle de technologie interne pour représenter celles qui sont utilisées pour développer les fonctionnalités de application. Les technologies externes sont quant à elles des applications déjà existantes qu'il faut utiliser \textbf{en dehors} de l'application et pour lesquelles il ne faut pas écrire de lignes de code.
 \subsection{Ruby on Rails}
 \subsubsection{Introduction}
 
@@ -72,11 +72,11 @@ Enfin, le dernier atout d'un framework se situe au niveau de l'intégration de n
 
 \textbf{Il est donc fortement conseillé d'utiliser un framework web pour créer ce genre d'application.} 
 
-Il en existe une multitude aujourd'hui. Il y a tout d'abord les frameworks PHP comme CakePHP, DRUPAL ou Symfony (pour ne citer que les plus connus). Vient ensuite Ruby on Rails, un framework en ruby et Django, un framework en Python. Cette liste n'est bien entendu pas exhaustive. 
+Il en existe une multitude aujourd'hui. Il y a tout d'abord les frameworks PHP comme CakePHP, DRUPAL ou Symfony (pour ne citer que les plus connus). Viennent ensuite Ruby on Rails, un framework en ruby et Django, un framework en Python. Cette liste n'est bien entendu pas exhaustive. 
 \subsubsection{Le choix de Ruby on Rails}
 L'intérêt réside dans le niveau de productivité et de maintenabilité accru que l'on obtient en travaillant avec le framework. Les design patterns sous-jacents, et la philosophie de Rails permettent de concentrer son travail sur les fonctionnalités de l'application plutôt que de passer son temps à écrire du code répétitif ou remplir des fichiers de configuration. 
 
-De plus, il existe une multitude de librairies tierces appelées \textit{ruby-gem} qui réduisent encore le nombre de lignes de codes à produire, en apportant des fonctionnalités à l'application. Le meilleur exemple est \textbf{devise}, une librairie qui permet d'ajouter la gestion de l'utilisateur(création, connexion, récupération de mot de passe, envois de mails, etc ..) en quelques lignes en plus de gérer les sessions et les accès aux différentes actions et vues. 
+De plus, il existe une multitude de librairies tierces appelées \textit{ruby-gem} qui réduisent encore le nombre de lignes de code à produire, en apportant des fonctionnalités à l'application. Le meilleur exemple est \textbf{devise}, une librairie qui permet d'ajouter la gestion de l'utilisateur(création, connexion, récupération de mot de passe, envoit de mails, etc ..) en quelques lignes en plus de gérer les sessions et les accès aux différentes actions et vues. 
 
 Rails pousse aux bonnes pratiques, c'est d'ailleurs cette philosophie qui m'a incité à développer la plupart des fonctionnalités, comme vous le verrez plus tard, dans des librairies externes à l'application.
 
@@ -91,10 +91,12 @@ Les limites du framework sont les suivantes
 \end{itemize}
 
 \subsubsection{Conclusion}
-Le choix s'est naturellement porté vers Ruby on Rails. C'est un framework open-source, utilisé pour développer des applications web. Le développement se fait à travers le langage de programmation multi-paradigmes (Programmation fonctionnelle, orientée object, ...) \textbf{ruby}. Il se base sur des puissants design patterns et principes qui vont être présentés en quelques lignes ci-dessous.
+Pour toute les raisons présentées ci-dessus (libraries externes disponnibles, communauté, etc), le choix s'est naturellement porté vers Ruby on Rails. En outre, j'ai accumulé pas mal d'expérience en utilisant ce framework dans le cadre d'un stage et en réalisant des petits projets ces dernières années. 
+
+C'est un framework open-source, utilisé pour développer des applications web. Le développement se fait à travers le langage de programmation multi-paradigmes (Programmation fonctionnelle, orientée object, ...) \textbf{ruby}. Il se base sur des puissants design patterns et principes qui vont être présentés en quelques lignes ci-dessous.
 
 \subsubsection{DRY - Don't repeat yourself}
-Comme son nom l'indique, ce premier principe pousse à la réutilisation du code existant le plus souvent que possible, plutôt que d'avoir des bout de codes similaire un peu partout dans l'application. L'idée de tendre vers une structure \textit{Api}, où tout ce qui n'est pas nécessaire aux classes et méthodes externes est caché en interne. Le principal avantage se situe au niveau de la \textbf{maintenabilité}. On évite ainsi de devoir partir à la recherche des différents bouts de code dupliqués lorsque l'on veut modifier le comportement d'une méthode, d'une classe, ou même d'un module.
+Comme son nom l'indique, ce premier principe pousse à la réutilisation du code existant le plus souvent que possible, plutôt que d'avoir des bouts de code similaires un peu partout dans l'application. L'idée de tendre vers une structure \textit{Api}, où tout ce qui n'est pas nécessaire aux classes et méthodes externes est caché en interne. Le principal avantage se situe au niveau de la \textbf{maintenabilité}. On évite ainsi de devoir partir à la recherche des différents bouts de code dupliqués lorsque l'on veut modifier le comportement d'une méthode, d'une classe, ou même d'un module.
 
 \subsubsection{CoC - Convention over Configuration}
 L'idée est de réduire au minimum les décisions à prendre avant de commencer à développer. Une convention importante en \textit{Ruby on rails} se situe au niveau des noms des classes pour lesquelles il existe une table correspondante en base de données. Pour un modèle \textit{Course} par exemple, la convention est d'avoir une table nommée \textit{courses} en base de données. Cela permet d'éviter d'avoir à écrire du code supplémentaire pour spécifier à l'application quelle table correspond à quel objet. 
@@ -104,7 +106,7 @@ Cela permet au développeur de se concentrer sur les parties non conventionnelle
 
 Le framework s'appuie sur le pattern \textbf{MVC}. Destiné aux applications dites \textit{interactives}, il divise l'application en trois parties; le modèle, les vues et le contrôleur. Notez que \textit{Ruby on Rails} ne respecte pas totalement MVC dans sa conception initiale. Cela se justifie par le fait que ce pattern n'est pas destiné à la base aux applications web, notamment car la vue est ici une page web. Le modèle ne peut donc pas lui envoyer tous les changements qui surviennent au niveau des données. C'est la vue, qui doit expressément faire les requêtes pour ces données, à travers le contrôleur.
 
-MVC à la sauce Rails se présente comme suit. Nous avons:
+MVC à la sauce Rails se présente comme suit. Nous avons
 
 \begin{description}
 \item[le modèle] lié à une base de données, qui contient les données et l'état de l'application. Il contient aussi tout les objets métiers \footnote{Objets qui font tout le travail.}, qui détermine comment l'information est créée, mise à jour, et affichée;
@@ -176,20 +178,35 @@ YEd a été choisi pour toutes ces raisons.
 \section{Conception}
 \subsection{Introduction}
  
-L'application est la  plateforme qui tient le rôle d'intermédiaire entre la commission et les étudiants. Elle est représentée par l'entité \textit{Application} sur le diagramme \ref{fig:desired_process}. Il y a trois modules attachés à cette entité.
+L'application est la  plateforme qui tient le rôle d'intermédiaire entre la commission et les étudiants. Elle est représentée par l'entité \textit{Application} sur le diagramme \ref{fig:desired_process_2}. Il y a trois modules attachés à cette entité.
 
-\textbf{Le module d'import de données} - Il permet à la commission d'enregistrer les données liées aux curricula  à l'aide de plusieurs supports (qui seront expliqués en détail plus loin dans le chapitre). Ce module permet tout d'abord d'ajouter considérablement plus d'informations dans le support confié à l'étudiant pour qu'il construise sont programme. Ensuite, il permet à la commission de mettre à jour facilement ces informations. 
+\begin{figure}
+\centering
+\caption{Processus désiré}
+\label{fig:desired_process_2}
+\includegraphics[width=\textwidth]{desired_process}
+\end{figure}
+
+\textbf{Le module d'import de données} - Il permet à la commission d'importer les données liées aux curricula  à l'aide de plusieurs supports (qui seront expliqués en détail plus loin dans le chapitre). Ce module permet tout d'abord d'ajouter considérablement plus d'informations dans le support confié à l'étudiant pour qu'il construise son programme. Ensuite, il permet à la commission de mettre à jour facilement ces informations. 
  
-\textbf{Le module de gestion des contraintes} - Il vérifie la validité des programmes créés par les étudiants.L'intérêt de ce module est de réduire considérablement  le temps que doit consacrer la commission à la correction des programmes d'étudiants. Premièrement, il empêche les étudiants d'envoyer leur programme à la validation s'il n'est pas correcte. il fourni aux étudiants un compte-rendu en temps réel de l'état de leurs programmes, en leur pointant les parties qui ne respectent pas les contraintes, quelles contraintes ne sont pas respectées et ce qu'il faut changer dans leur programme pour y remédier.
+\textbf{Le module de gestion des contraintes} - Il vérifie la validité des programmes créés par les étudiants. L'intérêt de ce module est de réduire considérablement  le temps que doit consacrer la commission à la correction des programmes d'étudiants. Premièrement, il contraint les étudiants à justififier les contraintes qui ne sont pas respectées avant d'envoyer leur programme à la validation s'il n'est pas correct. Il fourni aux étudiants un compte-rendu en temps réel de l'état de leurs programmes, en leur pointant les parties qui ne respectent pas les contraintes, quelles contraintes ne sont pas respectées et ce qu'il faut changer dans leur programme pour y remédier.
 
-\textbf{La base données} - Elle stocke les informations liés aux curricula enregistrés précédemment par la commission, mais aussi les programmes des étudiants. La commission pourra avoir accès aux anciens programmes de cours et à toutes les programmes des étudiants. Ces derniers quant à eux, pourront accéder aux différents programmes qu'ils ont déjà suivit et avoir une vision claire de ce qu'il leur reste à valider pour voir leur diplôme.
+\textbf{La base de données} - Elle stocke les informations liées aux curricula enregistrés précédemment par la commission, mais aussi les programmes des étudiants. La commission pourra avoir accès aux anciens programmes de cours et à touts les programmes des étudiants. Ces derniers quant à eux, pourront accéder aux différents programmes qu'ils ont déjà suivis et avoir une vision claire de ce qu'il leur reste à valider pour obtenir leur diplôme.
 
 Les fonctionnalités de l'application, telles qu'elles apparaissent sur la figure \ref{fig:desired_process} vont être expliquées dans les sous-sections qui suivent.
+
+\subsubsection{Lexique}
+Avans de poursuivre l'explication des fonctionnalités de l'application, cette sous-section va expliquer les différents objets qui sont utilisé tout au long de ce chapitre.
+\begin{description}
+\item[Catalogue] Cet objet est la représentation d'un graphe généré avec yEd une fois importé en base de données. Un catalogue est constitué de plusieurs programmes, modules et cours et est identifié par l'année académique pour laquelle il est destinné. 
+\item[Programme] C'est la représentation d'un programme de cours (SINF2M, INFO2M, ...).
+\item[Module] C'est un ensemble de cours qui peut être obligatoire (Le tronc comun du programme SINF2M) ou optionnel (les options du programme SINF2M).
+\end{description}
 \subsection{Gestion des données}
 \label{data_mgmt}
-Cette section explique comment sont importées les données relatives aux programmes, leur cours, leurs informations et leur différentes contraintes. 
+Cette section explique comment sont importées les données relatives aux programmes, leurs cours, leurs informations et leurs différentes contraintes. 
 
-Les différentes informations contenue dans chacun des programmes proposés sont les suivantes. Nous avons:
+Les différentes informations contenues dans chacun des programmes proposés sont les suivantes. Nous avons:
 \begin{itemize}
 \item plusieurs programmes de cours (SINF1BA, FSA1BA, SINF1PM SINF2M SINF2M1 et INFO2M);
 \item chacun de ces programmes contiennent des modules et des cours, avec des informations relatives aux cours et modules obligatoires;
@@ -197,107 +214,135 @@ Les différentes informations contenue dans chacun des programmes proposés sont
 \item chaque cours, module et programme contient des propriétés. (Le nombre de crédits d'un cours, le semestre durant lequel il est dispensé, l'obligation de suivre un module, le nombre de crédits minium et maximum d'un programme ou module).
 \end{itemize}
 
-Il n'est pas viable pour la commission de programme d'ajouter ces informations une à une à l'aide de formulaires permettant d'ajouter et de modifier ces différents objets. Cette approche malgré qu'elle soit facile à mettre en place, contraint la commission de programme à de longues et fastidieuses séances d'encodage de programmes. Qui plus est, chacun des programme de cours proposés a la forme d'un graphe. La solution la plus logique est donc d'utiliser un éditeur graphique pour construire les différents programme de cours.
+Il n'est pas viable pour la commission de programme d'ajouter ces informations une à une à l'aide de formulaires permettant d'ajouter et de modifier ces différents objets. Cette approche malgré qu'elle soit facile à mettre en place, contraint la commission de programme à de longues et fastidieuses séances d'encodage de programmes. Qui plus est, chacun des programmes de cours proposés a la forme d'un graphe. La solution la plus logique est donc d'utiliser un éditeur graphique pour construire les différents programme de cours.
 
-La démarche qui a amené à utiliser le logiciel yEd est expliquée en détail dans la section \ref{yed}. Cette solution a deux conséquences:
+La démarche qui a amené à utiliser le logiciel yEd, pour importer la structure des programmes de cours, est expliquée en détail dans la section \ref{yed}. Cette solution a deux conséquences;
 
 \begin{enumerate}
   \item Le logiciel étant externe à l'application, il est nécessaire d'exporter le graphe vers un fichier. Ensuite, il faut parser ce fichier pour en extraire les informations.
   \item On est restreint dans les données que l'on peut ajouter dans un graphe. Ces informations se limitent aux différents labels des nœuds et à leurs dépendances. Une solution est requise pour ajouter les données manquantes. 
 \end{enumerate}
 
-Pour \textbf{le premier point}, il a été décidé d'exporter le graphe dans le format \textit{GraphML} (une extension de XML destinée aux graphes). Les informations contenue dans ce fichier sont extraite par l'application à la création du catalogue. Plusieurs formats étaient disponibles pour exporter le graphe créé avec yEd, les raisons qui ont mené à utiliser le format GraphML sont expliquées en détail dans la section \ref{graph_format_justification}.
+Pour \textbf{le premier point}, il a été décidé d'exporter le graphe dans le format \textit{GraphML} (une extension de XML destinée aux graphes). Les informations contenues dans ce fichier sont extraites par l'application à la création du catalogue. Plusieurs formats étaient disponibles pour exporter le graphe créé avec yEd, les raisons qui ont mené à utiliser le format GraphML sont expliquées en détail dans la section \ref{graph_format_justification}.
 
 Les détails de l'implémentation concernant le module qui s'occupe d'extraire les informations contenues dans les graphes sont disponibles dans la section \ref{graph_parsing}.
 
 \textbf{Le deuxième point} justifie le fait que l'importation des données se fait en deux étapes (la première étant l'import du fichier de graphe). Les données manquantes après l'import du graphe sont les suivantes:
 
 \begin{itemize}
-  \item les propriétés d'un cours; son sigle, le semestre durant lequel il est dispensé, le nombre de crédits, le fait qu'il soit obligatoire;
+  \item les propriétés d'un cours; son sigle (INGI1101 par exemple), le semestre durant lequel il est dispensé, le nombre de crédits, le fait qu'il soit obligatoire;
   \item les propriétés d'un module; son nom, le nombre de crédits minimum et maximum requis pour le valider;
   \item les propriétés d'un programme de cours; son nom, le nombre de crédits minimum et maximum requis pour le valider.
 \end{itemize}
 
-La liste de ces propriétés n'est pas exhaustive. Il se peut qu'à l'avenir, le besoin se fasse sentir d'ajouter des informations comme le nom d'un professeur, l'url du cours, ou tout autre informations nécessaire pour des contraintes qui n'ont pas été prévue lors de la conception de l'application. C'est pourquoi en plus de pouvoir d'ajouter et mettre à jour ces informations, il doit être pouvoir d'ajouter des nouvelles propriétés.
+La liste de ces propriétés n'est pas exhaustive. Il se peut qu'à l'avenir, le besoin se fasse sentir d'ajouter des informations comme le nom d'un professeur, l'URL du cours, ou toute autre information nécessaire pour des contraintes qui n'ont pas été prévue lors de la conception de l'application. C'est pourquoi en plus de pouvoir d'ajouter et mettre à jour ces informations, il doit être possible d'ajouter des nouvelles propriétés.
 
 Excel a été choisi pour ajouter toutes ces informations car:
 \begin{itemize}
-  \item il est disponible sur toute les plateformes (Mac OS, Windows, Linux);
+  \item il est disponible sur toutes les plateformes (Mac OS, Windows, Linux);
   \item il est facile d'utilisation;
   \item il permet de gérer des grandes quantités d'information de façon structurée;
   \item le format vers lequel il exporte est très facile à parser (XLS)
 \end{itemize}
 
 \subsubsection{Conclusion}
-L'import de toute les données se fait en deux étapes. La première consiste à importer le graphe de cours, contenant le nom de chacun des cours, modules et programmes, en plus de leur structure (les cours et modules inclus dans chaque module et programme) et des dépendances entre les cours. Ces informations ne sont pas modifiables une fois le catalogue de cours créer. La deuxième étape quant à elle, consiste à importer le reste des données dans l'application, via un formulaire excel. Cette étape est répétable, à tout moment les données peuvent être mise à jour sans mettre en péril le fonctionnement de l'application. De plus, il n'y a pas de limites aux informations que l'on peut ajouter de cette manière.
+L'import de toutes les données se fait en deux étapes. La première consiste à importer le graphe de cours, contenant le nom de chacun des cours, modules et programmes, en plus de leur structure (les cours et modules inclus dans chaque module et programme) et des dépendances entre les cours. Ces informations ne sont pas modifiables une fois le catalogue de cours créé. En cas d'erreure, il n'est pas possible (pour le moment) de mettre à jour les données en téléchargant une nouvelle version du graphe de cours. Il faut donc supprimer le catalogue de cours puis le recréer avec la nouvelle version du graphe.
 
-Par soucis de modularité, ces deux étapes sont implémentées dans des modules externes à l'application, comme expliqué dans le chapitre relatif au développement du système \ref{developpement_system}. L'application est totalement indépendante de ces modules, dans le sens ou il serait relativement aisé d'ajouter une méthode encore plus pratique pour ajouter toute ces informations, sans devoir modifier tout le reste de l'application.
+Les explications relatives aux conventions à utiliser lorsque l'on crée un graphe avec yEd sont disponnibles dans le manuel en annexe.  
+
+La deuxième étape quant à elle, consiste à importer le reste des données dans l'application, via un formulaire excel. Cette étape est répétable, à tout moment les données peuvent être mises à jour sans mettre en péril le fonctionnement de l'application. De plus, il n'y a pas de limites aux informations que l'on peut ajouter de cette manière dans le sens où l'on pourrait rajouter tout et n'importe quoi comme informations (pour peu que l'on vérifie les conventions d'import de formulaire excel) sans faire crasher l'application. 
+
+Cependant, on pourrait, en procédant de la sorte ajouter des incohérences, surtout si l'on modifie les informations relatives aux contraintes. Par exemple, si on ajoute un minimum de crédits à un module qui est plus grand que le maximum de crédits du programme dans lequel il se trouve, il serait impossible pour un étudiant de créer un programme valide.
+
+
+Les explications relatives aux convetions à utiliser lorsque l'on complète le formulaire Excel sont disponnibles dans le manuel en annexe. 
+
+Par souci de modularité, ces deux étapes sont implémentées dans des modules externes à l'application, comme expliqué dans le chapitre relatif au développement du système \ref{developpement_system}. L'application est relativement indépendante de ces modules, dans le sens ou il serait relativement aisé d'ajouter une méthode encore plus pratique pour ajouter toutes ces informations, sans devoir modifier tout le reste de l'application. Par exemple, on pourrait ajouter manuellement sans passer par ces deux étapes; il suffirait d'implémenter les vues (formulaires de création) correspondantes dans l'application. 
 
 
 
 
 \subsection{Contraintes}
 \label{contraintes}
-Comme présenté dans le chapitre précédent \ref{contraintes_intro}, les contraintes sont de plusieurs types. Le but de cette section n'est pas de recommencer leur énumération mais plutôt de présenter les choix que cette catégorisation impose de faire et d'expliquer plus en détails la logique intrinsèque des plus compliquées d'entre elles.    
+Comme présenté dans la section précédente \ref{contraintes_intro}, les contraintes sont de plusieurs types. Le but de cette section est de présenter les choix que cette catégorisation impose de faire au niveau de la conception des fonctionnalités et d'expliquer plus en détails la logique intrinsèque des plus compliquées d'entre elles.    
 
-Comme expliqué dans les sections qui suivent, la location des informations relatives aux contraintes (les crédits et les dépendances d'un cours par exemple) n'est pas la même pour toute les contraintes. Qui plus est, chaque contrainte n'est pas vérifiée de la même façon. Une dépendance par exemple implique d'aller chercher si un cours est présent dans un programme, alors que le minimum de crédits requis d'un programme implique de compter les crédits de chacun ces cours. Dès lors, pour ne pas surcharger les modèles de l'application et la rendre plus flexible, la vérification de ces contraintes a été déléguée à un module externe. On évite, ainsi, de se retrouver avec des modèles dont la taille se chiffre en milliers de lignes de code. 
+Comme expliqué dans les sections qui suivent, la location des informations relatives aux contraintes (les crédits et les dépendances d'un cours par exemple) n'est pas la même pour toutes les contraintes. Qui plus est, chaque contrainte n'est pas vérifiée de la même façon. Une dépendance par exemple implique d'aller chercher si un cours est présent dans un programme, alors que le minimum de crédits requis d'un programme implique de compter les crédits de chacun ces cours. Enfin, chaque contrainte ne renvoie pas les même informations lorsqu'elle n'est pas valide (il faut renvoyer le cours le type de dépendance et le cours lié à la dépendance lorsqu'elle n'est pas valide par exemple). 
+
+ 
+Dès lors, pour ne pas surcharger les modèles de l'application et la rendre plus flexible (et ainsi conserver un faible couplage et une haute cohésion), la vérification de ces contraintes a été déléguée à un module externe. On évite, ainsi, de se retrouver avec des modèles dont la taille se chiffre en milliers de lignes de code qui sont très difficile à maintenir et faire évoluer. 
 \subsubsection{Dépendances}
 \label{dependances}
 Comme expliqué précédemment les dépendances peuvent être des prérequis ou des corequis. En plus de cela, ces contraintes peuvent être:
 \begin{description}
-\item[binaire] car elle concerne deux cours; un cours \textit{source} et un cours \textit{destination}; le sens de la contrainte étant celui de la flèche (le cours source est le prérequis du cours destination par exemple);
-\item[n-aire] car elles sont composées de plusieurs cours \textit{sources} et de plusieurs cours \textit{destinations}.
+\item[binaires]; elles concernent deux cours; un cours \textit{source} et un cours \textit{destination}; le sens de la contrainte étant celui de la flèche (le cours source est le prérequis du cours destination par exemple);
+\item[n-aire]; elles sont composées de plusieurs cours \textit{sources} et de plusieurs cours \textit{destinations}.
 \end{description}
-
-Conceptuellement, un ensemble n-aire est un ensemble de contraintes binaires. En effet, cela revient à créer pour chaque cours \textit{destinations} une contrainte binaire pour chacun des cours \textit{sources}. 
-
-De plus, une condition s'applique sur chacun des ensembles n-aires de dépendances. Cette condition est soit une disjonction (OR), soit une disjonction exclusive (XOR). L'effet de la condition est la suivante;
+ 
+Pour chaque ensemble n-aire de dépendances, il existe une condition qui s'applique sur chacune des dépendances qui le constitue. Cette condition est soit une disjonction (OR), soit une disjonction exclusive (XOR). L'effet de la condition est la suivante. Il n'y a pas de représentation explicite pour les conjonctions de dépendances car elle peuvent être représentées simplement par des relations binaires.
 
 \begin{itemize}
-\item Pour un ensemble disjonctif, la contrainte ne sera valide que s'il existe au moins une des sous-contraintes qui est vraie;
-\item Pour un ensemble disjonctif exclusif, la contrainte ne sera valide que s'il n'existe qu'une et une seule des sous-contraintes qui est vraie.
+\item Une contrainte disjonctive ne sera valide que s'il existe au moins une des sous-contraintes qui est vraie.
+\item Une contrainte disjonctive exclusive ne sera valide que s'il n'existe qu'une et une seule des sous-contraintes qui est vraie.
 \end{itemize}
 
-Il y a un exemple de chaque qui se trouve dans l'exemple fictif \ref{fig:running_example}. L'ensemble disjonctif se trouve dans le programme de Bachelier. L'ensemble disjonctif exclusif quant à lui se trouve dans l'option Réseau et Sécurité du programme de Master.
+Il y a un exemple de chaque cas qui se trouve dans l'exemple fictif \ref{fig:running_example}. La contrainte disjonctive se trouve dans le programme de Bachelier. La contrainte disjonctive exclusive quant à elle se trouve dans l'option Réseau et Sécurité du programme de Master.
 
 \begin{figure}
 \centering
 \caption{Contrainte n-aire disjonctive}
-\label{fig:nary_constraint}
-\includegraphics[width=\textwidth]{nary_constraint}
+\label{fig:nary_or_constraint}
+\includegraphics[scale = 0.7]{nary_or_constraint}
 \end{figure}
 
 
-Sur l'image \ref{fig:nary_constraint} apparait en détail l'ensemble disjonctif;
+Sur l'image \ref{fig:nary_or_constraint} apparait en détail la contrainte disjonctive;
 \begin{itemize}
   \item \textit{SINF1252} et \textit{INGI1131} sont les cours \textit{destinations}
   \item \textit{SINF1101} \textit{SINF1103} et \textit{FSAB1401} sont les cours \textit{sources}
 \end{itemize}
 
-Ces contraintes étant des prérequis, il est donc nécessaire d'avoir suivit et réussi \textit{SINF1103} \textbf{OU} \textit{SINF1101} \textbf{OU} \textit{FSAB1401} pour pouvoir suivre \textit{SINF1252} \textbf{OU} \textit{INGI1131}
+Ces contraintes étant des prérequis, il est donc nécessaire d'avoir suivi et réussi \textit{SINF1103} \textbf{OU} (OR) \textit{SINF1101} \textbf{OU}(OR) \textit{FSAB1401} pour pouvoir suivre \textit{SINF1252} \textbf{OU}(OR) \textit{INGI1131}
 
-Notez que les dépendances sont importées à l'aide du logiciel yEd \ref{yed}. Il n'est donc pas possible de les modifier une fois le graph importé dans l'application. 
+Sur l'image \ref{fig:nary_xor_constraint} apparait en détail une contrainte disjonctive exclusive;
+
+\begin{itemize}
+\item \textit{INGI2349} est le cours \textit{destination};
+\item \textit{INGI2145}, \textit{INGI2142}, \textit{INGI2143} et \textit{INGI2347} sont les cours sources.
+\end{itemize}
+
+Ces contraintes étant des corequis, il est donc nécessaire d'avoir suivit au plus tard la même année un et un seul des cours \textit{sources} pour pouvoir suivre le cours \textit{INGI2349}. Si l'on suit deux, trois ou la totalité des cours \textit{sources}, la contrainte en sera pas valide!
+
+\begin{figure}
+\centering
+\caption{Contrainte n-aire disjonctive exclusive}
+\label{fig:nary_xor_constraint}
+\includegraphics[scale=0.7]{nary_xor_constraint}
+\end{figure}
+
+Notez que les dépendances sont importées à l'aide du logiciel yEd \ref{yed}. Il n'est donc pas possible de les modifier, pour le moment, une fois le graphe importé dans l'application. Dans l'état actuel des choses, si l'on désire modifier la structure d'un catalogue de cours (çàd sont graphe), il faut recréer le catalogue de cours avec le graphe modifié. Nous perdons cependant toute les informations additionnelles ajoutées via l'import de formulaires Excel. La mise à jour de la structure d'un catalogue de cours est une des améliorations à apporter à l'application, comme présenté dans le chapitre \ref{futur_work} relatif aux travaux futurs.
 \subsubsection{Contraintes s’exerçant sur les propriétés des cours, modules et programmes}
 \label{properties}
-Ces contraintes regroupent plusieurs catégories de contraintes au sens où elles on été présentée dans le chapitre \ref{contraintes_intro}. On dit que ces contraintes portent sur des propriétés car leur validité dépend de l'information contenues dans celles-ci. Pour reprendre l'exemple du minimum de crédits requis pour valider un programme de cours. La validité de cette contrainte dépends (en plus des cours et modules qui compose ce programme) de deux choses:
+Ces contraintes regroupent plusieurs catégories de contraintes au sens où elles on été présentées dans le chapitre \ref{contraintes_intro}. On dit que ces contraintes portent sur des propriétés car leur validité dépend de l'information contenue dans celles-ci. Pour reprendre l'exemple du minimum de crédits requis pour valider un programme de cours. La validité de cette contrainte dépend (en plus des cours et modules qui composent ce programme) de deux choses:
 \begin{enumerate}
   \item la valeur de cette propriété MIN, contenue dans la propriété du même nom de l'objet Programme;
   \item la valeur de la propriété CREDITS qui compose chacun de ses cours
 \end{enumerate}
 
-Il est évidemment nécessaire que cette contrainte soit vérifier par le module qui les vérifie. Pour une contrainte temporelle comme le semestre durant lequel est dispensé un cours par exemple, la validité dépend aussi de la propriété de l'objet en question (SEMESTER)
+Par exemple, si le module \textit{Réseau et Sécurité} de l'exemple \ref{fig:running_example} comporte la propriété \textit{MIN, 15}, la méthode qui vérifie les contraintes sur les propriétés de type \textbf{MIN} va aller compter un à un les crédits de chacun des cours qui compose le module, ainsi que chacun des cours qui composent chacun de ses sous-modules (le module intitulé \textit{Cours obligatoires} ici).
 
-Par contre, le module de contraintes n'a pas besoin de vérifier cette contrainte, car la configuration de chaque année se fait par semestre. Il n'est donc pas permis aux étudiants de choisir un cours, pour un semestre donné, qui n'est pas dispensé pendant ce semestre. 
+Le module de contraintes n'a pas la charge de vérifier tous les types de contraintes. Dans le cas de la contrainte temporelle sur les semestres (qui implique qu'un cours doit être suivit durant le semestre au cours duquel il est dispensé), la vérification est implicite. En effet, la configuration de chaque année se faisant par semestre, il n'est pas possible pour un étudiant de choisir un cours, pour un semestre donné, qui n'est pas dispensé pendant ce semestre. 
 
-Les données relatives à ces propriétés sont importées et mise à jour par le module qui s'occupe d'importer les formulaires excels. Elle peuvent donc être, contrairement aux dépendances, modifiées quand on le souhaite.  
+Les données relatives à ces propriétés sont importées et mises à jour par le module qui s'occupe d'importer les formulaires Excel. Elle peuvent donc être, contrairement aux dépendances, modifiées quand on le souhaite.  
 
+
+%*****************************************************
 \clearpage
 \subsection{Fonctionnalités de l'application - Commission de programme}
 \subsubsection{Introduction}
- Une fois connecté à l'aide du compte admin, nous arrivons à la page illustrée sur la figure suivante \ref{fig:landing_page_admin}. Quatre menus sont accessible depuis la barre de navigation (en haut dans la page d’accueil):
+ Une fois connecté à l'aide du compte admin, nous arrivons à la page illustrée sur la figure suivante \ref{fig:landing_page_admin}. Quatre menus sont accessibles depuis la barre de navigation (en haut dans la page d’accueil):
  \begin{description}
-  \item [Catalogue] Ce menu offre l'accès à la gestion des catalogue. C'est ici que les catalogues sont importés (via le graph yEd) et mis à jour (via le formulaire excel). Ce menu permet aussi de gérer les versions des catalogues, pour permettre de mentionner quel est le catalogue principal (celui qui sera utilisé par défaut par les étudiants), quels sont les anciens catalogues (Pour permettre aux étudiants d'avoir accès aux anciens programmes de coues) et quel sont les futurs catalogues qui, toujours en construction, ne sont pas accessibles aux étudiants. 
-  \item [Demandes de validation] Ce menu offre l'accès aux requêtes de validation envoyées par les étudiants. La commission de programme aura accès ici au programme d'étudiant lié à la demande de validation, à l'état de celui ci (est il valide?), aux exceptions (quelles contraintes ne sont pas vérifiées) et aux justifications éventuelles en cas d'exceptions. C'est ici que la commission de programme accepte ou refuse les programmes d'étudiants.
+  \item [Catalogue] Ce menu offre l'accès à la gestion des catalogues. C'est ici que les catalogues sont importés (via le graph yEd) et mis à jour (via le formulaire Excel). Ce menu permet aussi de gérer les versions des catalogues, pour permettre de mentionner quel est le catalogue principal (celui qui sera utilisé par défaut par les étudiants), quels sont les anciens catalogues (Pour permettre aux étudiants d'avoir accès aux anciens programmes de cours) et quels sont les futurs catalogues qui, toujours en construction, ne sont pas accessibles aux étudiants. 
+  \item [Demandes de validation] Ce menu offre l'accès aux requêtes de validation envoyées par les étudiants. La commission de programme aura accès ici au programme d'étudiant lié à la demande de validation, à l'état de celui-ci (est il valide?) et à ses justifications en cas de contraintes non vérifiées dans son programme. C'est ici que la commission de programme accepte ou refuse les programmes d'étudiants.
   \item [Gérer les années] Ce menu offre la possibilité à la commission de marquer les années comme réussies ou ratées (en choisissant les cours réussis). 
   \item [Discussions] Ce menu permet d'accéder aux différentes discussions qui apparaissent lors du processus de négociation entre la commission de programme et les étudiants, lorsque ces derniers sont amenés à justifier les exceptions éventuelles qui surviennent dans leur programme de cours. 
   \end{description}
@@ -306,10 +351,12 @@ Les données relatives à ces propriétés sont importées et mise à jour par l
 \label{fig:landing_page_admin}
 \includegraphics[width=\textwidth]{landing_page_admin}
 \end{figure}
-\subsubsection{Encoder et mettre à jour les programmes de cours}
-L'ajout de nouveaux programmes de cours se fait en deux étapes dans l'application (comme expliqué dans la section \ref{yed}). La première étape correspond à l'import du graphe créer avec yed. Cette étape importe dans la base de donnée les différents programmes de cours, leurs modules, leurs cours et les dépendances entre ces cours.
 
-Cependant, les informations ajoutées par l'intermédiaire de cette étape ne sont pas suffisantes. Il manque toute les propriétés des différents objets qui, en plus d'être des compléments d'informations, servent pour certaines contraintes comme expliqué dans la section précédente \ref{contraintes}. C'est pourquoi il existe une deuxième étape qui permet d'importer un formulaire excel contenant les informations complémentaires des différents cours, modules et programmes (le nombre de crédits minium et maximum d'un programme, le nombre de crédit d'un cours, le semestre durant lequel il est dispensé). 
+%**********************************************
+\subsubsection{Encoder et mettre à jour les programmes de cours}
+L'ajout de nouveaux programmes de cours se fait en deux étapes dans l'application (comme expliqué dans la section \ref{yed}). La première étape correspond à l'import du graphe créé avec yEd. Cette étape importe dans la base de données les différents programmes de cours, leurs modules, leurs cours et les dépendances entre ces cours.
+
+Cependant, les informations ajoutées par l'intermédiaire de cette étape ne sont pas suffisantes. Il manque toutes les propriétés des différents objets qui, en plus d'être des compléments d'information, servent pour certaines contraintes comme expliqué dans la section précédente \ref{contraintes}. C'est pourquoi il existe une deuxième étape qui permet d'importer un formulaire Excel contenant les informations complémentaires des différents cours, modules et programmes (le nombre de crédits minium et maximum d'un programme, le nombre de crédits d'un cours, le semestre durant lequel il est dispensé). 
 
 
 Reprenons  l'exemple \ref{fig:running_example}. Les différents programmes de cours sont importés dans l'application par l'intermédiaire d'un module important les graphes yEd. Un catalogue de cours représente l'ensemble des programmes de cours présent sur le graphe \ref{fig:running_example}. Le formulaire suivant \ref{fig:catalog_new_page} permet de créer ces catalogues. 
@@ -325,7 +372,7 @@ Reprenons  l'exemple \ref{fig:running_example}. Les différents programmes de co
 L'utilisateur peut choisir l'année académique et le nom qui vont identifier le catalogue de cours. Cette différenciation est importante car l'application gère plusieurs version de catalogues. Ces versions sont de trois types: 
 
 \begin{enumerate}
-\item la version principale; cette version correspond au catalogue qui sera utilisé par défaut par les étudiants. Il ne peut avoir qu'un seul catalogue principal dans l'application
+\item la version principale; cette version correspond au catalogue qui sera utilisé par défaut par les étudiants. Il ne peut avoir qu'un seul catalogue principal dans l'application. Lorsqu'un étudiant crée un compte utilisateur, il suit par défaut le catalogue principal. Un utilisateur peut cependant choisir un autre catalogue parmi les version anciennes. 
 \item les anciennes versions; ces versions correspondent aux anciens catalogues principaux; à chaque fois qu'un catalogue est élu ``principal'', la version du catalogue principal devient ancienne; il n'y a pas de limites sur le nombre de catalogues anciens;
 \item les version futures; ces versions correspondent aux nouveaux catalogues créés par la commission de programmes, qui ne sont pas encore disponibles aux étudiants; il n'y a pas de limites sur le nombre de catalogues futurs et ils ne sont pas accessibles aux étudiants. 
 \end{enumerate}
@@ -333,17 +380,32 @@ L'utilisateur peut choisir l'année académique et le nom qui vont identifier le
 \label{catalog_version}
 La version d'un catalogue de cours évolue comme suit. À sa création il a la version \textit{future}. Ensuite il passe à la version \textit{principale} lorsque la commission le décide. Enfin, il passe à la version \textit{ancienne} lorsqu'un autre catalogue est \textit{élu} \textit{principal}. 
 
-L'ajout, la modification et la récupération des informations relatives aux cours, modules et programmes se fait par l'intermédiaire d'un module d'import de fichiers excel. Les consignes pour présenter les données sont expliquées en détails dans le manuel présent en annexe. Pour plus de facilité, il est possible télécharger directement un template de ce formulaire depuis l'application. La structure reconnue par le module d'import est présente dans ce template, ainsi que le nom des différents cours, modules et programmes présents dans la base de donnée. De plus, il y a aussi, pour chaque type d'objet (cours, modules et programmes) des exemples de propriété. 
+L'ajout, la modification et la récupération des informations relatives aux cours, modules et programmes se fait par l'intermédiaire d'un module d'import de fichiers Excel. Les consignes pour présenter les données sont expliquées en détails dans le manuel présent en annexe. Pour plus de facilité, il est possible de télécharger directement un template de ce formulaire depuis l'application. La structure reconnue par le module d'import est présente dans ce template, ainsi que le nom des différents cours, modules et programmes présents dans la base de données. De plus, il y a aussi, pour chaque type d'objet (cours, modules et programmes) des exemples de propriété. 
 
-Reprenons l'exemple fictif illustré sur l'image \ref{fig:running_example}. Lorsque l'on crée un catalogue avec se graphe, et que l'on télécharge juste après le formulaire excel, on obtient les informations suivantes:
+Reprenons l'exemple fictif illustré sur l'image \ref{fig:running_example}. Lorsque l'on crée un catalogue avec ce graphe, et que l'on télécharge juste après le formulaire Excel, on obtient les informations suivantes.
 
-Sur la page des programmes (Figure \ref{fig:excel_programs_ex}), les propriété relatives aux nombre minimum et maximum (MIN et MAX) de crédits d'un programme sont proposées.
+\begin{itemize}
 
-Sur la page des modules (Figure \ref{fig:excel_modules_ex}), les propriétés relatives aux nombre minimum et maximum (MIN et MAX) de crédits d'un modules sont proposées. De plus on peut aussi spécifier si le module est obligatoire ou non.
+\item Sur la page des programmes (Figure \ref{fig:excel_programs_ex}), les propriété relatives aux nombres minimum et maximum (MIN et MAX) de crédits d'un programme sont proposées.
 
-Sur la page des cours (Figure \ref{fig:excel_courses_ex}), les propriétés relatives au semestre durant lequel le cours est dispensé sont notamment proposée. 
+\item Sur la page des modules (Figure \ref{fig:excel_modules_ex}), les propriétés relatives aux nombres minimum et maximum (MIN et MAX) de crédits d'un module sont proposées. De plus, on peut aussi spécifier si le module est obligatoire ou non.
+
+\item Sur la page des cours (Figure \ref{fig:excel_courses_ex}), les propriétés relatives au semestre durant lequel le cours est dispensé sont notamment proposée, ainsi que la propriété \textit{obligatoire} d'un cours. 
+
+\end{itemize}
 
 La liste de ces propriétés n'est pas exhaustive. En effet il suffit, pour rajouter une nouvelle propriété, de simplement l'ajouter dans le formulaire. Le module d'import de données se chargera de créer les propriétés correspondantes si elles ne sont pas vide dans le formulaire. 
+
+Pour afficher les nouvelles propriétés, il suffit de les afficher dans la vue correspondante (se rendre dans la page cours\#show et récupérer l'information de la nouvelle propriété par exemple)
+
+Pour ajouter une contrainte sur une nouvelle propriété il faut;
+\begin{itemize}
+\item ajouter la classe correspondante dans le module de contraintes;
+\item créer l'objet de cette classe dans le modèle correspondant;
+\item traiter les informations (de la nouvelle contrainte) renvoyées par le module de contraintes;
+\end{itemize}
+
+Les détails d'implémentation des nouvelles contraintes sont expliquées dans la section \ref{constraint_mgmt}. 
 
 \begin{figure}
 \centering
@@ -366,28 +428,29 @@ La liste de ces propriétés n'est pas exhaustive. En effet il suffit, pour rajo
 \includegraphics[width=\textwidth]{excel_modules_ex}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[!htb]
 \centering
 \caption{Un catalogue de cours après sa création}
-\label{catalog_show}
+\label{fig:catalog_show}
 \includegraphics[width=\textwidth]{catalog_show}
 \end{figure}
 
-Toute ces fonctionnalités sont accessible depuis la page telle qu'elle est illustré sur l'image \ref{fig:catalog_show}. Via le menu à droite, les différents ensembles et cours du catalogue sont accessible. En haut à gauche apparaissent les trois propriétés identifiant notre catalogue, à savoir son nom, son année académique et sa version. 
+Toutes ces fonctionnalités sont accessibles depuis la page telle qu'elle est illustrée sur l'image \ref{fig:catalog_show}. Le menu déroulant du bas permet d'accéder aux différents programmes, modules et cours du catalogue (le tout, sans devoir recharger la page). En haut à gauche apparaissent les trois propriétés identifiant notre catalogue, à savoir son nom, son année académique et sa version. 
 
-En naviguant dans les différents sous menu du catalogue (cours, programmes, modules), vous pouvez accéder aux informations complètes concernant ces objets. Il est possible par exemple d'accéder aux détails des contraintes d'un cours. Il est notamment possible de créer des programmes de cours \textit{customisés} à partir des informations présentes dans le catalogue (cours, modules). On pourrait donc par exemple créer un programme \textit{Erasmus} ou \textit{Mercator} avec les modules et cours disponibles, pour proposer aux étudiants étrangers un programme de cours adapté à leur profil.
+En naviguant dans les différents sous-menus du catalogue (cours, programmes, modules), vous pouvez accéder aux informations complètes concernant ces objets. Il est possible par exemple d'accéder aux détails des contraintes d'un cours. Il est notamment possible de créer des programmes de cours \textit{customisés} à partir des informations présentes dans le catalogue (cours, modules). On pourrait donc par exemple créer un programme \textit{Erasmus} ou \textit{Mercator} avec les modules et cours disponibles, pour proposer aux étudiants étrangers un programme de cours adapté à leur profil.
 
+%***********************************************
 \subsubsection{Gérer les années des étudiants}
 \label{year_mgmt}
 Bien qu'elle ne soit pas mentionné sur le diagramme \ref{fig:desired_process}, la fonctionnalité qui permet à la commission de programme de marquer les années des étudiants comme réussie, ou comme ratée (en sélectionnant les cours réussis) est relativement importante pour le bon fonctionnement du module qui s'occupe de vérifier les contraintes. 
 
 
-En effet, pour vérifier la valider des contraintes de type \textit{dépendance} (se référer à  la section \ref{dependances} pour plus de détails), il est nécessaire de différencier les années réussies des années ratées, et de différencier, dans ces années ratées, les cours réussis des cours ratés. Ainsi, le module qui vérifie les contraintes ne prendra pas en compte un cours qui est présent dans une année mais qui n'a pas été réussi lorsqu'il vérifiera certaines dépendances. 
+En effet, pour vérifier la validité des contraintes de type \textit{dépendance} (se référer à  la section \ref{dependances} pour plus de détails), il est nécessaire de différencier les années réussies des années ratées, et de différencier, dans ces années ratées, les cours crédités des cours ratés. Ainsi, le module qui vérifie les contraintes ne prendra pas en compte un cours qui est présent dans une année mais qui n'a pas été crédité lorsqu'il vérifiera certaines contraintes. Par exemple, lorsque l'on vérifie si le nombre de crédits minimum d'un module est atteint, ou si le prérequis d'un cours est valide, il ne faut pas prendre en compte les cours qui n'ont pas été crédités. 
 
-Pour les mêmes raisons, il est primordial de garder une trace des années ratées de l'étudiant, pour savoir quels cours l'étudiant a validé durant cette année qu'il n'a pas réussi.
+Pour les mêmes raisons, il est primordial de garder une trace des années ratées de l'étudiant, pour savoir quels cours l'étudiant a validé durant cette année qu'il n'a pas réussie.
 
-On peut donc gérer sur la page \ref{fig:year_mgmt} les années des étudiants. Marquer une année comme réussie ou ratée empêchera à l'avenir l'étudiant de modifier ou de supprimer son année dans la page de gestion de son programme. Pour marquer son année comme ratée, il suffit de sélectionner les cours qu'il a réussi (comme on peut le voir sur la figure \ref{fig:failed_year_mgmt})
-\begin{figure}
+On peut donc gérer sur la page \ref{fig:year_mgmt} les années des étudiants. Marquer une année comme réussie ou ratée empêchera à l'avenir l'étudiant de modifier ou de supprimer son année dans la page de gestion de son programme. Pour marquer son année comme ratée, il suffit de sélectionner les cours ont été crédité (comme on peut le voir sur la figure \ref{fig:failed_year_mgmt})
+\begin{figure}[!htb]
 \centering
 \caption{La page de gestion des années}
 \label{fig:year_mgmt}
@@ -401,17 +464,22 @@ On peut donc gérer sur la page \ref{fig:year_mgmt} les années des étudiants. 
 \includegraphics[width=\textwidth]{failed_year_mgmt}
 \end{figure}
 
-
+%********************************************
 \subsubsection{Gérer les demandes de validations}
 Cette fonctionnalité s'occupe de gérer les étapes \textit{Négociation avec l'étudiant et Valider le programme de l'étudiant} du processus représentée sur le diagramme \ref{fig:desired_process}. 
 
-Lorsqu'un étudiant pense que son programme est correct, il envoie une demande de validation à la commission de programme. Dans le meilleur des mondes, le programme de l'étudiant respecte toute les contraintes imposées par le programme qu'il suit. Cependant, pour une raison X ou Y, il arrive qu'un étudiant pense avoir une bonne raison pour enfreindre une ou plusieurs contraintes.
+Lorsqu'un étudiant pense que son programme est correct, il envoie une demande de validation à la commission de programme. Dans le meilleur des mondes, le programme de l'étudiant respecte toutes les contraintes imposées par le programme qu'il suit. Cependant, pour une raison X ou Y, il arrive qu'un étudiant pense avoir une bonne raison pour enfreindre une ou plusieurs contraintes.
 
 Prenons l'exemple d'un étudiant en provenance d'une autre université qui vient suivre un programme de master à l'UCL. En regardant attentivement l'exemple fictif \ref{fig:running_example}, on s’aperçoit que le cours \textit{INGI2315} du programme de master a une dépendance (\textit{SINF1140}) dans le programme de bachelier. Lorsque l'étudiant construit son programme de MASTER, il va se trouver avec des contraintes non respectées qu'il ne sera pas possible pour lui de corriger. 
 
-Comme expliquer dans la section relatives au fonctionnalités offertes à l'étudiant qui suit \ref{validation_request}, l'application permet à l'étudiant, sous certaines conditions (remplir une justification s'il subsiste des contraintes non vérifiées par exemple), de soumettre un programme non valide à la validation. Lorsque notre étudiant soumettra son programme, il remplira un formulaire de justification avant d'envoyer sa demande de validation.
+Comme expliqué dans la section relative aux fonctionnalités offertes à l'étudiant qui suit \ref{validation_request}, l'application permet à l'étudiant, sous certaines conditions (remplir une justification s'il subsiste des contraintes non vérifiées par exemple), de soumettre un programme non valide à la validation. Lorsque notre étudiant soumettra son programme, il remplira un formulaire de justification avant d'envoyer sa demande de validation.
 
-La page qui donne accès à la commission de programme aux demandes de validations est la suivante \ref{fig:validation_mgmt}. Sur cette page, la commission de programme peut accéder aux programmes de l'étudiant (Menu Programme), accéder aux contraintes non-vérifiées du programme (Menu Exceptions) et se rendre sur l'outil de messagerie (Menu Justifications). L'outil de messagerie est relativement simple et permet (seulement) aux deux parties de s'échanger des messages, sur base de la justification initiale de l'étudiant (Figure \ref{fig:messenger})
+La page qui donne accès à la commission de programme aux demandes de validations est la suivante \ref{fig:validation_mgmt}. Sur cette page, la commission de programme peut accéder aux programmes de l'étudiant (Menu Programme) et accéder à un menu qui permet de voir les contraintes non-vérifiées du programme et leur justification (Menu Exceptions). Ce dernier menu (Justification) permet aussi d'envoyer des message à l'étudiant pour demander des informations supplémentaires.
+
+La page \ref{fig:exception_mgmt} donne accès à la justification du programme d'un étudiant. Dans cet exemple il manque, dans le programme de l'étudiant, plusieurs cours obligatoires. De plus, il a dépassé le maximum autorisé de son programme ainsi que des deux modules qui le compose. Sur cette page, la commission de programme à accès aux détails de chacune des contraintes non respectées du programme de l'étudiant. À droite de chaque contrainte non respectée se trouve la justification de l'étudiant. Comme affiché sur la page \ref{fig:exception_send_message}, la commission a aussi la possibilité d'envoyer un message à l'étudiant pour lui demander des informations supplémentaires. 
+
+Une fois les exceptions vérifiées, la commission n'a plus qu'à valider la demander ou bien la refuser. 
+
 
 
 
@@ -422,13 +490,21 @@ La page qui donne accès à la commission de programme aux demandes de validatio
 \includegraphics[width=\textwidth]{validation_mgmt}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[!htb]
 \centering
-\caption{Communication entre la commission et un étudiant}
-\label{fig:messenger}
-\includegraphics[width=\textwidth]{messagerie}
+\caption{Les exceptions d'un programme et leurs justifications}
+\label{fig:exception_mgmt}
+\includegraphics[width=\textwidth]{exception_mgmt}
 \end{figure}
 
+\begin{figure}
+\centering
+\caption{Demander des informations supplémentaires à un étudiant}
+\label{fig:exception__send_message}
+\includegraphics[width=\textwidth]{exception_send_message}
+\end{figure}
+
+%*******************************************$$
 \clearpage
 \subsection{Fonctionnalités de l'application - Étudiant}
 \subsubsection{Introduction}
