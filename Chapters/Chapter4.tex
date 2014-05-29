@@ -109,6 +109,8 @@ La méthode \textit{check\_constraints} gère l’interaction avec le module \te
 
 Une année est composé de plusieurs semestres (deux idéalement). L'attribut \textit{status} représente les trois état dans le quel peut se trouver une année (réussie, ratée ou en cours). Un semestre est représenté par l'objet \textit{Semester}. L'attribut Le choix de chacun des cours du semestre est représenté par une association \textit{has\_and\_belongs\_to\_many} qui existe entre les deux objets.
 
+Les programmes étant validés par année en s'appuyant sur l'ensemble du programme de l'étudiant, ce modèle est d'autant plus important. En effet, en aucun cas, le programme n'est validé dans son ensemble. 
+
 \subsubsection{Header}
 
 Chacun des modèles \textit{Course}, \textit{Pmodule} et \textit{Program} contient une méthode get\_header qui renvoie une suggestion de noms propriétés utilisées à titre indicatif avec le module \textit{XlsParser} (voir \ref{xls_parser}) pour créer les formulaires Excel. Nous avons le header suivant : \{"SIGLE", "CREDITS", "SEMESTRE", "OBLIGATOIRE"\} pour le modèle \textit{Course} par exemple.
@@ -119,18 +121,18 @@ Si à l'avenir, on découvre d'autre propriété qu'il est important d'avoir dan
 Ces méthodes s'occupent de créer les objets qui sont utilisé par le module ConstraintsChecker. Pour un objet du modèle Cours par exemple, il va créer un objet de la classe Cours (spécifique au module \textit{ConstraintsChecker} et des objets pour représenter ces différentes contraintes (dépendances, etc). Ces objets (qui sont spécifiques au module) sont ensuite manipulés par module \textit{ConstraintsChecker}.
 
 \subsubsection{Constraints}
-Cette classe représente les dépendances entre les cours. Le type de la dépendance est représenté par le modèle \textit{ConstraintType}. L'attribut \textit{set\_type} quant à lui représente le type de l'ensemble de contraintes. Comme expliqué dans la section \ref{contraintes}, une dépendance peut être une relation binaire entre un cours et sa dépendance. Elle peut être aussi une relation n-aire entre plusieurs cours et leurs dépendances.
+Cette classe représente les dépendances entre les cours. Le type de la dépendance est représenté par le modèle \textit{ConstraintType}. L'attribut \textit{set\_type} quant à lui représente le type de l'ensemble des contraintes. Comme expliqué dans la section \ref{contraintes}, une dépendance peut être une relation binaire entre un cours et sa dépendance. Elle peut être aussi une relation n-aire entre plusieurs cours et leurs dépendances.
 
 Il existe deux associations (bien qu'elles ne soient représentées que par une seule, par soucis de clarté, sur le diagramme de classes \ref{fig:app_arch}) qui relient les objets \textit{constraints} aux objets \textit{courses}. Le modèle \textit{Constraint} ne représente que les contraintes de type dépendance, comme expliqué dans la section \ref{contraintes}. Ce type de contrainte ayant un cours source et un cours destination, il est donc nécessaire d'avoir deux relations.  La relation entre la destination et la contrainte est représentée par une association \textit{has\_many} entre le cours et la contrainte. La relation entre la ou les sources et la contrainte, quant à elle, est représentée par une association \textit{has\_and\_belongs\_to\_many}. 
 
-Ce comportement est justifié par le fait que l'on accède aux contraintes depuis le cours \textit{destination}. C'est à dire que l'on va chercher les dépendances d'un cours, et non chercher la relation inverse, à savoir quels sont les cours pour lequel un cours joue le rôle de dépendance.
+Ce comportement est justifié par le fait que l'on accède aux contraintes depuis le cours \textit{destination}, c'est à dire que l'on va chercher les dépendances d'un cours, et non chercher la relation inverse, à savoir quels sont les cours pour lesquels un cours joue le rôle de dépendance.
 
 \subsubsection{AcademicYear}
 Ce modèle représente une année académique, c'est à cheval sur deux années civiles. Elle est utilisée dans deux situations:
 \begin{enumerate}
   \item identifier les objets \textit{Year} 
   \item identifier les objets \textit{Catalogue}; en effet, chaque années lorsque l'on modifie les programmes de cours d'un catalogue, il est faut importer le nouveau catalogue. On peut ainsi identifier l'année académique à la quelle le catalogue est lié et savoir \textbf{où} aller chercher la nouvelle version du programme que l'étudiant suit lorsqu'une nouvelle année académique commence.
-  \item gérer, du coté du module \textit{ConstraintsChecker} les prérequis et les corequis d'un cours. En effet, il est nécessaire de savoir quand a été suivit une dépendance pour savoir si la contrainte est valide ou non. 
+  \item gérer, du coté du module \textit{ConstraintsChecker} les prérequis et les corequis d'un cours. En effet, il est nécessaire de savoir quand a été suivi une dépendance pour savoir si la contrainte est valide ou non. 
 \end{enumerate}
 
 \subsubsection{ConstraintException}
@@ -162,24 +164,24 @@ Toute ces exceptions sont stockées dans une instance du modèle \textit{Justifi
 \includegraphics[width=\textwidth]{constraint_checker_arch}
 \end{figure}
 
-L'architecture de ce module est composé en deux parties;
+L'architecture de ce module est composé de deux parties:
 \begin{enumerate}
   \item Les différents types de contraintes;
     \begin{itemize}
-    \item Corequisite (classe parente : BinaryConstraint)
-    \item Prerequisite (classe parente : BinaryConstraint)
-    \item OrCorequisite (classe parente : ConstraintSet)
-    \item OrPrerequisite (classe parente : ConstraintSet)
-    \item XorCorequisite (classe parente : ConstraintSet)
-    \item XorPrerequisite (classe parente : ConstraintSet)
-    \item Min (classe parente : PropertyConstraint)
-    \item Max (classe parente : PropertyConstraint)
-    \item Mandatory (classe parente : PropertyConstraint)
+    \item Corequisite (classe parente : BinaryConstraint);
+    \item Prerequisite (classe parente : BinaryConstraint);
+    \item OrCorequisite (classe parente : ConstraintSet);
+    \item OrPrerequisite (classe parente : ConstraintSet);
+    \item XorCorequisite (classe parente : ConstraintSet);
+    \item XorPrerequisite (classe parente : ConstraintSet);
+    \item Min (classe parente : PropertyConstraint);
+    \item Max (classe parente : PropertyConstraint);
+    \item Mandatory (classe parente : PropertyConstraint).
     \end{itemize} 
-  \item Les différents types d'entités (Cours, modules, programme et student\_program)
+  \item Les différents types d'entités (Cours, modules, programme et student\_program).
 \end{enumerate}
 
-Le lien avec l'application se situe au niveau de la classe \textit{StudentProgram}. En effet, chacune des différentes entrées des objets (de la base de données) concernées (courses, p\_modules, constraints) sont traduites en un objet entité.
+Le lien avec l'application se situe au niveau de la classe \textit{StudentProgram}. En effet, chacune des différentes entrées des objets (de la base de données) concernées (courses, p\_modules, constraints) est traduite en un objet entité.
 
 L'idée ici est d'utiliser au plus l'héritage pour éviter d'avoir des duplications de code dans les classes. Par exemple, un objet \textit{Course} peut avoir beaucoup de contraintes mais chacune d’entre elles peut être de n'importe quel type. Cet objet n'a pas besoin de savoir le type de ses contraintes. Tout ce qu'il sait, c'est qu'il doit appeler leur méthode \textit{check} pour tester si les contraintes sont vérifiées. 
 
@@ -219,25 +221,25 @@ Le but de ce chapitre est de présenter les grandes lignes des algorithmes utili
 \subsection{Hébergement de l'application}
 L'application est hébergée sur \textit{Heroku}. On évite ainsi de devoir s'occuper de la configuration et de la maintenance du serveur qui doit héberger l'application. Cela impose cependant quelques restrictions;
 \begin{enumerate}
-  \item On obligé d'utiliser postgresql comme système de base de données.
-  \item Le répertoire de l'application est en lecture seule. On ne peut donc pas stocker le fichier de graphe et le formulaire excel dedans. Il est donc nécessaire d'utiliser un service de \textit{cloud storage} externe à l'application. Amazon S3 à été utilisé pour palier à ce problème. Pour rendre le téléchargement des fichiers vers ce service plus aisé, la gem \textit{Paperclip} a été utilisé. Les détails de configuration de ces différents services sont expliqués en annexes. 
+  \item On est obligé d'utiliser postgresql comme système de base de données.
+  \item Le répertoire de l'application est en lecture seule. On ne peut donc pas stocker le fichier de graphe et le formulaire Excel dedans. Il est donc nécessaire d'utiliser un service de \textit{cloud storage} externe à l'application. Amazon S3 à été utilisé pour palier à ce problème. Pour rendre le téléchargement des fichiers vers ce service plus aisé, la gem \textit{Paperclip} a été utilisé. Les détails de configuration de ces différents services sont expliqués en annexes. 
 \end{enumerate}
 \subsection{Gestion des utilisateurs}
 \label{user_mgmt}
-Les utilisateur sont gérés à l'aide de deux gems. 
+Les utilisateurs sont gérés à l'aide de deux gems. 
 
 Devise est utilisé pour tout ce qui concerne la gestion des comptes (Création, modification, suppression), la gestion des sessions (Login/logout) et surtout la création de la table users et des différents attributs requis.
 
-CanCan est utilité pour tout ce qui concerne les permissions des utilisateurs, à savoir à quel modèles un utilisateur à accès, et quels actions il peut effectuer sur ces modèles (Read, Create, Destroy, ...) 
+CanCan est utilisé pour tout ce qui concerne les permissions des utilisateurs, à savoir à quels modèles un utilisateur à accès, et quelles actions il peut effectuer sur ces modèles (Read, Create, Destroy, ...) 
 
-Pour gérer les deux types d'utilisateur (Commission de programme et Étudiants, trois choix s'offrent à nous;
+Pour gérer les deux types d'utilisateurs (Commission de programme et Étudiants), trois choix s'offrent à nous:
 \begin{enumerate}
-  \item générer avec Devise deux tables séparées
-  \item utiliser la Single Table Inheritance \cite{STI}. On crée un modèle user, puis on crée deux modèles spécifiques (student et admin) qui héritent de ce premier modèle
-  \item générer un seul modèle user et y ajouter un attribut \textit{admin} pour identifier le rôle de l'utilisateur
+  \item générer avec Devise deux tables séparées;
+  \item utiliser la Single Table Inheritance \cite{STI}. On crée un modèle user, puis on crée deux modèles spécifiques (student et admin) qui héritent de ce premier modèle;
+  \item générer un seul modèle user et y ajouter un attribut \textit{admin} pour identifier le rôle de l'utilisateur.
 \end{enumerate}
 
-La troisième solution a été choisie. Elle permet d'éviter la redondance induite par la première solution et est plus simple à implémenter et à maintenir que la deuxième solution. En effet nos deux types d'utilisateur ne diffèrent que par leur rôle. 
+La troisième solution a été choisie. Elle permet d'éviter la redondance induite par la première solution et est plus simple à implémenter et à maintenir que la deuxième solution. En effet nos deux types d'utilisateurs ne diffèrent que par leur rôle. 
 
 
 % La table générée par devise est la suivante;
@@ -304,11 +306,11 @@ La troisième solution a été choisie. Elle permet d'éviter la redondance indu
 \subsection{Importation du graphe}
 \subsubsection{Introduction}
 \label{graph_format_justification}
-Une fois le graphe créé à l'aide de yEd, plusieurs choix s'offrent à nous pour exporter nos données. Les formats (non binaires) dans lesquels nous pouvons exporter les informations contenues dans notre graphe sont les suivantes. 
+Une fois le graphe créé à l'aide de yEd, plusieurs choix s'offrent à nous pour exporter nos données. Les formats (non binaires) dans lesquels nous pouvons exporter les informations contenues dans notre graphe sont les suivantes:
 \begin{enumerate}
-\item GraphML, un format de fichier basé sur XML pour les graphes
-\item XGML, une alternative au format GraphML, mise en place par yWorks, la société qui développe le logiciel yEd
-\item TGF (Trivial Graph Format) un format de fichier texte relativement simple pour décrire des graphiques
+\item GraphML, un format de fichier basé sur XML pour les graphes;
+\item XGML, une alternative au format GraphML, mise en place par yWorks, la société qui développe le logiciel yEd;
+\item TGF (Trivial Graph Format) un format de fichier texte relativement simple pour décrire des graphiques.
 \end{enumerate}
 
 TGF est de la forme
@@ -396,7 +398,7 @@ Node SOUS MODULE OBLIGATOIRE
 Lorsque l'on parsera le fichier, on devra:
 \begin{itemize}
   \item Parcourir le fichier, extraire les informations (nom, parent) de chaque cours, module et programme;
-  \item Parcourir la liste des cours, modules et programmes pour ajouter les références vers leur parent et leurs enfants.
+  \item Parcourir la liste des cours, modules et programmes pour ajouter les références vers leurs parents et leurs enfants.
 \end{itemize} 
 
 Avec GraphML par contre, la structure  du fichier sera la suivante;
@@ -416,33 +418,33 @@ Childs : [
 (...)
 \end{lstlisting}
 
-Lorsqu'on parsera le fichier; on devra simplement extraire les informations comme précédemment. On saura par contre au moment ou l'on parse un objet à quel parent il appartient.  Il n'est donc pas nécessaire de retraiter tout les éléments pour compléter les informations à propos de leur parent et de leurs enfants. Ceci est la principale raison pourquoi \textit{Graphml} est le format supporté par l'application.
+Lorsqu'on parsera le fichier; on devra simplement extraire les informations comme précédemment. On saura par contre au moment où l'on parse un objet à quel parent il appartient.  Il n'est donc pas nécessaire de retraiter tous les éléments pour compléter les informations à propos de leur parent et de leurs enfants. Ceci est la principale raison pourquoi \textit{Graphml} est le format supporté par l'application.
 
 
 \subsubsection{Parsing}
 \label{graph_parsing}
 Le but de ce module est de fournir une abstraction supplémentaire à la gem \textit{Nokogiri}\footnote{Librairie ruby permettant de parser des fichiers XML} pour extraire les informations contenues dans le fichier \textit{GraphML} de yEd. Ce module va, à partir des informations conenues dans le graphe, créer un objet du modèle Catalogue. Les informations contenue dans le graphe généré avec \textit{yEd} sont les suivantes:
 \begin{itemize}
-\item Les Programmes de cours (Bachelier, Masters)
-\item Les Modules et leur nom
-\item Les Sous-modules et leur nom
-\item Les cours et leur sigle
-\item Les contraintes hiérarchiques (Qui contient quoi)
-\item Les dépendances entre les cours (Corequis et Prérequis)
+\item les Programmes de cours (Bachelier, Masters);
+\item les Modules et leur nom;
+\item les Sous-modules et leur nom;
+\item les cours et leur sigle;
+\item les contraintes hiérarchiques (Qui contient quoi);
+\item les dépendances entre les cours (Corequis et Prérequis).
 \end{itemize}
 
 
 Ce module est appelé par le modèle \textit{Catalogue} de l'application à sa création. Le fichier graphe est d'abord envoyé sur le  \textit{cloud amazon}, puis parsé par le module \textit{GraphParser}. Une fois le parsing terminé, les différents objets (Cours, Modules et Programmes) sont récupérés par le modèle \textit{Catalogue}, puis traités par chacun des modèles concernés, avant d'être enregistrés en base de données. 
 
-Tout ces éléments sont représentés par des nœuds dans le fichier GraphML. Seul les dépendances entre les cours sont représentées par des arrêtes dans le graphes, nommées \textit{Edge} dans le fichier. Les nœuds sont stockés en premier dans le fichier de graphe, suivit par toute les arrêtes. 
+Tous ces éléments sont représentés par des nœuds dans le fichier GraphML. Seul les dépendances entre les cours sont représentées par des arrêtes dans le graphes, nommées \textit{Edge} dans le fichier. Les nœuds sont stockés en premier dans le fichier de graphe, suivis par toutes les arrêtes. 
 
-Le module ajoutes deux fonctionnalités à \textit{Nokogiri}.
+Le module ajoute deux fonctionnalités à \textit{Nokogiri}.
 \begin{enumerate}
   \item Il parse un fichier GraphML et extrait les métadonnées de ses nœuds (type, enfants, parent) et arrêtes (source, destination, type de contrainte, type de l'ensemble de contrainte). 
-  \item Il renvoie des objets cours, modules et programmes ainsi que leur différentes dépendances.  
+  \item Il renvoie des objets cours, modules et programmes ainsi que leurs différentes dépendances.  
 \end{enumerate}
 
-L'algorithme de parsing est illustré sur l'image \ref{fig:graphml_parser}. Les grandes lignes de cet algorithme sont les suivantes;
+L'algorithme de parsing est illustré sur l'image \ref{fig:graphml_parser}. Les grandes lignes de cet algorithme sont les suivantes:
 
 \begin{itemize}
 \item les noeuds sont soit des noeuds groupes, soit des noeuds isolés;
@@ -540,9 +542,9 @@ Une fois le parsing terminé, toutes les informations contenues dans chacun des 
 
 \subsection{Gestion des contraintes}
 \label{constraint_mgmt}
-Les contraintes sont vérifiées au niveau du modèle \textit{StudentProgram}, le modèle qui contient les informations à propos des programmes de cours des étudiants (C'est ce modèle qui appelle le module \textit{ConstraintsChecker}. 
+Les contraintes sont vérifiées au niveau du modèle \textit{StudentProgram}, le modèle qui contient les informations à propos des programmes de cours des étudiants (C'est ce modèle qui appelle le module \textit{ConstraintsChecker}). 
 
-Le module \textit{ConstraintsChecker} est divisé en deux parties. D'un coté nous avons les contraintes. Tout les types de contraintes héritent de la super classe \textit{Contrainte} qui, en plus de constructeur ne contient qu'une seule méthode \textbf{Check}. De l'autre coté nous avons les entités qui représentent les modèles \textit{Course}, \textit{Module} et \textit{Program}
+Le module \textit{ConstraintsChecker} est divisé en deux parties. D'un coté nous avons les contraintes. Tout les types de contraintes héritent de la super classe \textit{Contrainte} qui, en plus de constructeur ne contient qu'une seule méthode \textbf{Check}. De l'autre coté, nous avons les entités qui représentent les modèles \textit{Course}, \textit{Module} et \textit{Program}
 
 Les grand principes du vérificateur de contraintes sont illustré sur le diagramme \ref{fig:constraint_checker_diagram} à savoir;
 
@@ -691,12 +693,12 @@ Pour les cours par exemple, ce header est de la forme:
 Ici, il n'a pas été nécessaire d'utiliser une abstraction \textit{Entity}, contrairement aux autres modules (GraphParser, ConstraintsChecker), pour représenter les données. En effet, nous ne manipulons que des tableaux de données, et surtout nous n'avons pas à nous occuper des inclusions entre les différents objets, ce module traitant exclusivement leur propriétés. C'est pourquoi ce module et l'application s'échangent des \textit{Hash}. 
 
 
-Le \textit{Writter} est appelé lorsque l'utilisateur télécharge un template de formulaire excel après avoir créer le catalogue. 
+Le \textit{Writter} est appelé lorsque l'utilisateur télécharge un template de formulaire Excel après avoir créé le catalogue. 
 
-Le \textit{Reader} est appelé à chaque fois que l'utilisateur mets à jours  les données d'un catalogue de cours via le formulaire excel. 
+Le \textit{Reader} est appelé à chaque fois que l'utilisateur met à jour les données d'un catalogue de cours via le formulaire Excel. 
 
 
-Notez que ce fichier est stocké, tout comme celui contenant le graphe, sur le cloud \textit{Amazon}
+Notez que ce fichier est stocké, tout comme celui contenant le graphe, sur le cloud \textit{Amazon}.
 \section{Qualité}
 Dans cette section, il sera question de la qualité du code qui a été produit pour développer l'application. 
 
