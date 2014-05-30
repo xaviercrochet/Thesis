@@ -3,62 +3,165 @@
 \lhead{Chapitre 4 - Validation}
 \section{Introduction}
 \label{introduction_val}
-Ce document présente un scénario typique d'utilisation pour la \textbf{commission INFO} ainsi qu'un scénario d'utilisation pour un \textit{Étudiant}. L'application au moment où ce scénario a été conçu n'est pas encore finie. Il risque d'y avoir des changements au niveau de son design et l'ajout de certaines \textit{features} non encore implémentées. Cependant, la base de l'application est suffisamment présente que pour permettre à ce test d’être pertinent.
+Le but poursuivi par se chapitre est de tester les fonctionnalités de l'application à travers des scénario spécifique mettant en exergue certaines fonctionnalité importantes de l'application, comme la création d'un programme de master par un étudiant ayant un programme de bachelier complété et validé par la commission ou encore la transition de l'année de master 1 vers celle de master 2 avec une mise à jour de programme
 
-Le scénario \textit{Commission INFO} consiste à créer un catalogue de cours, mettre à jours ses informations et créer un programme de cours à la carte. 
+Les scénarios seront tout d'abord décrit, puis éxécutés pas à pas et leurs résutat présenté en détail. 
 
-Le scénario \textit{Étudiant} consiste à se créer un compte, se connecter avec sur l'application, créer un programme de cours et à le configurer 
+\section{Scénarios}
+\subsection{Situation initiale}
+La situation initiale des deux scénarios qui suivent est la suivante:
 
-Notez que 
+L'étudiant aura cré et fait validé par la commission un programme de bachelier standart en sciences informatiques. Cette situation initiale est nécessaire car le programme de master qui est utilisé pour les deux scénarios suivant comportent des dépendances dans le programme de bachelier
 
-1 - Le catalogue présenté aux étudiants pour construire leur programme de cours est le dernier en date à voir été créé en base de donnée (la feature pour sélectionner le programme de cours principal n'ayant pas encore été implémentée)
+\subsection{Catalogue utilisé}
+Le graphe utilisé pour générer le catalogue de la situation initiale sera le suivant \ref{fig:situation_initiale}. Notez que le programme de mineur proposé aux ingénieurs a été retiré volontairement pour rendre l'exemple plus lisible.
+\begin{figure}
+\centering
+\caption{Programme situation initiale - 2013-2014}
+\label{fig:situation_initiale}
+\includegraphics[width=\textwidth]{validation_init_graph}
+\end{figure}
 
-2 - Si la commission ne rajoute pas l'information relative au semestre durant lequel sont dispensés les cours, l'étudiant ne verra aucun cours lorsqu'il voudra créer une année (La propriété \textit{Semester} étant initialisée à \textit{NONE})
-\label{note2}
-
-3 - L'étudiant ne peut pas accéder aux informations relatives au programme qu'il veut suivre depuis son interface (Ces vues n'ont pas encore été implémentées)
-
-Il est demandé de ne pas regarder dans le manuel pour réaliser l'expérience, afin que le feedback soit le plus complet possible.
-
-Bon amusement :-)
-
-\section{Ressources}
-Tout d’abord, voici l'url de l'application : : \url{http://curriculum-mgmt.herokuapp.com/} 
-
-Ensuite, voici les informations relatives au compte avec lequel il faut se connecter pour accéder à l'application
+Après avoir importé le graphe, et ajouté les informations suivante dans le catalogue:
 \begin{itemize}
-  \item USERNAME: commission@gmail.com
-  \item PASSWORD: coucou42
+\item tous les cours sont à 5 crédits, sauf les 3 mémoires (SINF2990 et INGI2990 à 28 crédits, SINF2991 à 18 crédits);
+\item tous les cours sont alternés entre le premier et le second semestre, sauf les 3 mémoires qui sont marqué pour le second semestre;
+\item on marque le module core (Master) et le module intro (Bachelier) comme obligatoire;
+\item on ajoute un minimum de crédits à 20 et un maximum à 30 pour les trois options du programme de master;
+\item on ajoute un minimum de crédits à 40 et un maximum à 80 pour le programme de bachelier;
+\item on ajoute un minimum de crédits à 120 et un maximum à 150 pour le programme de master.
+\end{itemize}   
+
+Après avoir ajouté les informations, on marque le catalogue de cours comme principal, afin qu'il soit accessible aux étudiants.
+
+
+\subsubsection{Configuration du programme de bachelier - Année 2006 à 2009}
+Lorsque l'on configure le programme de bachelier, on remarque que le programme tel qu'il est conçu dans le graphe n'est pas \textit{validable} sur trois ans. En effet, il existe des chaines de prérequis dont la taille est plus grande que trois, il faut donc plus de trois années pour vérifier ces contraintes. Une première amélioration à apporter à l'application est de détecter ces inconsistances lors de l'import du graphe dans l'application
+
+Le programme ainsi configuré est validé par la commission. L'étudiant peut donc dès lors créer son programme de Master. 
+\subsection{Premier scénario - Année académique 2009-2010}
+Le scénario se produit en deux temps. Tout d'abord l'étudiant va configurer son programme de master, en choisissant les cours qu'il va suivre durant l'année académique 2009-2010, et en configurant l'année académique 2010-2011 (qui sera toujours modifiable par la suite).
+
+Le programme de master comporte un module obligatoire (Core) et plusieurs modules optionnels (Génie logiciel, Intelligence artificiel et Réseau). L'étudiant décide de suivre l'option Génie Logiciel (SEPS sur le graphe). Ce module optionnel comporte un sous-module obligatoire (SEPS core)
+
+Les cours suivis durant la premier année (2009-2010) sont les suivants:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Cours} & \textbf{Crédits} & \textbf{Semestre}\\
+\hline
+INGI2315 & 5 & 1 \\
+\hline
+INGI2255 & 5 & 1 \\
+\hline
+INGI2172 & 5 & 1 \\
+\hline
+INGI2146 & 5 & 1 \\
+\hline
+SINF2345 & 5 & 1 \\
+\hline
+SINF2335 & 5 & 1 \\
+\hline
+INGI2325 & 5 & 2 \\
+\hline
+INGI2132 & 5 & 2 \\
+\hline
+INGI2261 & 5 & 2 \\
+\hline
+INGI2263 & 5 & 2 \\
+\hline
+SINF2275 & 5 & 2\\
+\hline
+\end{tabular}
+\end{table}
+
+Les cours que l'étudiant prévoit de suivre durant la seconde année (2010-2011) sont les suivants:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Cours} & \textbf{Crédits} & \textbf{Semestre}\\
+\hline
+SINF2255 & 5 & 1\\
+\hline
+INGI2262 & 5 & 1\\
+\hline
+GBIO2010 & 5 & 1\\
+\hline
+INGI2251 & 5 & 1\\
+\hline
+SINF2224 & 5 & 1\\
+\hline
+SINF2290 &28 & 2 \\
+\hline
+INGI2379 & 5 & 2\\
+\hline
+INGI2252 & 5 & 2\\
+\hline
+INGI2359 & 5 & 2\\
+\hline
+\end{tabular}
+\end{table}
+
+
+
+L'étudiant décide de suivre l'option \textit{Software Engineering and Programming Systems (SEPS)}
+
+Le programme de l'étudiant comporte une contrainte non respectée. En effet, il a décidé, durant la deuxième année, de suivre le cours INGI2379 et sont prérequis INGI2262 durant la même année académique, ce qui enfreint la règle du prérequis. Cependant, il estime que, vu qu'il suit le cours INGI2262 au premier quadrimestre, et le cours INGI2379 au deuxième quadrimestre cela ne pose pas de problème
+
+Il remplit donc  la case justification de cette contrainte non respectée en expliquant la situation, avant d'envoyer sa demande de validation. 
+
+L'étudiant va ensuite négocier la validation de son programme avec la commission de programme, puis celle-ci va valider son programme après quelques discussions. 
+
+La commission de programme reçoit la demande de validation, regarde son programme et voit que:
+\begin{itemize}
+\item le programme de master comporte assez de crédits (123);
+\item l'ensemble des modules obligatoires est présent;
+\item une option est présente;
+\item un prérequis est enfreint.
 \end{itemize}
 
-(Il n'est pas possible de se créer un compte admin via l'application pour des raisons de sécurité évidentes)
+La commission de programme regarde la justification de l'étudiant (il est obligé d'en remplir une si son programme ne respecte pas toutes les contraintes). Elle regarde la justification, et refuse la demande de validation en demandant à l'étudiant de choisir un autre cours. 
 
-\section{Scénario Commission INFO}
+L'étudiant retourne sur son programme, voit qu'il a un nouveau message en attente. Il choisi un autre cours (LINGI2143) et renvoie sa demande de validation qui est ensuite validée par la commission.
 
-\begin{enumerate}
-  \item Connectez vous à l'application
-  \item Accédez à l'onglet \textbf{Catalogues}
-  \item Créer un graphe avec yEd, exporter le graph en .graphml ou utiliser un fichier de graphe déjà existant
-  \item Créer un catalogue en utilisant le fichier de graphe précédemment créer
-  \item Mettre à jour les informations du catalogue (En commençant par télécharger le fichier excel depuis l'application, comme expliqué sur la vue)
-  \item Se rendre dans l'onglet \textbf{Programmes} pour accéder aux programmes de cours
-  \item Créer un nouveau programme de cours avec les modules \& cours désirés (Attention, tout les cours des modules sélectionnés seront ajoutés automatiquement, vous ne pouvez que choisir les cours qui ne sont dans aucun modules)
-  \item Supprimer le programme de cours précédemment créer
-  \item Naviguer dans les différents menus
+\subsection{Second scénario - Année académique 2010-2011}
+L'année académique suivante, l'étudiant a réussi son année. La commission marque son année comme réussie. Cependant, la commission de programme ajoute une nouvelle version du catalogue de cours qui modifie le programme de master.
 
-\end{enumerate}
+L'application n'a aucun problème pour récupérer les contraintes des anciens programmes de cours. Par contre, si l'on renomme des cours, elle ne pourra pas récupérer les anciennes instances des cours (la recherche se faisant sur le nom du cours). C'est pourquoi, la modification se portera essentiellement sur le nom de cours qui sont des dépendances pour des cours choisi dans la seconde année de l'étudiant. On déclenchera ainsi un processus de négociation dans le quel l'étudiant expliquera qu'il a déjà suivit les anciennes versions des cours.De plus, l'application, pour le moment ne gère pas la récupération des anciens modules choisis. L'étudiant doit à nouveau choisir le module correspondant. 
 
-\section{Scénario Étudiant}
-
-
+La modification apportée au catalogue sont les suivantes:
 \begin{itemize}
-
-  \item Créer un comte sur l'application. Vous pouvez mettre n'importe quelle adresse email, aucun mails ne sera envoyé. 
-  \item Se rendre dans le menu à droite, cliquez sur mon compte et changer votre mot de passe. Vous pouvez aussi supprimer votre compte si vous le désirer
-  \item Se rendre dans le menu \textit{Mes programmes de cours} et se créer un nouveau programme
-  \item Configurer son programme de cours, en choisissant des modules par exemple, et en ajoutant une année avec les cours désirés. Aucun cours ne sera afficher si la note 2 \ref{note2} de la section \ref{introduction_val} n'a pas été suivie. 
-  \item Vérifier les contraintes de son programme
-  \item Envoyer son programme à la validation
-  \item Naviguer dans les différents menus
-
+\item renommage du cours \textit{INGI2252} en \textit{INGI2252BIS};
+\item renommage du cours \textit{SINF2224} en \textit{SINF2224BIS};
+\item renommage du cours \textit{INGI2251} en \textit{INGI2251BIS};
+\item renommage du cours \textit{SINF2345} en \textit{SINF2345BIS}.
 \end{itemize}
+
+La commission crée un nouveau catalogue de cours comportant ces modifications, avec le même nom que le précédent, mais en changeant l'année académique qui l'identifie. 
+
+Lorsqu'une version plus récente du catalogue de cours utilisé par l'étudiant est importé dans l'application, il est proposé à celui-ci de mettre à jour son programme. L'étudiant va donc, au début de l'année académique 2010-2011 mettre à jour son programme de cours, avant de configurer sa dernière année et de ré-envoyer son programme à la validation.
+
+L'étudiant est invité, lorsqu'il se rend sur la page de configuration de son programme de cours, à migrer le programme de cours qu'il suit vers sa nouvelle version.
+
+Une autre fonctionnalité est manquante lors de la migration. En effet, pour les années réussies des anciens programmes d'étudiant, lorsque l'on migre le programme de cours vers une version plus récente, l'application est pour le moment incapable de récupérer, lorsqu'elle vérifie les contraintes du programme d'étudiant courant, les dépendances présentes dans le précédent programme de l'étudiant.
+
+Cette fonctionnalité est relativement simple à implémenter, elle sera d'ailleurs fonctionnelle pour la présentation. Il vaut cependant mieux éviter de s'en occuper maintenant (lorsque ces lignes sont écrites) dans la précipitation. 
+
+L'étudiant se retrouve donc avec des dépendances manquantes. Il y a les dépendances de bachelier manquantes et celles liés au cours qui ont changé de nom. 
+
+L'étudiant n'a donc qu'à expliquer qu'il a bien suivit ces cours. La commission peut quant à elle facilement vérifier de son coté que les cours on bien été suivit lors des années précédentes.
+
+\section{Conclusion}
+
+Les scénarios présentés sont assez complet que pour illustrer la plupart des fonctionnalités de l'application. Il ont permit d'identifier certaines fonctionnalités qui manquent encore à l'application à savoir:
+\begin{itemize}
+\item afficher plus clairement à l'étudiant que sa demande de validation a été refusée;
+\item permettre à la commission de programme d'accepter ou de refuser chaque message de justification de l'étudiant;
+\item récupérer, lors de la vérification des contraintes, les anciennes instances de cours dans les années qui ont été  \textbf{réussies} pour un programme d'étudiant \textbf{déjà validé}.
+\end{itemize}
+
+Le chapitre suivant présentera des pistes de travaux futurs. 
