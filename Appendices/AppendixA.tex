@@ -1,59 +1,43 @@
 % Appendix A
-
-\chapter{Manuel - Commission INFO} % Main appendix title
-
-\label{AppendixA} % For referencing this appendix elsewhere, use \ref{AppendixA}
-
-
-\section{Introduction}
-Le but de présenter un scénario typique d'utilisation pour la \textbf{commission INFO}. L'application au moment où ce scénario a été conçu n'est pas encore finie. Il risque d'y avoir des changements au niveau de son design et l'ajout de certaines \textit{features} non encore implémentées (comme la gestion des utilisateurs, ou certaines contraintes spécifiques). Cependant, la base de l'application est suffisamment présente que pour permettre à ce test d’être pertinent.
-
-Le scénario est le suivant. Tout d'abord, le lecteur va être amené à créer un graph avec l'outil yEd. Ensuite, il va l'importer dans l'implication. Après, il va rajouter des données au catalogue de cours précédemment créé. Il sera ensuite expliquer comment accéder aux différents vues montrant les données qui ont été importée (comme les cours, les modules, ...). Enfin, il sera présenter comment créer des programmes de cours à partir des données importées.
-
-
-
-Bon amusement :-)
-
-P.S. Le lien vers l'application : \url{http://curriculum-mgmt.herokuapp.com/}
-\subsection{Feedback recherché}
-\begin{itemize}
-\item Des bugs s'il y en a
-\item Critiques au niveau de l'interface, des étapes qui ne sont pas claires, etc
-\item Features manquantes dans l'application
-\item Attributs identifiants certains modèles qui ne sont pas adéquats. (Pour les catalogue par exemple, je ne suis pas sûr que la faculté et le département soit pertinents
-\item ...
-\end{itemize}
+\label{AppendixA}
+\chapter{Manuel d'utilisation - Commission de programme}
+Ce manuel présente les différentes fonctionnalités qui sont offertes à la commission de programme. Tout au long de ce document il sera expliqué ou et comment se gère les catalogues de cours et les programmes de cours dans l'application. De plus, les conventions utilisées pour générer des graphes yEd et des formulaires Excel seront expliquées. 
 \section{Gestion des catalogues de cours}
-\subsection{Page d'accueil}
 
-\begin{figure}[H]
+
+\subsection{Création d'un catalogue de cours}
+\subsection{Mise à jour des informations contenues dans le catalogue de cours}
+\section{Gestion des programmes des étudiants}
+
+\begin{figure}
 \centering
 \includegraphics[width=\textwidth]{landing_page_access_to_catalog}
 \caption{Accès de gestion des catalogues}
 \label{fig:landing_page_catalog}
 \end{figure}
 
-Sur l'image ~\ref{fig:landing_page_catalog} apparaît la page d'accueil Le menu pour accéder aux différents catalogues de cours est entouré d'un cadre rouge sur la capture d'écran.
+Sur l'image ~\ref{fig:landing_page_catalog} apparaît la page d'accueil. Le menu pour accéder aux différents catalogues de cours est entouré d'un cadre rouge sur la capture d'écran. Les menus entourés du cadre bleu donnent accès aux différentes fonctionnalités offertes pour gérer les programmes des étudiants. Nous y reviendrons plus tard. 
 
 \subsection{Accéder aux catalogues}
-Après avoir cliquer sur le menu catalogue, nous arrivons sur la page montrant les différents cours présents dans l'application. Comme vous pouvez le voir sur la capture d'écran ~\ref{fig:catalog_index}, il n'y a qu'un seul catalogue pour le moment dans l'application. Vous pouvez cliquer sur le bouton \textit{Plus d'informations} pour accéder au catalogue en question, ou encore sur \textit{supprimer} pour le supprimer de l'application. Cependant, nous allons commencer par créer un graphe pour pouvoir créer un catalogue en l'important\\
+Après avoir cliquer sur le menu catalogue, nous arrivons sur la page montrant les différents cours présents dans l'application. Comme vous pouvez le voir sur la capture d'écran ~\ref{fig:catalog_index}, il n'y a qu'un seul catalogue pour le moment dans l'application. Vous pouvez cliquer sur la petite loupe en dessous de la colonne nommée \textit{info} pour accéder au catalogue en question ou sur la petite croix \textcolor{red}{rouge} pour le supprimer de l'application.
 
-\begin{figure}[H]
+La section qui suit va expliquer les conventions à respecter lorsque l'on crée un graphe de cours avec yEd.
+
+\begin{figure}
 \centering
 \caption{Liste des catalogues}
 \label{fig:catalog_index}
-\includegraphics[scale= 1]{catalog_index}
+\includegraphics[width=\textwidth]{catalog_index}
 \end{figure}
 
-\subsection{Création d'un graphe de cours avec yEd}
-\subsubsection{Le menu de yed}
-Dans cette section nous allons pas à pas construire un graph de cours avec yed (L'outil utilisé pour générer des graphes).
+\subsection{Construction d'un catalogue de cours avec yEd}
+Dans cette section nous allons pas à pas construire un graph de cours avec yEd (l'outil utilisé pour générer des graphes de cours).
 
 Yed est disponnible ici \url{http://www.yworks.com/en/downloads.html\#yEd}
 
-Nous allons créer un petit catalogue de cours, composé d'un programme, un module quelques cours et quelques dépendances. Tout d'abord, ouvrez le programme yEd et créer un nouveau document. Une fois le yEd ouvert et le nouveau graph créer, vous verrez à votre droite le menu suivant ~\ref{fig:yed_menu}.
+Nous allons créé un  catalogue de cours fictif, composé d'un programme, d'un module, de quelques cours et de quelques dépendances. Tout d'abord, ouvrez le programme yEd et créer un nouveau document. Une fois le yEd ouvert et le nouveau graph créer, vous verrez à votre droite le menu suivant ~\ref{fig:yed_menu}.
 
-\begin{figure}[H]
+\begin{figure}[!htb]
 \centering
 \caption{Menu de yEd}
 \label{fig:yed_menu}
@@ -64,7 +48,7 @@ Nous allons créer un petit catalogue de cours, composé d'un programme, un modu
 \subsubsection{Créer des cours}
 Pour créer les objets représentant les cours, il faut utiliser ce menu ~\ref{fig:yed_node_menu} et sélectionner le carré (en \textcolor{blue}{bleu sur la capture d'écran}) puis cliquer sur le document pour l'ajouter au graphe.
 
-\begin{figure}[H]
+\begin{figure}
 \centering
 \caption{Menu de création des noeuds}
 \label{fig:yed_node_menu}
@@ -79,7 +63,7 @@ Pour nommer le nœud:
 
 Le menu suivant apparaîtra ~\ref{fig:properties_menu}. Il suffit de remplir le champ \textit{Texte} avec le nom désiré.
 
-\begin{figure}[H]
+\begin{figure}
 \centering
 \caption{Ajouter un nom à un noeud}
 \label{fig:properties_menu}
@@ -91,24 +75,46 @@ Le menu suivant apparaîtra ~\ref{fig:properties_menu}. Il suffit de remplir le 
 
 Pour représenter les dépendances entre les cours, il faut utiliser le menu présent sur l'image  ~\ref{fig:yed_edge_menu} qui permet de dessiner des arrêtes entre les nœuds.
 
-\begin{figure}[H]
+\begin{figure}
 \centering
-\caption{Menu de création d'arrêtes}
+\caption{Menu de création d’arêtes}
 \label{fig:yed_edge_menu}
 \includegraphics[scale=0.6]{yed_edge_menu}
 \end{figure}
 
-Nous utilisons deux type d'arrêtes;
+Nous utilisons deux type d’arêtes;
 
 \begin{itemize}
 \item en \textcolor{blue}{bleu} sur l'image ~\ref{fig:yed_edge_menu}, les arrêtes pour représenter les prérequis
 \item en \textcolor{red}{rouge} sur l'image ~\ref{fig:yed_edge_menu}, les arrêtes pour représenter les corequis
 \end{itemize}
 
+Pour représenter les dépendances n-aire, l'application reconnait la convention suivante:
+
+Simplement sélectionner un losange ou un rond, mettre le label \textbf{X pour représenter une contrainte disjonctive excusive (XOR)} ou {OR pour représenter une contrainte disjonctive (OR)} et la connecter aux différents cours concernés avec la contrainte (prérequis ou corequis) correspondante.
+
+\begin{itemize}
+\item Sur l'image \ref{fig:or_depandancy} est illustré à quoi doit ressembler une contrainte n-aire disjonctive.
+\item Sur l'image \ref{fig:xor_depandancy} est illustré à quoi doit ressembler une contrainte n-aire disjonctive exclusive.
+\end{itemize}
+
 En créant un catalogue de deux cours, avec l'un étant le prérequis de l'autre, nous obtenons le graph présent sur l'image suivante ~\ref{fig:dependancies_example}.
 
-\begin{figure}[H]
+\begin{figure}[!htb]
+\centering
+\caption{Prérequis n-aire disjonctif}
+\label{fig:or_depandancy}
+\includegraphics[scale = 1]{OR_dependancie}
+\end{figure}
 
+\begin{figure}[!htb]
+\centering
+\caption{Prérequis n-aire disjonctif exclusif}
+\label{fig:xor_depandancy}
+\includegraphics[scale = 1]{XOR_dependancie}
+\end{figure}
+
+\begin{figure}[!htb]
 \label{fig:dependancies_example}
 \centering
 \caption{Deux cours avec une dépendance}
@@ -126,7 +132,7 @@ Après avoir créer plusieurs cours, il est possible de regrouper ces nœuds dan
 
 Vous obtiendrez une boite comme sur la capture ~\ref{fig:node_grouping}
 
-\begin{figure}[H]
+\begin{figure}
 \centering
 \caption{Mettre des nœuds dans une boite}
 \label{fig:node_grouping}
@@ -148,7 +154,7 @@ Avant de poursuivre, il est nécessaire de préciser la structure de graph recon
 
 Sur l'image \ref{fig:small_catalog_example}, vous pouvez voir un exemple de catalogue valide.
 
-\begin{figure}[H]
+\begin{figure}
 \centering
 \includegraphics[scale=0.6]{small_catalog_example}
 \label{fig:small_catalog_example}
@@ -156,91 +162,141 @@ Sur l'image \ref{fig:small_catalog_example}, vous pouvez voir un exemple de cata
 
 \end{figure}
 
-\subsection{Import du graph dans l'application}
-Pour poursuivre, vous pouvez soit utiliser le graphe que vous venez de créer avec yEd, soit télécharger un graph complet à l'adresse suivante : \url{http://xavier.ethylix.be/graph.graphml}
+%*************************************************
 
-Vous êtes donc sur la page comme illustré sur l'image \ref{fig:catalog_new}.
 
-\begin{figure}[H]
+\subsection{Création d'un catalogue - Import du graph dans l'application}
+Une fois le graphe créé avec yEd, il ne reste plus qu'à créer un nouveau catalogue de cours en important ce graphe dans l'application. Depuis la page illustrée sur la capture d'écran \ref{fig:catalog_index}, cliquez sur \textbf{Créer un nouveau catalogue}.
+
+Le formulaire qui permet de créer un nouveau catalogue est illustré sur la capture suivante \ref{fig:catalog_new}.
+
+\begin{figure}
 \centering
 \caption{Création d'un catalogue de cours}
 \label{fig:catalog_new}
 \includegraphics[scale=0.6]{catalog_new}
 \end{figure}
 
-Remplissez, les champs, sélectionner le fichier de graph désiré et cliquez sur \textit{Créer le catalogue}
+Remplissez, les champs (qui identifient votre catalogue), sélectionner le fichier de graph désiré et cliquez sur \textit{Créer le catalogue}
 
-Vous arrivez sur la page présentée sur l'image suivante \ref{fig:catalog_show}
+Vous arrivez sur la page présentée sur l'image suivante \ref{fig:catalog_show_manual}. Le bouton \textbf{Télécharger le fichier excel} permet de récupérer sous forme de formulaire excel les informations, à propos du catalogue de cours, qui sont contenues dans la base de données. Le bouton \textbf{Mettre à jour les informations} permet, quant à lui, de mettre à jour ces données avec le fichier Excel sélectionné avec me menu \textbf{choose file}.
 
-\begin{figure}[H]
+\begin{figure}
 \centering
-
 \caption{Le catalogue une fois créé}
-\label{fig:catalog_show}
-\includegraphics[width = \textwidth]{catalog_show}
+\label{fig:catalog_show_manual}
+\includegraphics[width = \textwidth]{catalog_show_manual}
 \end{figure}
 
-\subsubsection{Mise à jour des informations contenues dans le catalogue}
-Les informations contenues dans le graphe ne sont pas complète. C'est pourquoi il est possible (et même fortement conseillé d'en ajouter via un formulaire excel
+\subsection{Mise à jour des informations contenues dans le catalogue}
+Les informations contenue dans le graphe yEd n'étant pas complète, il est nécessaire, après avoir créer le catalogue, de compléter ses informations à l'aide d'un formulaire excel. Cette sous-section va expliquer les conventions à utiliser pour cela.
 
-Pour ce faire il est conseillé  de commencer par télécharger le formulaire excel (en cliquant sur le bouton en \textcolor{red}{rouge} sur l'image \ref{fig:catalog_show}) contenant les informations du catalogue ainsi que certaines proposition d'attributs à ajouter au catalogue. Il est préférable de ne pas passer cette étape. Dans le cas contraire, vous serez obligé d'écrire les identifiants de tout les différents programmes, modules et cours un à un dans le formulaire. Pour un catalogue de 55 cours, cela peut être long. 
+ 
 
-Une fois le \textit{template} de formulaire téléchargé et complété , sélectionnez le et cliquez sur le bouton \textit{Mettre à jour les informations} (en \textcolor{blue}{bleu} sur l'image \ref{fig:catalog_show}).
 
-\subsection{Création de programme de cours}
+Pour ce faire il est conseillé  de \textbf{commencer par télécharger le formulaire Excel} (en cliquant sur le bouton en \textcolor{red}{rouge} sur l'image \ref{fig:catalog_show_manual}) contenant les informations du catalogue, les pages correctement nommées, ainsi que certaines proposition d'attributs à ajouter au catalogue. Il est préférable de ne pas passer cette étape. Dans le cas contraire, vous serez obligé d'écrire les identifiants de tout les différents programmes, modules et cours un à un dans le formulaire. Pour un catalogue de 55 cours, cela peut être long. 
 
-Il est possible de créer des programmes \textit{à la carte} avec les modules et différents cours importés dans l'application lors de l'import de graphe. Pour ce faire, cliquer, dans le menu à droite sur le lien intitulé \textit{Programme} (Image \ref{fig:catalog_show}).
-
-Vous arriverez sur une page comme présentée sur l'image \ref{fig:program_index} qui liste tout les programmes présent dans le catalogue. Vous pouvez inspecter les modules et les cours dont il est composé en cliquant sur le bouton \textit{Plus d'informations}, ou même le supprimer.
-
-\begin{figure}[H]
-\centering
-\caption{Programmes créés par défaut}
-\label{fig:program_index}
-\includegraphics[width = \textwidth]{program_index}
-
-\end{figure}
-
-Pour créer un programme, il suffit de cliquer sur le  bouton \textit{Créer un programme}. Vous arriverez sur la page illustré sur l'image \ref{fig:catalog_new}
-
-\begin{figure}[H]
-\centering
-\caption{Création programme "à la carte"}
-\label{fig:program_new}
-\includegraphics[width = \textwidth]{program_new}
-\end{figure}
-
-Remplissez les différents champs et naviguez entre les onglets \textbf{MODULES} et \textbf{COURS} pour choisir les modules et cours dont le nouveau programme sera composé. Cliquez ensuite sur \textit{Créer le programme}. Vous arriverez à la page illustrée sur l'image~\ref{fig:program_show}. En cliquant sur le menu déroulant intitulé \textit{Menu}, vous pouvez accéder aux différents modules et sous-modules qui le compose. 
-
-\begin{figure}[H]
-\centering
-\caption{Le programme une fois créé}
-\label{fig:program_show}
-\includegraphics[width = \textwidth]{program_show}
-\end{figure}
-
-\section{Gestion des requêtes de validations}
-Lorsqu'un étudiant désire envoyer le programme qu'il s'est créé à la validation, une demande de validation est envoyé à la \textbf{commission INFO}. Pour accéder à ces demandes de validations, 
-il suffit de cliquer sur le menu intitulé \textit{Validations} entouré en rouge sur l'image \ref{fig:landing_page_access_to_validations}.
-
-\begin{figure}[H]
-\centering
-\caption{Accéder aux demandes validations}
-\label{fig:landing_page_access_to_validations}
-\includegraphics[width=\textwidth]{landing_page_access_to_validations}
-\end{figure}
-
-Sur la page des validations (Image~\ref{fig:validations}) vous pouvez
+Le formulaire est structuré comme suit:
 \begin{itemize}
-\item inspecter le programme que l'étudiant demande de valider en cliquant sur \textit{Programme} (en \textcolor{blue}{bleu} sur l'image \ref{fig:validations})
-\item valider la requête en cliquand sur \textit{Valider} (en \textcolor{green}{vert} sur l'image \ref{fig:validations})
-\item refuser la requête en cliquant sur \textit{Refuser} (en \textcolor{red}{rouge} sur l'image \ref{fig:validations})
+\item une page par objet cours, modules et programme;
+\item la page relative au programme doit être nommée \textbf{PROGRAMMES};
+\item la page relative au cours doit être nommée \textbf{COURS};
+\item la page relative au modules doit être nommée \textbf{MODULES};
+\item chaque colonne d'une page correspond à la propriété de l'objet en question;
+\item le premier élément de chaque colonne (en \textbf{gras}) identifie le nom de la propriété (SIGLE pour la colonne relative aux sigles d'un cours par exemple);
+\item les éléments sont identifiés en fonction de leur ligne dans le formulaire; le module d'import va chercher la colonne intitulé NAME (ou SIGLE si c'est un cours);
+\item pour chaque élément de la colonne NAME (ou SIGLE), le module va rechercher l'objet qui est identifié par cette propriété, puis va ajouter un à un toute les propriétés se trouvant sur la même ligne que cet élément. 
 \end{itemize}
 
-\begin{figure}[H]
+Cette étape est répétable à l’infini. Ce pendant, faites attention à la cohérence des informations mises dans ce document. Le module d'import de fichiers Excel ne les détecte pas encore les incohérences qui peuvent y survenir. 
+
+Remarques:
+\begin{itemize}
+\item il faut remplir coute que coute la colonne \textbf{SEMESTRE} de la page \textbf{COURSES} identifiant le semestre durant le quel est dispensé un cours (si cette propriété n'est pas définie, ils ne seront pas affichés aux étudiants);
+\item attention à ne pas se tromper en utilisant les propriétés concernant les minimum et maximum de crédits d'un module ou d'un programme; un exemple d'incohérence serait un programme dont le maximum de crédits autorisés serait inférieur à la somme des minimum de crédits autorisés des modules qui le compose.
+\end{itemize}
+
+
+
+Une fois le \textit{template} de formulaire téléchargé et complété , sélectionnez le et cliquez sur le bouton \textit{Mettre à jour les informations} (en \textcolor{blue}{bleu} sur l'image \ref{fig:catalog_show_manual}).
+
+
+Un message en \textcolor{blue}{bleu} vous avertira du succès de l'opération.
+
+
+\subsection{Naviguer à travers les programmes de cours}
+
+Pour inspecter les différents programmes ainsi que les modules et les cours qui le compose descendez sur la page \ref{fig:programs_index} et cliquez sur les différents onglets pour naviguer à travers les différents programmes, modules et cours. Tout cela se déroule sans devoir recharger la page. Pour obtenir encore plus d'information sur un cours, programme ou module, il suffit de cliquer sur la petite loupe en \textcolor{blue}{bleu}. Pour supprimer un élément, cliquez sur la croix \textcolor{red}{rouge}
+
+\begin{figure}
 \centering
-\caption{Quelques demandes de validations}
-\label{fig:validations}
-\includegraphics[scale=0.6]{validations}
+\caption{Programmes, modules et cours}
+\label{fig:programs_index}
+\includegraphics[width = \textwidth]{programs_index}
 
 \end{figure}
+
+
+
+\section{Gestion des demandes de validations}
+Lorsqu'un étudiant désire envoyer le programme qu'il s'est créé à la validation, une demande de validation est envoyé à la \textbf{commission INFO}. Pour accéder à ces demandes de validations, 
+il suffit de cliquer sur le menu intitulé \textit{Validations} entouré en rouge sur l'image \ref{fig:landing_page_catalog}.
+
+Sur la page des validations (Image~\ref{fig:validations}) vous pouvez:
+\begin{itemize}
+\item inspecter le programme que l'étudiant demande de valider en cliquant sur la petite loupe en \textcolor{blue}{bleu} (en dessous du menu \textbf{Programme});
+\item accéder à la justification de l'étudiant en cliquant sur la petite loupe en \textcolor{blue}{bleu} (en dessous du menu \textbf{Justification});
+\item valider la requête en cliquant sur \textit{Valider} (en \textcolor{green}{vert} sur l'image \ref{fig:validations});
+\item refuser la requête en cliquant sur \textit{Refuser} (en \textcolor{red}{rouge} sur l'image \ref{fig:validations}).
+\end{itemize}
+
+\begin{figure}
+\centering
+\caption{Gestion des demandes de validations}
+\label{fig:validations}
+\includegraphics[scale=0.6]{validations}
+\end{figure}
+\subsection{Justification d'un étudiant}
+Lorsque vous accéder au menu justification, vous arrivez sur la page illustrée sur la capture d'écran \ref{fig:justification_example}
+
+\begin{figure}
+\centering
+\caption{Exemple de justification}
+\label{fig:justification_example}
+\includegraphics[width=\textwidth]{justification_example}
+\end{figure}
+
+Dans la colonne de gauche (\textbf{Description}) s'affiche toutes les contraintes non-respectée du programme de l'étudiant. 
+
+Dans la colonne de droite (\textbf{Justification})s'affiche chacune des justifications de l'étudiant.
+
+Tout en bas, un message peut être envoyé à l'étudiant, pour lui demander des informations supplémentaires par exemple. 
+
+Le menu discussion de la page \ref{fig:landing_page_catalog} (dans les menus entourés d'un cadre \textcolor{blue}{bleu}) permet d'accéder directement à toute les justifications des étudiants.
+
+\section{Gestion des années}
+
+En cliquant sur le menu \textbf{Gérer les années} de la page \ref{fig:landing_page_catalog}, on accède à la page \ref{fig:manage_years} qui permet de gérer les années des étudiants. C'est ici que l'on peut marquer une année comme ratée ou réussie. 
+
+Il est important de marquer les années après chaque année académique. Le statut des anciennes années est utilisé pour vérifier la validités des dépendances de cours. En effet, un prérequis dont le cours, présent dans une année ratée, n'a pas été crédité ne sera pas valide. 
+
+\begin{figure}
+\centering
+\caption{Gérer les années des étudiants}
+\label{fig:manage_years}
+\includegraphics[width=\textwidth]{year_mgmt}
+\end{figure}
+
+Pour marquer une année comme réussie, il suffit de sélectionner l'action nommée \textbf{Réussie}. L'année et ses cours seront ainsi crédités. 
+
+Lorsque l'on marque une année comme ratée, on arrive sur la page \ref{fig:fail_year}. Sur cette page, il faut sélectionner les cours qui ont été crédités.
+
+\begin{figure}
+\centering
+\caption{Marquer une année comme ratée}
+\label{fig:fail_year}
+\includegraphics[width=\textwidth]{failed_year_mgmt}
+
+\end{figure}
+
+

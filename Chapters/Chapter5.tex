@@ -3,7 +3,7 @@
 \lhead{Chapitre 4 - Validation}
 \section{Introduction}
 \label{introduction_val}
-Le but poursuivi par se chapitre est de tester les fonctionnalités de l'application à travers des scénarios spécifiques mettant en exergue certaines fonctionnalités importantes de l'application, comme la création d'un programme de master par un étudiant ayant un programme de bachelier complété et validé par la commission ou encore la transition de l'année de master 1 vers celle de master 2 avec une mise à jour de programme. 
+Le but poursuivi par ce chapitre est de tester les fonctionnalités de l'application à travers des scénarios spécifiques mettant en exergue certaines fonctionnalités importantes de l'application, comme la création d'un programme de master par un étudiant ayant un programme de bachelier complété et validé par la commission ou encore la transition de l'année de master 1 vers celle de master 2 avec une mise à jour de programme. 
 
 Les scénarios seront tout d'abord décris, puis exécutés pas à pas et leurs résultats présentés en détails. 
 
@@ -142,12 +142,12 @@ Ici, une seconde amélioration pourrait être apportée à l'application. L'étu
 \subsection{Second scénario - Année académique 2010-2011}
 L'année académique suivante, l'étudiant a réussi son année. La commission marque son année comme réussie. Cependant, la commission de programme ajoute une nouvelle version du catalogue de cours qui modifie le programme de master.
 
-L'application n'a aucun problème pour récupérer les contraintes des anciens programmes de cours. Par contre, si l'on renomme des cours, elle ne pourra pas récupérer les anciennes instances des cours (la recherche se faisant sur le nom du cours). De plus, si ces cours on déjà été suivit par des étudiants, et qu'ils jouent le rôle de prérequis ou de corequis pour des cours présents dans des années qui ne sont pas encore validée, les étudiants concernés auront à justifier ces dépendances manquantes dans leur programme. 
+L'application n'a aucun problème pour récupérer les contraintes des anciens programmes de cours. Par contre, si l'on renomme des cours, elle ne pourra pas récupérer les anciennes instances des cours (la recherche se faisant sur le nom du cours). De plus, si ces cours on déjà été suivis par des étudiants, et qu'ils jouent le rôle de prérequis ou de corequis pour des cours présents dans des années qui ne sont pas encore validées, les étudiants concernés auront à justifier ces dépendances manquantes dans leur programme. 
 
 C'est pourquoi, la modification se portera essentiellement sur le nom de cours qui sont des dépendances pour des cours choisis dans la seconde année académique de l'étudiant.
 
 
-On déclenchera ainsi un processus de négociation dans lequel l'étudiant expliquera qu'il a déjà suivit les anciennes versions des cours. De plus, l'application, pour le moment ne gère pas la récupération des anciens modules choisis. L'étudiant doit à nouveau choisir le module correspondant. 
+On déclenchera ainsi un processus de négociation dans lequel l'étudiant expliquera qu'il a déjà suivi les anciennes versions des cours. De plus, l'application, pour le moment ne gère pas la récupération des anciens modules choisis. L'étudiant doit à nouveau choisir le module correspondant. 
 
 La modification apportée au catalogue sont les suivantes:
 \begin{itemize}
@@ -159,7 +159,7 @@ La modification apportée au catalogue sont les suivantes:
 
 La commission crée un nouveau catalogue de cours comportant ces modifications, avec le même nom que le précédent, mais en changeant l'année académique qui l'identifie. 
 
-Lorsqu'une version plus récente du catalogue de cours utilisé par l'étudiant est importé dans l'application, il est proposé à celui-ci de mettre à jour son programme. L'étudiant va donc, au début de l'année académique 2010-2011 mettre à jour son programme de cours, avant de configurer sa dernière année et de ré-envoyer son programme à la validation.
+Lorsqu'une version plus récente du catalogue de cours utilisé par l'étudiant est importé dans l'application, il est proposé à celui-ci de mettre à jour son programme. L'étudiant va donc, au début de l'année académique 2010-2011 mettre à jour son programme de cours, avant de configurer sa dernière année et de renvoyer son programme à la validation.
 
 L'étudiant est invité, lorsqu'il se rend sur la page de configuration de son programme de cours, à migrer le programme de cours qu'il suit vers sa nouvelle version.
 
@@ -170,7 +170,7 @@ L'étudiant n'a donc qu'à expliquer qu'il a bien suivit ces cours. La commissio
 
 \section{Conclusion}
 
-Les scénarios présentés sont assez complets que pour illustrer la plupart des fonctionnalités de l'application. Il ont permit d'identifier certaines fonctionnalités qui manquent encore à l'application à savoir:
+Les scénarios présentés sont assez complets que pour illustrer la plupart des fonctionnalités de l'application. Ils ont permi d'identifier certaines fonctionnalités qui manquent encore à l'application à savoir:
 \begin{itemize}
 \item afficher plus clairement à l'étudiant que sa demande de validation a été refusée;
 \item permettre à la commission de programme d'accepter ou de refuser chaque message de justification de l'étudiant pour qu'il puisse savoir quelles justifications ne sont pas suffisantes.
