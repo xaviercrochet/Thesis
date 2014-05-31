@@ -83,7 +83,7 @@ L'attribut \textit{version} est un entier qui représente la version du catalogu
   \item version \textit{ancienne}, représentée par l'entier 2.
 \end{itemize}
 
-La version du catalogue est utilisée pour identifier les catalogues qui sont utilisables par les étudiants (version principale et ancienne) de ceux qui sont encore à l'état de \textit{draft}. Les anciens catalogues contiennent les informations (propriétés et contraintes) liées au années réussies ou ratées. Les contraintes et propriétés évoluant chaque année, il est nécessaire de garder la trace des anciennes pour que les programmes des étudiants restent valide au fur et à mesure que les catalogues évoluent.
+La version du catalogue est utilisée pour identifier les catalogues qui sont utilisables par les étudiants (version principale et ancienne) de ceux qui sont encore à l'état de \textit{draft}. Les anciens catalogues contiennent les informations (propriétés et contraintes) liées au années réussies ou ratées. Les contraintes et propriétés évoluant chaque année, il est nécessaire de garder la trace des anciennes pour que les programmes des étudiants restent valides au fur et à mesure que les catalogues évoluent.
 
 Les trois méthodes principales de cette classes sont:
 
@@ -107,15 +107,15 @@ La méthode \textit{check\_constraints} gère l’interaction avec le module \te
 
 \subsubsection{Year}
 
-Une année est composé de plusieurs semestres (deux idéalement). L'attribut \textit{status} représente les trois état dans le quel peut se trouver une année (réussie, ratée ou en cours). Un semestre est représenté par l'objet \textit{Semester}. L'attribut Le choix de chacun des cours du semestre est représenté par une association \textit{has\_and\_belongs\_to\_many} qui existe entre les deux objets.
+Une année est composé de plusieurs semestres (deux idéalement). L'attribut \textit{status} représente les trois état dans le quel peut se trouver une année (réussie, ratée ou en cours). Un semestre est représenté par l'objet \textit{Semester}.Le choix de chacun des cours du semestre est représenté par une association \textit{has\_and\_belongs\_to\_many} qui existe entre les deux objets.
 
 Les programmes étant validés par année en s'appuyant sur l'ensemble du programme de l'étudiant, ce modèle est d'autant plus important. En effet, en aucun cas, le programme n'est validé dans son ensemble. 
 
 \subsubsection{Header}
 
-Chacun des modèles \textit{Course}, \textit{Pmodule} et \textit{Program} contient une méthode get\_header qui renvoie une suggestion de noms propriétés utilisées à titre indicatif avec le module \textit{XlsParser} (voir \ref{xls_parser}) pour créer les formulaires Excel. Nous avons le header suivant : \{"SIGLE", "CREDITS", "SEMESTRE", "OBLIGATOIRE"\} pour le modèle \textit{Course} par exemple.
+Chacun des modèles \textit{Course}, \textit{Pmodule} et \textit{Program} contient une méthode get\_header qui renvoie une suggestion de noms de propriétés utilisées à titre indicatif avec le module \textit{XlsParser} (voir \ref{xls_parser}) pour créer les formulaires Excel. Nous avons le header suivant : \{"SIGLE", "CREDITS", "SEMESTRE", "OBLIGATOIRE"\} pour le modèle \textit{Course} par exemple.
 
-Si à l'avenir, on découvre d'autre propriété qu'il est important d'avoir dans pour un cours, un objet ou un module, une bonne pratique serait d'ajouter le nom de cette propriété dans ce header!
+Si à l'avenir, on découvre une autre propriétés qu'il est important d'avoir dans pour un cours, un programme ou un module, une bonne pratique serait d'ajouter le nom de cette propriété dans ce header!
 
 \subsubsection{Méthodes get\_objet}
 Ces méthodes s'occupent de créer les objets qui sont utilisé par le module ConstraintsChecker. Pour un objet du modèle Cours par exemple, il va créer un objet de la classe Cours (spécifique au module \textit{ConstraintsChecker} et des objets pour représenter ces différentes contraintes (dépendances, etc). Ces objets (qui sont spécifiques au module) sont ensuite manipulés par module \textit{ConstraintsChecker}.
@@ -131,19 +131,19 @@ Ce comportement est justifié par le fait que l'on accède aux contraintes depui
 Ce modèle représente une année académique, c'est à cheval sur deux années civiles. Elle est utilisée dans deux situations:
 \begin{enumerate}
   \item identifier les objets \textit{Year} 
-  \item identifier les objets \textit{Catalogue}; en effet, chaque années lorsque l'on modifie les programmes de cours d'un catalogue, il est faut importer le nouveau catalogue. On peut ainsi identifier l'année académique à la quelle le catalogue est lié et savoir \textbf{où} aller chercher la nouvelle version du programme que l'étudiant suit lorsqu'une nouvelle année académique commence.
+  \item identifier les objets \textit{Catalogue}; en effet, chaque années lorsque l'on modifie les programmes de cours d'un catalogue, il faut importer le nouveau graphe. On peut ainsi identifier l'année académique à la quelle le catalogue est lié et savoir \textbf{où} aller chercher la nouvelle version du programme que l'étudiant suit lorsqu'une nouvelle année académique commence.
   \item gérer, du coté du module \textit{ConstraintsChecker} les prérequis et les corequis d'un cours. En effet, il est nécessaire de savoir quand a été suivi une dépendance pour savoir si la contrainte est valide ou non. 
 \end{enumerate}
 
 \subsubsection{ConstraintException}
-Lorsque le module \textit{ConstraintsChecker} a terminer la vérification des contraintes du programme d'un étudiant, il renvoie les contraintes qui ne sont pas valides. Lors de la phase de négociation entre la commission de programme et l'étudiant, ce dernier doit justifier chacune des contraintes qui ne sont pas valide dans son programme.
+Lorsque le module \textit{ConstraintsChecker} a terminer la vérification des contraintes du programme d'un étudiant, il renvoie les contraintes qui ne sont pas valides. Lors de la phase de négociation entre la commission de programme et l'étudiant, ce dernier doit justifier chacune des contraintes qui ne sont pas valides dans son programme.
 
 L'utilité de ce modèle est de faire le lien entre la contrainte non vérifiée, le programme de l'étudiant et le message qui justifie cette exception dans son programme. 
 
 Un objet \textit{ConstraintsChecker} peut être en relation avec;
 
 \begin{itemize}
-\item un objet Cours, P\_module ou un Program lorsqu’il concerne une contrainte portant sur les propriétés qui n'est pas valide;
+\item un objet Cours, P\_Module ou un Program lorsqu’il concerne une contrainte, portant sur les propriétés, qui n'est pas valide;
 \item un objet Constraint lorsqu'il concerne une dépendance (prérequis par exemple) qui n'est pas valide.
 \end{itemize}
 
@@ -197,7 +197,7 @@ L'idée ici est d'utiliser au plus l'héritage pour éviter d'avoir des duplicat
 
 
 
-Tout comme dans le vérificateur de contraintes \ref{constraintchecker}, on utilise un objet ruby qui étend la classe \textit{Entity} pour chaque objet de la base de données (courses, p\_module, program). Une fois le graphe parsé, les informations contenues dans ces objets ruby sont ajoutés dans la base de données. 
+Tout comme dans le vérificateur de contraintes \ref{constraintchecker}, on utilise un objet ruby qui étend la classe \textit{Entity} pour chaque objet de la base de données (courses, p\_module, program). Une fois le graphe parsé, les informations contenues dans ces objets ruby sont ajoutées dans la base de données. 
 
 De nouveau, l'héritage occupe une page prépondérante ici, pour diminuer le couplage, augmenter la cohésion  et éviter autant que possible la duplication de code \cite{cohesion_couplage}. 
 
@@ -306,7 +306,7 @@ La troisième solution a été choisie. Elle permet d'éviter la redondance indu
 \subsection{Importation du graphe}
 \subsubsection{Introduction}
 \label{graph_format_justification}
-Une fois le graphe créé à l'aide de yEd, plusieurs choix s'offrent à nous pour exporter nos données. Les formats (non binaires) dans lesquels nous pouvons exporter les informations contenues dans notre graphe sont les suivantes:
+Une fois le graphe créé à l'aide de yEd, plusieurs choix s'offrent à nous pour exporter nos données. Les formats (non binaires) dans lesquels nous pouvons exporter les informations contenues dans notre graphe sont les suivants:
 \begin{enumerate}
 \item GraphML, un format de fichier basé sur XML pour les graphes;
 \item XGML, une alternative au format GraphML, mise en place par yWorks, la société qui développe le logiciel yEd;
@@ -440,7 +440,7 @@ Tous ces éléments sont représentés par des nœuds dans le fichier GraphML. S
 
 Le module ajoute deux fonctionnalités à \textit{Nokogiri}.
 \begin{enumerate}
-  \item Il parse un fichier GraphML et extrait les métadonnées de ses nœuds (type, enfants, parent) et arrêtes (source, destination, type de contrainte, type de l'ensemble de contrainte). 
+  \item Il parse un fichier GraphML et extrait les métadonnées de ses nœuds (type, enfants, parent) et arrêtes (source, destination, type de contrainte, type de l'ensemble de contraintes). 
   \item Il renvoie des objets cours, modules et programmes ainsi que leurs différentes dépendances.  
 \end{enumerate}
 
@@ -451,7 +451,7 @@ L'algorithme de parsing est illustré sur l'image \ref{fig:graphml_parser}. Les 
 \item les noeuds correspondant au programmes ont comme parent le noeud racine (les modules ont comme parent un programme)
 \item les contraintes n-aires sont représentées par des noeuds (pas par des arrêtes);
 \item chaque fois que l'on parse un noeud, on extrait son nom et son id de et on l'ajoute dans l'objet  tout juste créé corespondant (cours, programme, module, contrainte n-aire);
-\item lorque l'on parse une arrête (qui correspond à une contrainte binaire), on extrait son id source et destination pour identifier sur quels objets elle s'applique. 
+\item lorsque l'on parse une arrête (qui correspond à une contrainte binaire), on extrait son id source et destination pour identifier sur quels objets elle s'applique. 
 \end{itemize}
 
 \begin{figure}
@@ -537,7 +537,7 @@ L'algorithme de parsing est illustré sur l'image \ref{fig:graphml_parser}. Les 
 % \end{lstlisting}
 
 
-Une fois le parsing terminé, toutes les informations contenues dans chacun des \textbf{objets} cours, modules et programmes et contraintes sont ajoutés dans la table correspondante en base de donnée. 
+Une fois le parsing terminé, toutes les informations contenues dans chacun des \textbf{objets} cours, modules et programmes et contraintes sont ajoutées dans la table correspondante en base de donnée. 
 
 
 \subsection{Gestion des contraintes}
@@ -546,7 +546,7 @@ Les contraintes sont vérifiées au niveau du modèle \textit{StudentProgram}, l
 
 Le module \textit{ConstraintsChecker} est divisé en deux parties. D'un coté nous avons les contraintes. Tout les types de contraintes héritent de la super classe \textit{Contrainte} qui, en plus de constructeur ne contient qu'une seule méthode \textbf{Check}. De l'autre coté, nous avons les entités qui représentent les modèles \textit{Course}, \textit{Module} et \textit{Program}
 
-Les grand principes du vérificateur de contraintes sont illustré sur le diagramme \ref{fig:constraint_checker_diagram} à savoir;
+Les grand principes du vérificateur de contraintes sont illustrés sur le diagramme \ref{fig:constraint_checker_diagram} à savoir;
 
 \begin{figure}
 \centering
@@ -661,12 +661,12 @@ Les grand principes du vérificateur de contraintes sont illustré sur le diagra
 
 \subsubsection{Ajout d'un nouveau type de contraintes}
 
-Pour ajouter un nouveau type de contraintes, il faut procéder comme suit;
+Pour ajouter un nouveau type de contraintes, il faut procéder comme suit:
 
 \begin{enumerate}
-  \item Si le type de la contrainte ne rentre pas dans la catégorisation des contraintes déjà existantes (BinaryConstraint, PropertyConstraint, NaryConstraint), il faut créer une nouvelle classe. Sinon, il suffit d'étendre la classe existante.
-  \item Implémenter la méthode \textit{check} de cette contrainte avec le comportement désiré. 
-  \item Dans la méthode \textit{get\_object} du modèle concerné par la contrainte, créer et ajouter l'objet contrainte et ajouter les informations nécessaire dans l'objet créé par le modèle. Par exemple, si je rajoute une contrainte sur les crédits, il faut passer le paramètre \textit{credits: value} au constructeur de l'objet \textit{Entity::Course}
+  \item si le type de la contrainte ne rentre pas dans la catégorisation des contraintes déjà existantes (BinaryConstraint, PropertyConstraint, NaryConstraint), il faut créer une nouvelle classe. Sinon, il suffit d'étendre la classe existante;
+  \item implémenter la méthode \textit{check} de cette contrainte avec le comportement désiré;
+  \item dans la méthode \textit{get\_object} du modèle concerné par la contrainte, créer et ajouter l'objet contrainte et ajouter les informations nécessaires dans l'objet créé par le modèle; par exemple, si je rajoute une contrainte sur les crédits, il faut passer le paramètre \textit{credits: value} au constructeur de l'objet \textit{Entity::Course}.
 \end{enumerate}
 
 
@@ -674,8 +674,8 @@ Pour ajouter un nouveau type de contraintes, il faut procéder comme suit;
 \subsection{Importation du formulaire Excel}
 Le module est composé de deux parties: 
 \begin{enumerate}
-\item Un \textit{Reader} qui propose une fonction pour récupérer sous forme de tableau de \textit{Hash} les informations d'une page Excel, en lui fournissant \textbf{le nom de la page}, ainsi que \textbf{la propriété qui est utilisée pour identifier l'objet} (Le sigle pour les cours par exemple).
-\item Un \textit{Writter} qui propose une fonction pour écrire des données dans une page d'un document Excel.
+\item un \textit{Reader} qui propose une fonction pour récupérer sous forme de tableau de \textit{Hash} les informations d'une page Excel, en lui fournissant \textbf{le nom de la page}, ainsi que \textbf{la propriété qui est utilisée pour identifier l'objet} (Le sigle pour les cours par exemple);
+\item un \textit{Writter} qui propose une fonction pour écrire des données dans une page d'un document Excel.
 \end{enumerate}
 
 L'intérêt de fournir une abstraction supplémentaire se situe sur la structure des documents échangés avec l'utilisateur. En effet, chaque document comporte plusieurs pages. Chacune d'entre elles contient des informations sur un des objets (Course, Sub-Module, Modules ou Program). Ces informations sont représentées par le Modèle \textit{Property} en base de données. Il est donc nécessaire d'avoir la première ligne de chacune de ces pages réservée pour y mettre le header afin de savoir pour chaque ligne à quel type de propriétés l'information appartient.
@@ -704,9 +704,9 @@ Dans cette section, il sera question de la qualité du code qui a été produit 
 
 \subsection{Maintenabilité}
 
-Tout au long du développement, les bonnes pratique de \textit{Ruby on rails} on été suivis à la lettre à savoir;
+Tout au long du développement, les bonnes pratique de \textit{Ruby on rails} on été suivis à la lettre à savoir:
 \begin{itemize}
-\item éviter d'avoir de la logique dans les vue et les alléger au plus possible;
+\item éviter d'avoir de la logique dans les vues et les alléger au plus possible;
 \item alléger au plus possible les contrôleurs;
 \item déléguer au plus possible le travail au modèles.
 \end{itemize}
@@ -717,7 +717,7 @@ Cependant, avec cette pratique, on se retrouve très vite avec de larges modèle
 
 Au niveau de l'optimisation, la gem \textit{bullet} a été utilisée pour détecter et corriger les endroits ou apparaissaient des \textit{N+1 queries}. 
 
-Les \textit{N+1 queries} sont un ensemble de requêtes qui pourraient être réduite à une seule. Les accès à la base de données étant couteuses en ressources, il est primordial de les réduire au minimum afin de garantir une expérience fluide lors de l'utilisation de l'application. 
+Les \textit{N+1 queries} sont un ensemble de requêtes qui pourraient être réduites à une seule. Les accès à la base de données étant couteuses en ressources, il est primordial de les réduire au minimum afin de garantir une expérience fluide lors de l'utilisation de l'application. 
 
 Lorsque l'on récupère un module et ses cours par exemple, il est considérablement plus rapide de récupérer toute les données à l'aide d'une requête (à l'aide de la méthode \textit{includes}, plutôt que de récupérer le module, puis d'itérer sur celui-ci et de récupérer les cours un à un. 
 
@@ -728,4 +728,4 @@ La plupart des test bas niveaux ont été réalisés dans les modules (\textit{C
 Pour les test hauts niveaux des fonctionnalités, des scénarios on été créés et testés en temps réel. Chacun de ces scénarios, ainsi que leur résultat est décrit dans le chapitre Validation \ref{validation}
 \section{Conclusion}
 
-Ce chapitre clos l'explication et la description des fonctionnalités de la solution. Le chapitre qui suit analysera la qualité des fonctionnalités de l'application, à l'aide de scénarios, afin d'identifier ses limites et de pouvoir proposer, dans le dernier chapitre, des pistes de travaux futur pour la solution. 
+Ce chapitre clos l'explication et la description des fonctionnalités de la solution. Le chapitre qui suit analysera la qualité des fonctionnalités de l'application, à l'aide de scénarios, afin d'identifier ses limites et de pouvoir proposer, dans le dernier chapitre, des pistes de travaux futurs pour la solution. 
