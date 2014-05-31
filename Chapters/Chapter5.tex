@@ -3,15 +3,15 @@
 \lhead{Chapitre 4 - Validation}
 \section{Introduction}
 \label{introduction_val}
-Le but poursuivi par se chapitre est de tester les fonctionnalités de l'application à travers des scénario spécifique mettant en exergue certaines fonctionnalité importantes de l'application, comme la création d'un programme de master par un étudiant ayant un programme de bachelier complété et validé par la commission ou encore la transition de l'année de master 1 vers celle de master 2 avec une mise à jour de programme
+Le but poursuivi par se chapitre est de tester les fonctionnalités de l'application à travers des scénarios spécifiques mettant en exergue certaines fonctionnalités importantes de l'application, comme la création d'un programme de master par un étudiant ayant un programme de bachelier complété et validé par la commission ou encore la transition de l'année de master 1 vers celle de master 2 avec une mise à jour de programme. 
 
-Les scénarios seront tout d'abord décrit, puis éxécutés pas à pas et leurs résutat présenté en détail. 
+Les scénarios seront tout d'abord décris, puis exécutés pas à pas et leurs résultats présentés en détails. 
 
 \section{Scénarios}
 \subsection{Situation initiale}
 La situation initiale des deux scénarios qui suivent est la suivante:
 
-L'étudiant aura cré et fait validé par la commission un programme de bachelier standart en sciences informatiques. Cette situation initiale est nécessaire car le programme de master qui est utilisé pour les deux scénarios suivant comportent des dépendances dans le programme de bachelier
+L'étudiant aura créé et fait validé par la commission un programme de bachelier standard en sciences informatiques. Cette situation initiale est nécessaire car le programme de master qui est utilisé pour les deux scénarios suivant comporte des dépendances dans le programme de bachelier
 
 \subsection{Catalogue utilisé}
 Le graphe utilisé pour générer le catalogue de la situation initiale sera le suivant \ref{fig:situation_initiale}. Notez que le programme de mineur proposé aux ingénieurs a été retiré volontairement pour rendre l'exemple plus lisible.
@@ -22,7 +22,7 @@ Le graphe utilisé pour générer le catalogue de la situation initiale sera le 
 \includegraphics[width=\textwidth]{validation_init_graph}
 \end{figure}
 
-Après avoir importé le graphe, et ajouté les informations suivante dans le catalogue:
+Après avoir importé le graphe, et ajouté les informations suivante dans le catalogue (via le formulaire Excel):
 \begin{itemize}
 \item tous les cours sont à 5 crédits, sauf les 3 mémoires (SINF2990 et INGI2990 à 28 crédits, SINF2991 à 18 crédits);
 \item tous les cours sont alternés entre le premier et le second semestre, sauf les 3 mémoires qui sont marqué pour le second semestre;
@@ -36,13 +36,20 @@ Après avoir ajouté les informations, on marque le catalogue de cours comme pri
 
 
 \subsubsection{Configuration du programme de bachelier - Année 2006 à 2009}
-Lorsque l'on configure le programme de bachelier, on remarque que le programme tel qu'il est conçu dans le graphe n'est pas \textit{validable} sur trois ans. En effet, il existe des chaines de prérequis dont la taille est plus grande que trois, il faut donc plus de trois années pour vérifier ces contraintes. Une première amélioration à apporter à l'application est de détecter ces inconsistances lors de l'import du graphe dans l'application
+Lorsque l'on configure le programme de bachelier, on remarque que le programme tel qu'il est conçu dans le graphe n'est pas \textit{validable} sur trois ans. En effet, il existe des \textbf{chaines de prérequis} dont la taille (en nombre de prérequis) est plus grande que trois, il faut donc étaler un programme sur plus de trois ans pour qu'il respecte les contraintes telles qu'elles sont présentées dans ce graphe, Une première amélioration à apporter à l'application est de détecter ces inconsistances lors de l'import du graphe dans l'application
 
 Le programme ainsi configuré est validé par la commission. L'étudiant peut donc dès lors créer son programme de Master. 
 \subsection{Premier scénario - Année académique 2009-2010}
-Le scénario se produit en deux temps. Tout d'abord l'étudiant va configurer son programme de master, en choisissant les cours qu'il va suivre durant l'année académique 2009-2010, et en configurant l'année académique 2010-2011 (qui sera toujours modifiable par la suite).
+L'étudiant va configurer son programme de master en:
+\begin{itemize}
+\item choisissant les cours qu'il va suivre durant l'année académique 2009-2010;
 
-Le programme de master comporte un module obligatoire (Core) et plusieurs modules optionnels (Génie logiciel, Intelligence artificiel et Réseau). L'étudiant décide de suivre l'option Génie Logiciel (SEPS sur le graphe). Ce module optionnel comporte un sous-module obligatoire (SEPS core)
+\item configurant l'année académique 2010-2011 pour s'assurer qu'il est possible de valider le programme dans lequel s'engage l'étudiant; cette année sera modifiable par la suite;
+
+\item choisissant les modules optionnels qu'il compte suivre dans son programme.
+\end{itemize}
+
+Le programme de master comporte un module obligatoire (Core) et plusieurs modules optionnels (Génie logiciel, Intelligence artificiel et Réseau). L'étudiant décide de suivre l'option \textbf{Génie Logiciel} (SEPS sur le graphe). Ce module optionnel comporte un sous-module obligatoire (SEPS core)
 
 Les cours suivis durant la premier année (2009-2010) sont les suivants:
 
@@ -110,9 +117,9 @@ INGI2359 & 5 & 2\\
 
 L'étudiant décide de suivre l'option \textit{Software Engineering and Programming Systems (SEPS)}
 
-Le programme de l'étudiant comporte une contrainte non respectée. En effet, il a décidé, durant la deuxième année, de suivre le cours INGI2379 et sont prérequis INGI2262 durant la même année académique, ce qui enfreint la règle du prérequis. Cependant, il estime que, vu qu'il suit le cours INGI2262 au premier quadrimestre, et le cours INGI2379 au deuxième quadrimestre cela ne pose pas de problème
+Le programme de l'étudiant comporte une contrainte non respectée. En effet, il a décidé, durant la deuxième année, de suivre le cours INGI2379 (au second semestre)  et son prérequis INGI2262 (au premier semestre) durant la même année, ce qui enfreint la règle du prérequis. Cependant, il estime que, vu qu'il suit le cours INGI2262 au premier semestre et le cours INGI2379 au deuxième semestre cela ne pose pas de problème.
 
-Il remplit donc  la case justification de cette contrainte non respectée en expliquant la situation, avant d'envoyer sa demande de validation. 
+Il remplit donc la case justification de cette contrainte non respectée en expliquant la situation, avant d'envoyer sa demande de validation. 
 
 L'étudiant va ensuite négocier la validation de son programme avec la commission de programme, puis celle-ci va valider son programme après quelques discussions. 
 
@@ -124,14 +131,23 @@ La commission de programme reçoit la demande de validation, regarde son program
 \item un prérequis est enfreint.
 \end{itemize}
 
-La commission de programme regarde la justification de l'étudiant (il est obligé d'en remplir une si son programme ne respecte pas toutes les contraintes). Elle regarde la justification, et refuse la demande de validation en demandant à l'étudiant de choisir un autre cours. 
+La commission de programme regarde la justification de l'étudiant (il est obligé d'en remplir une si son programme ne respecte pas toutes les contraintes). Elle regarde la justification, et refuse la demande de validation en demandant à l'étudiant de choisir un autre cours (ou bien de suivre le prérequis durant l'année précédente).
+
+Ici, une première amélioration pourrait être apportée à l'application. Il faudrait permettre à la commission de maquer chaque justification de contrainte non respectée comme acceptée ou refusée. L'étudiant pourrait ainsi voir plus clairement les parties qui ne sont pas valides dans sa demande de validation.  
 
 L'étudiant retourne sur son programme, voit qu'il a un nouveau message en attente. Il choisi un autre cours (LINGI2143) et renvoie sa demande de validation qui est ensuite validée par la commission.
+
+Ici, une seconde amélioration pourrait être apportée à l'application. L'étudiant n'est pas clairement averti que sa demande a été refusée. Tout ce qu'il voit, c'est que son programme n'est toujours pas validé et qu'il a la possibilité de renvoyer une demande de validation. 
 
 \subsection{Second scénario - Année académique 2010-2011}
 L'année académique suivante, l'étudiant a réussi son année. La commission marque son année comme réussie. Cependant, la commission de programme ajoute une nouvelle version du catalogue de cours qui modifie le programme de master.
 
-L'application n'a aucun problème pour récupérer les contraintes des anciens programmes de cours. Par contre, si l'on renomme des cours, elle ne pourra pas récupérer les anciennes instances des cours (la recherche se faisant sur le nom du cours). C'est pourquoi, la modification se portera essentiellement sur le nom de cours qui sont des dépendances pour des cours choisi dans la seconde année de l'étudiant. On déclenchera ainsi un processus de négociation dans le quel l'étudiant expliquera qu'il a déjà suivit les anciennes versions des cours.De plus, l'application, pour le moment ne gère pas la récupération des anciens modules choisis. L'étudiant doit à nouveau choisir le module correspondant. 
+L'application n'a aucun problème pour récupérer les contraintes des anciens programmes de cours. Par contre, si l'on renomme des cours, elle ne pourra pas récupérer les anciennes instances des cours (la recherche se faisant sur le nom du cours). De plus, si ces cours on déjà été suivit par des étudiants, et qu'ils jouent le rôle de prérequis ou de corequis pour des cours présents dans des années qui ne sont pas encore validée, les étudiants concernés auront à justifier ces dépendances manquantes dans leur programme. 
+
+C'est pourquoi, la modification se portera essentiellement sur le nom de cours qui sont des dépendances pour des cours choisis dans la seconde année académique de l'étudiant.
+
+
+On déclenchera ainsi un processus de négociation dans lequel l'étudiant expliquera qu'il a déjà suivit les anciennes versions des cours. De plus, l'application, pour le moment ne gère pas la récupération des anciens modules choisis. L'étudiant doit à nouveau choisir le module correspondant. 
 
 La modification apportée au catalogue sont les suivantes:
 \begin{itemize}
@@ -149,7 +165,7 @@ L'étudiant est invité, lorsqu'il se rend sur la page de configuration de son p
 
 L'étudiant se retrouve donc avec des dépendances manquantes liées au cours qui ont changé de nom. 
 
-L'étudiant n'a donc qu'à expliquer qu'il a bien suivit ces cours. La commission peut quant à elle facilement vérifier de son coté que les cours on bien été suivit lors des années précédentes.
+L'étudiant n'a donc qu'à expliquer qu'il a bien suivit ces cours. La commission peut quant à elle facilement vérifier de son coté que les cours ont bien été suivit lors des années précédentes. Elle n'a plus ensuite qu'à valider le programme de l'étudiant. 
 
 
 \section{Conclusion}
