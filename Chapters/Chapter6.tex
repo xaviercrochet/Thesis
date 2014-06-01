@@ -2,31 +2,31 @@
 \label{futur_work}
 \lhead{Chapitre 5 - Travaux futurs}
 \section{Introduction}
-Bien que l’application, dans l'état où elle se trouve, soit assez conséquente en terme de fonctionnalités, un certains nombre d'améliorations pourrait être apportées. 
+Bien que l’application, dans l'état où elle se trouve, soit assez conséquente en terme de fonctionnalités, un certain nombre d'améliorations pourrait être apportées. 
 
 \section{Service mail}
 Pour le moment, les communications entre la commission de programme et les étudiants se font en interne via l'application. Ajouter un service mail à l'application permettrait de gérer de façon plus souple la couche utilisateur, en permettant notamment de se connecter directement à l'application avec son compte mail UCL.
 
-De plus, l'utilisateur pourrait être notifier des changements par mail. Par exemple, la commission pourrait être tenue au courant par mail des nouvelles demandes de validations de la part des étudiants. Les étudiant quand à eux pourrait être alerté lorsque leur demande de validation a été acceptée ou refusée, ou si la commission a demandé des informations supplémentaire pour une justification quelconque. 
+De plus, l'utilisateur pourrait être notifié des changements par mail. Par exemple, la commission pourrait être tenue au courant par mail des nouvelles demandes de validations de la part des étudiants. Les étudiants quand à eux pourrait être alerté lorsque leur demande de validation a été acceptée ou refusée, ou si la commission a demandé des informations supplémentaire pour une justification quelconque. 
 
 Un service mail n'est pas très complexe à mettre en place, surtout avec Rails. En effet, il existe une librairie externe (gem) appelée \textit{mailjet} qui permet en quelques lignes de configuration de communiquer avec le service d'envoi de mail du même nom. 
 \section{Gestion des incohérences}
 
-L'application, pour le moment n'envoie que très peu de feedback à la commission de programme lorsque celle-ci importe un graphe ou un formulaire Excel dans l'application. Or, si on ne fait pas attention, il est facile d'ajouter des incohérences dans les données. Par exemple si on ajoute une chaine de prérequis dont la taille (le nombre d’arêtes) est plus grande que la durée normale (le nombre d'années académiques) d'un programme, on se retrouve avec un programme qui n'est pas réalisable.
+L'application, pour le moment n'envoit que très peu de feedback à la commission de programme lorsque celle-ci importe un graphe ou un formulaire Excel dans l'application. Or, si on ne fait pas attention, il est facile d'ajouter des incohérences dans les données. Par exemple si on ajoute une chaine de prérequis dont la taille (le nombre d’arêtes) est plus grande que la durée normale (le nombre d'années académiques) d'un programme, on se retrouve avec un programme qui n'est pas réalisable.
 
-Avec le formulaire Excel, des incohérences peuvent apparaître si l'on se trompe dans les contraintes minimum et maximum de crédits. Rien qu'en ne mettant pas assez de cours que pour valider la contrainte minimum, ou encore en mettant des modules dans un programme, dont la somme des contraintes minimum dépasse la contrainte maximum de ce programme
+Avec le formulaire Excel, des incohérences peuvent apparaître si l'on se trompe dans les contraintes minimales et maximales de crédits. Rien qu'en ne mettant pas assez de cours que pour valider la contrainte minimale, ou encore en mettant des modules dans un programme, dont la somme des contraintes minimales dépasse la contrainte maximale de ce programme
 
 C'est pourquoi, il faudrait ajouter des vérifications à l'import, qui empêchent l'ajout de ce genre d'incohérences, détecteraient leur position et les notifieraient  à l'utilisateur
 
 \section{Mise à jour du graphe}
-Une fois le graphe importé dans l'application, il n'est plus possible de modifier ce graphe, pour modifier la structure du catalogue. La seule façon, pour changer la structure du catalogue (les différentes dépendances, à quel module appartient quel cours, ...) est de recréer un nouveau catalogue avec les modifications.
+Une fois le graphe importé dans l'application, il n'est plus possible de modifier ce graphe, pour modifier la structure du catalogue. La seule façon, pour changer la structure du catalogue (les différentes dépendances, à quel module appartient tel cours, ...) est de recréer un nouveau catalogue avec les modifications.
 
-Une amélioration serait de rendre possible ces mises à jour.
+Une amélioration serait de rendre possible ces mises à jours.
 
 \section{Intégrer le logiciel de graphe dans l'application}
 Comme expliqué dans la section précédente, il n'est pas possible pour le moment de mettre à jour le graphe à l'origine d'un catalogue de cours dans l'application. De plus, comme expliqué dans la section \ref{data_mgmt}, l'utilisation de yEd nous force à importer nos données en deux étapes (import de graphe et import de formulaire Excel).
 
-Une fonctionnalité intéressante que l'on pourrait ajouter à l'application serait d'intégré un outil permettant de construire des graphes directement dans l'application, nous évitant ainsi les deux étapes de parsing. Qui plus est, ce logiciel pourrait être totalement adapté à notre besoin, à savoir construire un graphe de cours.    
+Une fonctionnalité intéressante que l'on pourrait ajouter à l'application serait d'intégrer un outil permettant de construire des graphes directement dans l'application, nous évitant ainsi les deux étapes de parsing. Qui plus est, ce logiciel pourrait être totalement adapté à notre besoin, à savoir construire un graphe de cours.    
 \section{Amélioration de l'interface} 
 L'interface de l'application reste encore perfectible. La liste (non exhaustive) suivante énumère les améliorations qui pourrait être apportées à l'interface utilisateur:
 \begin{itemize}
@@ -40,7 +40,7 @@ Empêcher l'étudiant de pouvoir modifier son programme de cours après une cert
 \section{Conclusion}
 Malgré que la liste des améliorations soit assez longue, l'application propose une fonctionnalité pour chacun des objectifs qui ont été mis en avant dans les sections \ref{motivations} et \ref{objectifs}.
 
-Un des objectif principal de cette application étant de fournir une solution flexible et maintenable, la liste ci-dessus pourrait fournir des pistes d'extensions de cette application à un jobiste ou à un mémorant l'année prochaine, l'architecture de la solution étant assez souple que pour permettre ce genre de modifications.  
+Un des objectifs principaux de cette application étant de fournir une solution flexible et maintenable, la liste ci-dessus pourrait fournir des pistes d'extensions de cette application à un jobiste ou à un mémorant l'année prochaine, l'architecture de la solution étant assez souple que pour permettre ce genre de modifications.  
 
 
 
