@@ -1,20 +1,46 @@
 \chapter{Déploiement de l'application}
 \lhead{Annexe 1 - Déploiement}
 \section{Déployer l'application sur Heroku}
-Tout d'abord, il faut aller chercher le code source de l'application sur le répertorie github (se référer à l'annexe \ref{ressources} pour le lien)
+Tout d'abord, il faut aller chercher le code source de l'application sur le répertoire github (se référer à l'annexe \ref{ressources} pour le lien)
 
-Ensuite, il faut créer une application sur Heroku comme expliqué dans la documentation disponible ici \cite{Heroku}
+Ensuite, il faut créer une application sur la plateforme Heroku. 
 
-Après, pour déployer une application existante sur Heroku il suffit d'ajouter le lient vers le remote Heroku dans le fichier de configuration git:
+Après, pour déployer une application existante sur Heroku,  il suffit d'ajouter le lien vers le \textit{remote Heroku} dans le fichier de configuration git:
 
 \begin{lstlisting}
 git remote add heroku git@heroku.com:{nom_de_l_application_heroku}.git
 git push heroku master
 \end{lstlisting}
 
+Pour plus de détails, se référer à la documentation officielle \cite{Heroku}.
+
 \section{Configurer l'application pour qu'elle communique avec le cloud Amazon}
-Les formulaires excels et les fichiers de graphes sont hébergés sur le cloud Amazon (le répertoire étant en lecture seule). 
+Les formulaires Excel et les fichiers de graphes sont hébergés sur le cloud Amazon (le répertoire étant en lecture seule). 
 
 Tout d'abord, il faut se créer un \textit{bucket} sur le cloud Amazon qui va contenir tout les fichiers qui y seront téléchargés depuis l'application. Il suffit de se rendre sur la page \url{http://aws.amazon.com/s3/}, de s'y créer un compte et de créer un bucket.
 
-Pour configurer l'application afin qu'elle télécharge les fichiers vers ce \textit{bucket}. La documentation \cite{AmazonS3} explique en détails comment configurer l'application afin qu'elle communique correctement avec le bucket. 
+Pour configurer l'application afin qu'elle télécharge les fichiers vers ce \textit{bucket}. Il faut configurer l’environnement de production comme suit:
+
+\begin{lstlisting}
+# config/environments/production.rb
+config.paperclip_defaults = {
+  :storage => :s3,
+  :s3_credentials => {
+    :bucket => ENV['S3_BUCKET_NAME'],
+    :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
+    :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
+  }
+}
+\end{lstlisting}
+
+Les deux dernières variables étant disponibles depuis la console de configuration du cloud amazon s3 \cite{AmazonS3}.
+
+Ensuite, il faut ajouter ces variables dans l'application Heroku:
+
+\begin{lstlisting}
+$ heroku config:set S3_BUCKET_NAME=your_bucket_name
+$ heroku config:set AWS_ACCESS_KEY_ID=your_access_key_id
+$ heroku config:set AWS_SECRET_ACCESS_KEY=your_secret_access_key
+\end{lstlisting}
+
+Pour plus de détails, se référer à la documentation officielle \cite{AmazonS3}.

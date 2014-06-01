@@ -17,6 +17,8 @@
 \usepackage{longtable}
 \usepackage{vmargin}
 \usepackage{amsmath}
+\usepackage[style=numeric-comp, backend=bibtex]{biblatex}
+\bibliography{Bibliography}
 \hypersetup{urlcolor=black, colorlinks=false}
 %*************************************************
 %----------------------------------------------------------------------------------------
@@ -60,9 +62,7 @@
         commentstyle=\color[rgb]{0.13,0.55,0.13}\em,
         stringstyle=\color[rgb]{0.7,0,0} }
 %********************************************************
-
 \begin{document}
-\nocite{*}
 \renewcommand{\labelitemi}{$\bullet$}
 \frontmatter
 \fancyhead{}
@@ -170,9 +170,11 @@ Un grand merci à Chantal Poncin et à Kim mens pour leur support, conseils et e
 \include{Appendices/AppendixC}
 \include{Appendices/AppendixD}
 
-\label{Bibliographie}
+\label{Bibliography}
+
+% \bibliographystyle{unsrtnat, numeric}
+% \bibliography{Bibliography}
+\printbibliography
 \addcontentsline{toc}{chapter}{Bibliographie}
 \lhead{\emph{Bibliographie}}
-\bibliographystyle{plain}
-\bibliography{Bibliography}
 \end{document}
