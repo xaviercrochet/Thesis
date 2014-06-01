@@ -1,2 +1,22 @@
 \chapter{Ressources}
 \lhead{Annexe 1 - Ressources}
+\section{Code source}
+Le code source de l'application est hébergé sur github. L'URL du répertoire est la suivante : \url{https://github.com/xaviercrochet/curriculum-mgmt}
+\section{URL de l'application - Compte ADMIN}
+L'application est hébergée sur Heroku. L'URL de l'application est la suivante : \url{http://curriculum-mgmt.herokuapp.com/}
+
+Il n'est pas possible, pour des questions de sécurité évidentes, de créer des comptes admin depuis l'application. 
+
+Le compte admin de l'application (il peut y en avoir plusieurs) est le suivant:
+
+\begin{description}
+\item[Username] : commission@gmail.com
+\item[Password] : coucou42
+\end{description}
+
+Pour créer un nouvel utilisateur admin, il suffit de créer un utilisateur normal via les formulaires disponibles dans l'application, et de l'élever au rang d'admin en se connectant à la console:
+
+\begin{lstlisting}
+(heroku run) rails c
+User.find(email: (...)).update(admin: true)
+\end{lstlisting} 
