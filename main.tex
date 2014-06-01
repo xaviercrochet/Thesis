@@ -60,7 +60,9 @@
         commentstyle=\color[rgb]{0.13,0.55,0.13}\em,
         stringstyle=\color[rgb]{0.7,0,0} }
 %********************************************************
+
 \begin{document}
+\nocite{*}
 \renewcommand{\labelitemi}{$\bullet$}
 \frontmatter
 \fancyhead{}
@@ -159,11 +161,7 @@ Un grand merci à Chantal Poncin et à Kim mens pour leur support, conseils et e
 
 \backmatter
 
-\label{Bibliography}
-\backmatter
-\lhead{\emph{Bibliographie}}
-\bibliographystyle{unsrtnat}
-\bibliography{Bibliography}
+
 
 \appendix 
 
@@ -171,4 +169,10 @@ Un grand merci à Chantal Poncin et à Kim mens pour leur support, conseils et e
 \include{Appendices/AppendixB}
 \include{Appendices/AppendixC}
 \include{Appendices/AppendixD}
+
+\label{Bibliographie}
+\addcontentsline{toc}{chapter}{Bibliographie}
+\lhead{\emph{Bibliographie}}
+\bibliographystyle{plain}
+\bibliography{Bibliography}
 \end{document}

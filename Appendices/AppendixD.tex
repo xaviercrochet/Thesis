@@ -1,5 +1,20 @@
 \chapter{Déploiement de l'application}
 \lhead{Annexe 1 - Déploiement}
-github
-heroku
-amazon
+\section{Déployer l'application sur Heroku}
+Tout d'abord, il faut aller chercher le code source de l'application sur le répertorie github (se référer à l'annexe \ref{ressources} pour le lien)
+
+Ensuite, il faut créer une application sur Heroku comme expliqué dans la documentation disponible ici \cite{Heroku}
+
+Après, pour déployer une application existante sur Heroku il suffit d'ajouter le lient vers le remote Heroku dans le fichier de configuration git:
+
+\begin{lstlisting}
+git remote add heroku git@heroku.com:{nom_de_l_application_heroku}.git
+git push heroku master
+\end{lstlisting}
+
+\section{Configurer l'application pour qu'elle communique avec le cloud Amazon}
+Les formulaires excels et les fichiers de graphes sont hébergés sur le cloud Amazon (le répertoire étant en lecture seule). 
+
+Tout d'abord, il faut se créer un \textit{bucket} sur le cloud Amazon qui va contenir tout les fichiers qui y seront téléchargés depuis l'application. Il suffit de se rendre sur la page \url{http://aws.amazon.com/s3/}, de s'y créer un compte et de créer un bucket.
+
+Pour configurer l'application afin qu'elle télécharge les fichiers vers ce \textit{bucket}. La documentation \cite{AmazonS3} explique en détails comment configurer l'application afin qu'elle communique correctement avec le bucket. 
