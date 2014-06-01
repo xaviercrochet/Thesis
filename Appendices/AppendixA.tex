@@ -3,13 +3,7 @@
 \chapter{Manuel d'utilisation - Commission de programme}
 Ce manuel présente les différentes fonctionnalités qui sont offertes à la commission de programme. Tout au long de ce document il sera expliqué ou et comment se gère les catalogues de cours et les programmes de cours dans l'application. De plus, les conventions utilisées pour générer des graphes yEd et des formulaires Excel seront expliquées. 
 \section{Gestion des catalogues de cours}
-
-
-\subsection{Création d'un catalogue de cours}
-\subsection{Mise à jour des informations contenues dans le catalogue de cours}
-\section{Gestion des programmes des étudiants}
-
-\begin{figure}
+\begin{figure}[htb]
 \centering
 \includegraphics[width=\textwidth]{landing_page_access_to_catalog}
 \caption{Accès de gestion des catalogues}
@@ -23,7 +17,7 @@ Après avoir cliquer sur le menu catalogue, nous arrivons sur la page montrant l
 
 La section qui suit va expliquer les conventions à respecter lorsque l'on crée un graphe de cours avec yEd.
 
-\begin{figure}
+\begin{figure}[htb]
 \centering
 \caption{Liste des catalogues}
 \label{fig:catalog_index}
@@ -37,7 +31,7 @@ Yed est disponnible ici \url{http://www.yworks.com/en/downloads.html\#yEd}
 
 Nous allons créé un  catalogue de cours fictif, composé d'un programme, d'un module, de quelques cours et de quelques dépendances. Tout d'abord, ouvrez le programme yEd et créer un nouveau document. Une fois le yEd ouvert et le nouveau graph créer, vous verrez à votre droite le menu suivant ~\ref{fig:yed_menu}.
 
-\begin{figure}[!htb]
+\begin{figure}[htb]
 \centering
 \caption{Menu de yEd}
 \label{fig:yed_menu}
@@ -48,7 +42,7 @@ Nous allons créé un  catalogue de cours fictif, composé d'un programme, d'un 
 \subsubsection{Créer des cours}
 Pour créer les objets représentant les cours, il faut utiliser ce menu ~\ref{fig:yed_node_menu} et sélectionner le carré (en \textcolor{blue}{bleu sur la capture d'écran}) puis cliquer sur le document pour l'ajouter au graphe.
 
-\begin{figure}
+\begin{figure}[htb]
 \centering
 \caption{Menu de création des noeuds}
 \label{fig:yed_node_menu}
@@ -63,7 +57,7 @@ Pour nommer le nœud:
 
 Le menu suivant apparaîtra ~\ref{fig:properties_menu}. Il suffit de remplir le champ \textit{Texte} avec le nom désiré.
 
-\begin{figure}
+\begin{figure}[htb]
 \centering
 \caption{Ajouter un nom à un noeud}
 \label{fig:properties_menu}
@@ -75,7 +69,7 @@ Le menu suivant apparaîtra ~\ref{fig:properties_menu}. Il suffit de remplir le 
 
 Pour représenter les dépendances entre les cours, il faut utiliser le menu présent sur l'image  ~\ref{fig:yed_edge_menu} qui permet de dessiner des arrêtes entre les nœuds.
 
-\begin{figure}
+\begin{figure}[htb]
 \centering
 \caption{Menu de création d’arêtes}
 \label{fig:yed_edge_menu}
@@ -100,21 +94,21 @@ Simplement sélectionner un losange ou un rond, mettre le label \textbf{X pour r
 
 En créant un catalogue de deux cours, avec l'un étant le prérequis de l'autre, nous obtenons le graph présent sur l'image suivante ~\ref{fig:dependancies_example}.
 
-\begin{figure}[!htb]
+\begin{figure}[htb]
 \centering
 \caption{Prérequis n-aire disjonctif}
 \label{fig:or_depandancy}
 \includegraphics[scale = 1]{OR_dependancie}
 \end{figure}
 
-\begin{figure}[!htb]
+\begin{figure}[htb]
 \centering
 \caption{Prérequis n-aire disjonctif exclusif}
 \label{fig:xor_depandancy}
 \includegraphics[scale = 1]{XOR_dependancie}
 \end{figure}
 
-\begin{figure}[!htb]
+\begin{figure}[htb]
 \label{fig:dependancies_example}
 \centering
 \caption{Deux cours avec une dépendance}
@@ -132,7 +126,7 @@ Après avoir créer plusieurs cours, il est possible de regrouper ces nœuds dan
 
 Vous obtiendrez une boite comme sur la capture ~\ref{fig:node_grouping}
 
-\begin{figure}
+\begin{figure}[htb]
 \centering
 \caption{Mettre des nœuds dans une boite}
 \label{fig:node_grouping}
@@ -154,7 +148,7 @@ Avant de poursuivre, il est nécessaire de préciser la structure de graph recon
 
 Sur l'image \ref{fig:small_catalog_example}, vous pouvez voir un exemple de catalogue valide.
 
-\begin{figure}
+\begin{figure}[htb]
 \centering
 \includegraphics[scale=0.6]{small_catalog_example}
 \label{fig:small_catalog_example}
@@ -170,7 +164,7 @@ Une fois le graphe créé avec yEd, il ne reste plus qu'à créer un nouveau cat
 
 Le formulaire qui permet de créer un nouveau catalogue est illustré sur la capture suivante \ref{fig:catalog_new}.
 
-\begin{figure}
+\begin{figure}[htb]
 \centering
 \caption{Création d'un catalogue de cours}
 \label{fig:catalog_new}
@@ -181,7 +175,7 @@ Remplissez, les champs (qui identifient votre catalogue), sélectionner le fichi
 
 Vous arrivez sur la page présentée sur l'image suivante \ref{fig:catalog_show_manual}. Le bouton \textbf{Télécharger le fichier excel} permet de récupérer sous forme de formulaire excel les informations, à propos du catalogue de cours, qui sont contenues dans la base de données. Le bouton \textbf{Mettre à jour les informations} permet, quant à lui, de mettre à jour ces données avec le fichier Excel sélectionné avec me menu \textbf{choose file}.
 
-\begin{figure}
+\begin{figure}[htb]
 \centering
 \caption{Le catalogue une fois créé}
 \label{fig:catalog_show_manual}
@@ -213,7 +207,7 @@ Cette étape est répétable à l’infini. Ce pendant, faites attention à la c
 Remarques:
 \begin{itemize}
 \item il faut remplir coute que coute la colonne \textbf{SEMESTRE} de la page \textbf{COURSES} identifiant le semestre durant le quel est dispensé un cours (si cette propriété n'est pas définie, ils ne seront pas affichés aux étudiants);
-\item attention à ne pas se tromper en utilisant les propriétés concernant les minimum et maximum de crédits d'un module ou d'un programme; un exemple d'incohérence serait un programme dont le maximum de crédits autorisés serait inférieur à la somme des minimum de crédits autorisés des modules qui le compose.
+\item attention à ne pas se tromper en utilisant les propriétés concernant les minimaux et maximaux de crédits d'un module ou d'un programme; un exemple d'incohérence serait un programme dont le maximum de crédits autorisés serait inférieur à la somme des minimum de crédits autorisés des modules qui le compose.
 \end{itemize}
 
 
@@ -228,7 +222,7 @@ Un message en \textcolor{blue}{bleu} vous avertira du succès de l'opération.
 
 Pour inspecter les différents programmes ainsi que les modules et les cours qui le compose descendez sur la page \ref{fig:programs_index} et cliquez sur les différents onglets pour naviguer à travers les différents programmes, modules et cours. Tout cela se déroule sans devoir recharger la page. Pour obtenir encore plus d'information sur un cours, programme ou module, il suffit de cliquer sur la petite loupe en \textcolor{blue}{bleu}. Pour supprimer un élément, cliquez sur la croix \textcolor{red}{rouge}
 
-\begin{figure}
+\begin{figure}[htb]
 \centering
 \caption{Programmes, modules et cours}
 \label{fig:programs_index}
@@ -250,7 +244,7 @@ Sur la page des validations (Image~\ref{fig:validations}) vous pouvez:
 \item refuser la requête en cliquant sur \textit{Refuser} (en \textcolor{red}{rouge} sur l'image \ref{fig:validations}).
 \end{itemize}
 
-\begin{figure}
+\begin{figure}[htb]
 \centering
 \caption{Gestion des demandes de validations}
 \label{fig:validations}
@@ -259,7 +253,7 @@ Sur la page des validations (Image~\ref{fig:validations}) vous pouvez:
 \subsection{Justification d'un étudiant}
 Lorsque vous accéder au menu justification, vous arrivez sur la page illustrée sur la capture d'écran \ref{fig:justification_example}
 
-\begin{figure}
+\begin{figure}[htb]
 \centering
 \caption{Exemple de justification}
 \label{fig:justification_example}
@@ -280,7 +274,7 @@ En cliquant sur le menu \textbf{Gérer les années} de la page \ref{fig:landing_
 
 Il est important de marquer les années après chaque année académique. Le statut des anciennes années est utilisé pour vérifier la validités des dépendances de cours. En effet, un prérequis dont le cours, présent dans une année ratée, n'a pas été crédité ne sera pas valide. 
 
-\begin{figure}
+\begin{figure}[htb]
 \centering
 \caption{Gérer les années des étudiants}
 \label{fig:manage_years}
@@ -291,7 +285,7 @@ Pour marquer une année comme réussie, il suffit de sélectionner l'action nomm
 
 Lorsque l'on marque une année comme ratée, on arrive sur la page \ref{fig:fail_year}. Sur cette page, il faut sélectionner les cours qui ont été crédités.
 
-\begin{figure}
+\begin{figure}[htb]
 \centering
 \caption{Marquer une année comme ratée}
 \label{fig:fail_year}
